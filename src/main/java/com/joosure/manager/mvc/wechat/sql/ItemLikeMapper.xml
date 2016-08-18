@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.joosure.manager.mvc.wechat.dao.ItemLikeDao" >
+  <resultMap id="BaseResultMap" type="com.joosure.manager.mvc.wechat.bean.ItemLike" >
+    <id column="itemId" property="itemid" jdbcType="INTEGER" />
+    <id column="userId" property="userid" jdbcType="INTEGER" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    itemId, userId, createTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.joosure.manager.mvc.wechat.bean.ItemLike" >
+    select 
+    <include refid="Base_Column_List" />
+    from item_like
+    where itemId = #{itemid,jdbcType=INTEGER}
+      and userId = #{userid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.joosure.manager.mvc.wechat.bean.ItemLike" >
+    delete from item_like
+    where itemId = #{itemid,jdbcType=INTEGER}
+      and userId = #{userid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.joosure.manager.mvc.wechat.bean.ItemLike" >
+    insert into item_like (itemId, userId, createTime
+      )
+    values (#{itemid,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.joosure.manager.mvc.wechat.bean.ItemLike" >
+    insert into item_like
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      itemId,
+      userId,
+      createTime,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{itemid,jdbcType=INTEGER},
+      #{userid,jdbcType=INTEGER},
+      #{createtime,jdbcType=TIMESTAMP},
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.joosure.manager.mvc.wechat.bean.ItemLike" >
+    update item_like
+    <set >
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where itemId = #{itemid,jdbcType=INTEGER}
+      and userId = #{userid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.joosure.manager.mvc.wechat.bean.ItemLike" >
+    update item_like
+    set createTime = #{createtime,jdbcType=TIMESTAMP}
+    where itemId = #{itemid,jdbcType=INTEGER}
+      and userId = #{userid,jdbcType=INTEGER}
+  </update>
+</mapper>

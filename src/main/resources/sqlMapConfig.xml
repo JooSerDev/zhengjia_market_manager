@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "mybatis-3-config.dtd">
+
+<configuration>
+	
+	<typeAliases>
+		<typeAlias alias="wxUser" type="com.joosure.server.mvc.wechat.entity.pojo.User"/>
+	</typeAliases>
+
+	<!-- - - - - - - 懒加载和缓存 - - - - - - - - - - -->
+	<!-- <settings>
+		<setting name="cacheEnabled" value="true" />
+		<setting name="lazyLoadingEnabled" value="true" />
+		<setting name="aggressiveLazyLoading" value="false" />
+	</settings> -->
+	<!-- - - - - - - - 物理分页拦截器 - - - - - - - -->
+	<!-- <plugins>
+		<plugin interceptor="ibator.dialect.tool.ResultSetInterceptor" />
+		<plugin interceptor="ibator.dialect.tool.StatementInterceptor">
+			<property name="dialect" value="ibator.dialect.MySQLDialect" />
+		</plugin>
+	</plugins> -->
+	<!-- - - - - - - -映射文件路径- - - - - - -->
+	<mappers>
+		<mapper resource="com/joosure/manager/mvc/wechat/sql/SysConfParamMapper.xml" />
+		<mapper resource="com/joosure/manager/mvc/wechat/sql/SysUserOprMapper.xml" />
+		<mapper resource="com/joosure/manager/mvc/wechat/sql/SysUserMapper.xml" />
+		<mapper resource="com/joosure/manager/mvc/wechat/sql/WxScoreRuleMapper.xml"/>
+        <mapper resource="com/joosure/manager/mvc/wechat/sql/WxUserScoreMapper.xml"/>
+		<mapper resource="com/joosure/manager/mvc/wechat/sql/WxUserMapper.xml"/>
+		<mapper resource="com/joosure/server/mvc/wechat/sql/userMapper.xml" />
+		<mapper resource="com/joosure/server/mvc/wechat/sql/itemMapper.xml" />
+		
+		
+        <mapper resource="com/joosure/manager/mvc/wechat/sql/ItemExchangeMapper.xml"/>
+        <mapper resource="com/joosure/manager/mvc/wechat/sql/ItemItemMapper.xml"/>
+        <mapper resource="com/joosure/manager/mvc/wechat/sql/ItemItemTypeMapper.xml"/>
+        <mapper resource="com/joosure/manager/mvc/wechat/sql/ItemItemCommentMapper.xml"/>
+        <mapper resource="com/joosure/manager/mvc/wechat/sql/UserWechatMapper.xml"/>
+        <mapper resource="com/joosure/manager/mvc/wechat/sql/ItemLikeMapper.xml"/>
+	</mappers>
+</configuration>

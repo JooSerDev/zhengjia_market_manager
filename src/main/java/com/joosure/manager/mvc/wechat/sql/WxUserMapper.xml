@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.joosure.manager.mvc.wechat.dao.WxUserDao">
+
+	<sql id="allColumns">
+		userid,openid,nickname,mobile,headImgUrl,state,sex,createTime,lastmodifyTime,likeNum,itemNum,exchangeNum,finishNum
+	</sql>
+
+	<sql id="condSql">
+		from user_user
+		<where>
+			<if test="state != null">
+				state = #{state}
+			</if>
+			<if test="nickname !=null and nickname !=''">
+				nickname = #{nickname}
+			</if>
+			<if test="mobile !=null and mobile !=''">
+				mobile = #{mobile}
+			</if>
+			<if test="openid !=null and openid !=''">
+				openid = #{openid}
+			</if>
+		</where>
+	</sql>
+
+	<sql id="limitSql">
+		limit #{startIndex},#{limit}
+	</sql>
+
+	<!-- 查询微信用户 -->
+	<select id="getWxUserCount" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		select count(1)
+		<include refid="condSql" />
+	</select>
+
+	<!-- 查询微信用户列表 -->
+	<select id="getWxUserList" parameterType="java.util.Map"
+		resultType="wxUser">
+		select
+		<include refid="allColumns" />
+		<include refid="condSql" />
+		<include refid="limitSql" />
+	</select>
+	
+	<!-- 获取用户详细信息 -->
+	<select id="getDetailUser" parameterType="java.util.Map" 
+		resultType="com.joosure.manager.mvc.wechat.bean.dto.WxUserDetail">
+		select a.userId,a.openid,a.nickname,a.mobile,a.headImgUrl,a.sex,a.state,
+		a.lastModifyTime,a.likeNum,a.finishNum,a.score,0 cptNum, now() cptTime,
+		(select concat(b.province,b.city) from user_wechat b join user_user a on a.openid=b.openid and a.userid = #{userId}) address,
+		(select count(1) from item_exchange where exchangefinishstatus='no' and ownerid = #{userId}) exchangeFailNum
+		from user_user a where a.userId = #{userId} 
+	</select>
+	
+	
+	<select id="getDetailUserCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from user_user where userid = #{userId}
+	</select>
+	
+	<!-- 按条件清除用户所有评论 -->
+	<update id="clearAllCmt" parameterType="java.util.Map">
+		update item_item_comment set state = 1 where fromUserId = #{userId}
+		<if test="toUserId !=null ">
+			and toUserId = #{toUserId}
+		</if>
+		<if test="itemId !=null ">
+			and itemId = #{itemId}
+		</if>
+		<if test="startTime !=null and endTime != null">
+			and createTime between #{startTime} and #{endTime}
+		</if>
+	</update>
+
+	<!-- 用户商品数量 -->
+	<select id="getItemsCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from item_item
+		where ownerId = #{ownerId}
+	</select>
+</mapper>
