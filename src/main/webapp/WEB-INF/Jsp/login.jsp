@@ -21,7 +21,7 @@ body {
 				method="post" class="form-horizontal" id="loginForm">
 				<div class="form-group" id="headLabel">
 					<label class="label label-primary col-sm-offset-5 col-sm-3"
-						style="align: center">欢迎登陆！</label>
+						style="align: center">欢迎登录！</label>
 				</div>
 				<p id="loginPrompt">
 					<font size="1" color="red">${prompt}</font>
