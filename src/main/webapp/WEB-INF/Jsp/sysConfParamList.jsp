@@ -72,8 +72,8 @@ body {
 						<label for="status" class="col-sm-2 control-label">状态</label>
 						<div class="col-sm-8">
 							<select id="status" class="form-control" name="status">
-								<option value="1">有效</option>
-								<option value="0">无效</option>
+								<option value="1" selected>有效</option>
+<!-- 								<option value="0">无效</option> -->
 							</select>
 						</div>
 					</div>

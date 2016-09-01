@@ -70,19 +70,19 @@ public class WxItemServiceImpl implements WxItemService{
 
 	@Override
 	public int forceToDowm(Item item) {
+		int ret = 0;
 		if(item!=null){
 			item.setStatus(1);//因为强制封号而封号
-		}
-		Item temp = itemDao.getItemById(item.getItemId());
-		int ret = 0;
-		if(temp!=null){
-			if(temp.getStatus()==1){//1表示已下架
-				ret = hasForbid;
+			Item temp = itemDao.getItemById(item.getItemId());
+			if(temp!=null){
+				if(temp.getStatus()==1){//1表示已下架
+					ret = hasForbid;
+				}else{
+					ret = wxItemDao.forceToDowm(item);
+				}
 			}else{
-				ret = wxItemDao.forceToDowm(item);
+				ret = forbidFail;
 			}
-		}else{
-			ret = forbidFail;
 		}
 		return ret;
 	}
