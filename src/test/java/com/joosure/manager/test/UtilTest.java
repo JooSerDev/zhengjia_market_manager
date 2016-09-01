@@ -10,9 +10,9 @@ public class UtilTest {
 
 	@Test
 	public void testEncrypt(){
-		String pass = "admin123";//240BE518FABD2724DDB6F04EEB1DA5967448D7E831C08C8FA822809F74C720A9
+		String pass = "88888888";//E79952EF635DDC0590B6290DA207E9AF314371B93F4E15BCDF733624195F3B26
 		try {
-			System.out.println(ManagerUtils.encryptBySHA256(pass));
+			System.out.println(ManagerUtils.encryptBySHA256(pass,"9999"));
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}

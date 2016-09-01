@@ -883,13 +883,18 @@
                     csses.push(key + ': ' + style.css[key]);
                 }
             }
-
-            html.push('<tr',
-                sprintf(' id="%s"', item._id),
-                sprintf(' class="%s"', style.classes || item._class),
-                sprintf(' data-index="%s"', i),
-                '>'
-            );
+            
+            //update by ted 20160831 判断item
+            if(item==null){
+            	continue;
+            }
+        	html.push('<tr',
+        			sprintf(' id="%s"', item._id),
+        			sprintf(' class="%s"', style.classes || item._class),
+        			sprintf(' data-index="%s"', i),
+        			'>'
+        	);
+           
 
             if (this.options.cardView) {
                 html.push(sprintf('<td colspan="%s">', this.header.fields.length));

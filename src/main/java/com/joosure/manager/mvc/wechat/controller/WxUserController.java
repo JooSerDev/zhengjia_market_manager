@@ -75,11 +75,18 @@ public class WxUserController {
 	 */
 	@RequestMapping("/banUser")
 	@ResponseBody
-	public JsonResultBean<WxUserDetail> banUser(@RequestParam("userId")String userId){
+	public JsonResultBean<WxUserDetail> banUser(@RequestParam("userId")int userId){
 		Map<String,Object> cond = new HashMap<String,Object>();
 		cond.put("userId", userId);
-		boolean flag = wxUserService.banUser(cond);
-		JsonResultBean<WxUserDetail> ret = new JsonResultBean<WxUserDetail>(flag,null);
+		int flag = wxUserService.banUser(cond);
+		JsonResultBean<WxUserDetail> ret = new JsonResultBean<WxUserDetail>();
+		if(flag == 0){
+			ret.setRetMsg("该用户已被屏蔽，无需重复操作");
+		}else if(flag == 1){
+			ret.setRetMsg("屏蔽该用户成功！");
+		}else{
+			ret.setRetMsg("屏蔽该用户失败，请稍后重试或联系维护人员产看相关数据");
+		}
 		return ret;
 	}
 	
@@ -90,11 +97,18 @@ public class WxUserController {
 	 */
 	@RequestMapping("/cancelBanUser")
 	@ResponseBody
-	public JsonResultBean<WxUserDetail> cancelBanUser(@RequestParam("userId")String userId){
+	public JsonResultBean<WxUserDetail> cancelBanUser(@RequestParam("userId")int userId){
 		Map<String,Object> cond = new HashMap<String,Object>();
 		cond.put("userId", userId);
-		boolean flag = wxUserService.cancelBanUser(cond);
-		JsonResultBean<WxUserDetail> ret = new JsonResultBean<WxUserDetail>(flag,null);
+		int flag = wxUserService.cancelBanUser(cond);
+		JsonResultBean<WxUserDetail> ret = new JsonResultBean<WxUserDetail>();
+		if(flag == 0){
+			ret.setRetMsg("该用户未被屏蔽，无需解除屏蔽操作");
+		}else if(flag == 1){
+			ret.setRetMsg("用户解除屏蔽成功！");
+		}else{
+			ret.setRetMsg("用户解除屏蔽失败，请稍后重试或联系维护人员产看相关数据");
+		}
 		return ret;
 	}
 	
@@ -105,11 +119,17 @@ public class WxUserController {
 	 */
 	@RequestMapping("/clearAllCmt")
 	@ResponseBody
-	public JsonResultBean<WxUserDetail> clearUserCmt(@RequestParam("userId")String userId){
+	public JsonResultBean<WxUserDetail> clearUserCmt(@RequestParam("userId")int userId){
 		Map<String,Object> cond = new HashMap<String,Object>();
-		cond.put("userId", userId);
+		cond.put("fromUserId", userId);
 		boolean flag = wxUserService.clearAllComment(cond);
-		JsonResultBean<WxUserDetail> ret = new JsonResultBean<WxUserDetail>(flag,null);
+		JsonResultBean<WxUserDetail> ret = new JsonResultBean<WxUserDetail>();
+		ret.setRetFlag(flag);
+		if(flag){
+			ret.setRetMsg("清除评论完成！");
+		}else{
+			ret.setRetMsg("清除失败，请重试");
+		}
 		return ret;
 	}
 	
@@ -122,12 +142,18 @@ public class WxUserController {
 	@ResponseBody
 	public JsonResultBean<Item> getWxUserItem(User userCond){
 		Map<String,Object> cond = new HashMap<String,Object>();
-		cond.put("userId", userCond.getUserId());
+		cond.put("ownerId", userCond.getUserId());
 		cond.put("startIndex", userCond.getOffset());
 		cond.put("limit", userCond.getLimit());
 		List<Item> items = wxUserService.getItemsList(cond);
 		int count = wxUserService.getItemsCount(cond);
 		JsonResultBean<Item> ret = new JsonResultBean<Item>(items,count);
 		return ret;
+	}
+	
+	@RequestMapping("/showUserInfo")
+	public String toUserInfo(@RequestParam("userId")String userId,HttpServletRequest request){
+		request.setAttribute("userId", userId);
+		return "showUserInfo";
 	}
 }

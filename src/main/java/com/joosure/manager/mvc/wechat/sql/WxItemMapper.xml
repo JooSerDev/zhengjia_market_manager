@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.joosure.manager.mvc.wechat.dao.WxItemDao">
+
+	<sql id="limitSql">
+		limit #{offset},#{limit}
+	</sql>
+
+	<sql id="listCond">
+		where 1=1
+		<if test="itemId !=null and itemId!=''">
+			and itemId=#{itemId}
+		</if>
+		<if test="isRecommended != null">
+			and isRecommended=#{isRecommended}
+		</if>
+		<if test="approvalStatus != null">
+			and approvalStatus=#{approvalStatus}
+		</if>
+		<if test="itemType !=null and itemType!=-1">
+			and itemType=#{itemType}
+		</if>
+		<if test="itemName != null and itemName !=''">
+			and name=#{itemName}
+		</if>
+	</sql>
+
+	<select id="getItemListByCond" parameterType="qryCondBean"
+		resultType="com.joosure.server.mvc.wechat.entity.pojo.Item">
+		select * from item_item
+		<include refid="listCond" />
+		order by createTime desc
+		<include refid="limitSql" />
+	</select>
+
+	<select id="getItemListCount" parameterType="qryCondBean"
+		resultType="java.lang.Integer">
+		select count(1) from item_item
+		<include refid="listCond" />
+	</select>
+
+	<update id="approvalItem" parameterType="com.joosure.server.mvc.wechat.entity.pojo.Item">
+		update item_item set
+		approvalStatus = #{approvalStatus}
+		<if test="approvalMsg != null">
+			,approvalMsg=#{approvalMsg}
+		</if>
+		<if test="isRecommended !=null and isRecommended!=0">
+			,isRecommended=#{isRecommended}
+			,recommendedTime=now()
+		</if>
+		where itemId = #{itemId}
+	</update>
+
+	<update id="forceToDowm" parameterType="com.joosure.server.mvc.wechat.entity.pojo.Item">
+		update item_item set
+		status=1
+		where 1=1
+		<if test="itemId!=null and itemId!=0">
+			and itemId = #{itemId}
+		</if>
+		<if test=" ownerId !=null and ownerId !=0">
+			and ownerId = #{ownerId}
+		</if>
+	</update>
+
+	<!-- 当封号时更改用户宝贝状态 -->
+	<update id="banIten">
+		UPDATE item_item 
+		SET STATUS = CASE 
+		WHEN STATUS = 0 THEN 2
+		WHEN STATUS = 1 THEN 3
+		ELSE STATUS END
+		WHERE ownerId = #{ownerId}
+	</update>
+	
+	<!-- 当解除封号时更改用户宝贝状态 -->
+	<update id="cancelBanItem">
+		UPDATE item_item 
+		SET STATUS = CASE 
+		WHEN STATUS = 2 THEN 0
+		WHEN STATUS = 3 THEN 1
+		ELSE STATUS END
+		WHERE ownerId = #{ownerId}
+	</update>
+
+</mapper>

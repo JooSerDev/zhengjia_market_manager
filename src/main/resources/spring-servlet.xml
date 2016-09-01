@@ -62,7 +62,15 @@
 	<aop:config proxy-target-class="true"></aop:config>
 	
 	<!-- 定义拦截器，记录操作员的动作 -->
-	<mvc:interceptors>
-		<bean class="com.joosure.manager.mvc.wechat.aop.UserOprInterceptor" />
-	</mvc:interceptors>
+<!-- 	<mvc:interceptors> -->
+<!-- 		<bean class="com.joosure.manager.mvc.wechat.aop.UserOprInterceptor" /> -->
+<!-- 	</mvc:interceptors> -->
+	
+	<!-- <mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<mvc:exclude-mapping path="*.jsp" />
+			<bean class="com.joosure.manager.mvc.wechat.aop.UserOprInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors> -->
 </beans>

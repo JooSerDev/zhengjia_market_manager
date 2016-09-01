@@ -11,3 +11,8 @@ $(function() {
    String params = request.getQueryString();//返回请求行中的参数部分
    String host=request.getRemoteHost();//返回发出请求的客户机的主机名
    int port =request.getRemotePort();//返回发出请求的客户机的端口号。
+   
+   else if("/admin/home".equals(request.getServletPath())){
+			
+			return true;
+		}

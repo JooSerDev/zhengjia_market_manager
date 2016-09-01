@@ -18,18 +18,15 @@ body {
 </head>
 <body>
 	<div class="panel-body" style="padding-bottom: 0px;">
-		<div id="toolbar" class="btn-group">
-			<button id="btn_ban" style="margin-right: 10px;"
-				class="btn btn-danger">
-				<span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>封号
+		<div id="toolbar" >
+			<button id="btn_ban" style="margin-right: 20px;" class="btn btn-danger">
+				屏蔽用户
 			</button>
-			<button id="btn_ban_cancel" style="margin-right: 30px;"
-				class="btn btn-primary">
-				<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>解除封号
+			<button id="btn_ban_cancel" style="margin-right: 20px;" class="btn btn-primary">
+				解除屏蔽
 			</button>
-			<button id="btn_clear_all" style="margin-right: 10px;"
-				class="btn btn-warning">
-				<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>清除所有评论
+			<button id="btn_clear_all" style="margin-right: 10px;" class="btn btn-danger">
+				清除所有评论
 			</button>
 		</div>
 		<table id="wxUserDetail" class="table table-bordered table-striped"></table>
@@ -54,12 +51,12 @@ body {
 			field : 'userId',
 			align : 'center',
 			valign : 'center',
-			title : '用户编号'
+			title : '编号'
 		}, {
 			field : 'nickname',
 			align : 'center',
 			valign : 'center',
-			title : '用户昵称'
+			title : '昵称'
 		}, {
 			field : 'headImgUrl',
 			align : 'center',
@@ -80,7 +77,8 @@ body {
 			field : 'sex',
 			align : 'center',
 			valign : 'center',
-			title : '性别'
+			title : '性别',
+			formatter:"sexFmt"
 		}, {
 			field : 'address',
 			align : 'center',
@@ -90,23 +88,23 @@ body {
 			field : 'score',
 			align : 'center',
 			valign : 'center',
-			title : '积分数',
+			title : '积分',
 			formatter:'numFormat'
 		}, {
 			field : 'likeNum',
 			align : 'center',
 			valign : 'center',
-			title : '被点赞数'
+			title : '点赞'
 		}, {
 			field : 'finishNum',
 			align : 'center',
 			valign : 'center',
-			title : '认证完成交易数'
+			title : '认证完成交换数'
 		}, {
 			field : 'exchangeFailNum',
 			align : 'center',
 			valign : 'center',
-			title : '信息不实交易数'
+			title : '信息不实交换数'
 		}, {
 			field : 'state',
 			align : 'center',
@@ -117,23 +115,22 @@ body {
 			field : 'lastModifyTime',
 			align : 'center',
 			valign : 'center',
-			title : '状态更新时间',
+			title : '更新时间',
 			formatter : 'dateTimeFormatter'
 		}, {
 			field : 'cptNum',
 			align : 'center',
 			valign : 'center',
-			title : '被投诉次数'
+			title : '被投诉'
 		}, {
 			field : 'cptTime', 
 			align : 'center',
 			valign : 'center',
-			title : '最近投诉时间',
+			title : '投诉时间',
 			formatter : 'dateTimeFormatter'
 		} ];
-		var pagination = false;
 		var oTable = new TableInit("wxUserDetail", columns, "toolbar", 
-				"${pageContext.request.contextPath}/wx/userDetailInfo?userId="+userId, null,null,pagination);
+				"${pageContext.request.contextPath}/wx/userDetailInfo?userId="+userId, null,null,false);
 		oTable.Init();
 		var oButtons = new ButtonInit(buttonFunc);
 		oButtons.Init();
@@ -150,35 +147,38 @@ body {
 			valign : 'center',
 			title : '宝贝名称'
 		}, {
-			field : 'itemType',
+			field : 'itemTypeName',
 			align : 'center',
 			valign : 'center',
-			title : '宝贝分类',
-			formatter : 'imgFormat'
+			title : '宝贝分类'
 		}, {
 			field : 'status',
 			align : 'center',
 			valign : 'center',
-			title : '状态'
+			title : '宝贝状态',
+			formatter:"itemStateFmt"
 		}, {
 			field : 'approvalStatus',
 			align : 'center',
 			valign : 'center',
-			title : '审批状态'
+			title : '审批状态',
+			formatter:"itemAprFmt"
 		}, {
 			field : 'createTime',
 			align : 'center',
 			valign : 'center',
-			title : '发布时间'
+			title : '发布时间',
+			formatter:'dateTimeFormatter'
 		}, {
 			field : 'description',
 			align : 'center',
 			valign : 'center',
-			title : '描述'
+			title : '宝贝描述'
 		}];
-		var pagenation = true;
+		/* onRowClk */
 		var oTable = new TableInit("wxUserItem", columns, null, 
-				"${pageContext.request.contextPath}/wx/userItems?userId="+userId, null,onRowClk,pagenation);
+				"${pageContext.request.contextPath}/wx/userItems?userId="+userId, null,
+						null,true);
 		oTable.Init();
 	}
 	function onRowClk(row){
@@ -186,26 +186,35 @@ body {
 	}
 	function buttonFunc(){
 		$("#btn_ban").bind("click",function(){
-			if(confirm("确认进行封号处理")){
+			if(confirm("确认屏蔽该用户？")){
 				var url = "${pageContext.request.contextPath}/wx/banUser?userId="+userId;
 				$.get(url,function(data){
-					if(data.retFlag){
-						$("#wxUserDetail").bootstrap('refresh');
-					}
+					var retObj = JSON.parse(data);
+					alert(retObj.retMsg);//提示
+					$("#wxUserDetail").bootstrapTable('refresh');
+					$("#wxUserItem").bootstrapTable('refresh');
 				});
 			}
 		});
 		$("#btn_ban_cancel").bind("click",function(){
-			var url = "";
-			$.get(url,function(data){
-				
-			});
+			if(confirm("解除屏蔽该用户？")){
+				var url = "${pageContext.request.contextPath}/wx/cancelBanUser?userId="+userId;
+				$.get(url,function(data){
+					var retObj = JSON.parse(data);
+					alert(retObj.retMsg);//提示
+					$("#wxUserDetail").bootstrapTable('refresh');
+					$("#wxUserItem").bootstrapTable('refresh');
+				});
+			}
 		});
 		$("#btn_clear_all").bind("click",function(){
-			if(confirm("确认清除所有评论")){
+			if(confirm("确认清除该所有评论记录")){
 				var url = "${pageContext.request.contextPath}/wx/clearAllCmt?userId="+userId;
 				$.get(url,function(data){
-					
+					var retObj = JSON.parse(data);
+					alert(retObj.retMsg);//提示
+					$("#wxUserDetail").bootstrapTable('refresh');
+					$("#wxUserItem").bootstrapTable('refresh');
 				});
 			}
 		});

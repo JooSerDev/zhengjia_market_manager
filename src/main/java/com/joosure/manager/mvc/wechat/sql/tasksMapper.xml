@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.joosure.manager.mvc.wechat.dao.TasksDao">
+
+	<update id="chgExgStatus">
+		update item_exchange set exchangeState = 'cancel' 
+		where createTime between #{startTime} and #{endTime}
+		and exchangeState = 'exchanging'
+	</update>	
+	
+	<select id="getTypeCount" resultType="com.joosure.manager.mvc.wechat.bean.ItemTypeCountBean">
+		select count(1) count ,itemType from item_item 
+		WHERE createTime BETWEEN DATE_SUB(NOW(),INTERVAL 1 DAY) AND NOW()
+		GROUP BY itemType
+		order by count desc
+	</select>
+</mapper>

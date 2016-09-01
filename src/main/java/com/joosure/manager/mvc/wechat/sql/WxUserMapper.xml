@@ -9,17 +9,18 @@
 	<sql id="condSql">
 		from user_user
 		<where>
-			<if test="state != null">
-				state = #{state}
+		    1 = 1
+			<if test="state != null and state!=-1" >
+				and state = #{state}
 			</if>
 			<if test="nickname !=null and nickname !=''">
-				nickname = #{nickname}
+				and nickname = #{nickname}
 			</if>
 			<if test="mobile !=null and mobile !=''">
-				mobile = #{mobile}
+				and mobile = #{mobile}
 			</if>
 			<if test="openid !=null and openid !=''">
-				openid = #{openid}
+				and openid = #{openid}
 			</if>
 		</where>
 	</sql>
@@ -61,7 +62,7 @@
 	
 	<!-- 按条件清除用户所有评论 -->
 	<update id="clearAllCmt" parameterType="java.util.Map">
-		update item_item_comment set state = 1 where fromUserId = #{userId}
+		update item_item_comment set state = 1 where fromUserId = #{fromUserId}
 		<if test="toUserId !=null ">
 			and toUserId = #{toUserId}
 		</if>

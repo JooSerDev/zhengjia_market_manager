@@ -26,6 +26,17 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
+	<!-- 系统过滤器 -->
+	<filter>
+		<filter-name>sysFilter</filter-name>
+		<filter-class>com.joosure.manager.mvc.wechat.aop.SysFilter</filter-class>
+		<async-supported>true</async-supported>
+	</filter>
+	<filter-mapping>
+		<filter-name>sysFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
 	<!-- Spring监听器 -->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -87,11 +98,11 @@
 
 	<error-page>
 		<error-code>404</error-code>
-		<location>/WEB-INF/Jsp/error/404.jsp</location>
+		<location>/Jsp/error/404.jsp</location>
 	</error-page>
 	<error-page>
 		<error-code>500</error-code>
-		<location>/WEB-INF/Jsp/error/500.jsp</location>
+		<location>/Jsp/error/500.jsp</location>
 	</error-page>
 
 	<welcome-file-list>

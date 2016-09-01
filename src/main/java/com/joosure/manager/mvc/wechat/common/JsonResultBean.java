@@ -14,6 +14,14 @@ public class JsonResultBean<E extends Object> {
 	private String retMsg;
 	private boolean retFlag;
 	
+	private String retCode;
+	
+	public String getRetCode() {
+		return retCode;
+	}
+	public void setRetCode(String retCode) {
+		this.retCode = retCode;
+	}
 	public JsonResultBean() {}
 	public JsonResultBean(List<E> rows,int total) {
 		this.rows = rows;
