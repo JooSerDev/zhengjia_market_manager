@@ -1,10 +1,13 @@
 package com.joosure.manager.mvc.wechat.bean.dto;
 
+import java.io.Serializable;
+
 import com.joosure.server.mvc.wechat.entity.pojo.Exchange;
 import com.joosure.server.mvc.wechat.entity.pojo.Item;
 import com.joosure.server.mvc.wechat.entity.pojo.User;
 
 public class ExchangeDetailInfo {
+	
 	private Exchange exchange;
 	private User user;
 	private User target;

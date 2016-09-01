@@ -72,7 +72,7 @@ public class AdminController {
 					return "redirect:../tempHome.jsp";
 				}
 			} catch (NoSuchAlgorithmException e) {
-				log.error(e.getMessage() + e.getStackTrace());
+				log.error(e.getMessage());
 			}
 		}
 		request.setAttribute("prompt", "账号或密码错误，请查验后重试！");

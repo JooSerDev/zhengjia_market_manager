@@ -9,15 +9,27 @@
 				">
 				
 	<bean id="quartzTasks" class="com.joosure.manager.mvc.wechat.task.QuartzTasks"/>
-	<bean id="quartzTasksDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+	
+	<bean id="cancelExpiredItem" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
 		<property name="targetObject" ref="quartzTasks" />
 		<property name="targetMethod" value="cancelExgWhenExpire" />
 		<property name="concurrent" value="true" />
 	</bean>
 	<bean id="quartzTasksTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
-		<property name="jobDetail" ref="quartzTasksDetail" />
-		<property name="cronExpression" value="0/10 * * * * ?" /> <!-- 上线时： 每天凌晨3点   0 0 3 * * ?-->
+		<property name="jobDetail" ref="cancelExpiredItem" />
+		<property name="cronExpression" value="0 0/1 * * * ?" /> <!-- 上线时： 每天凌晨3点   0 0 3 * * ? -->
 	</bean>
+	
+	<bean id="reorderItemType" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="quartzTasks" />
+		<property name="targetMethod" value="reorderItemType" />
+		<property name="concurrent" value="true" />
+	</bean>
+	<bean id="quartzTasksTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="reorderItemType" />
+		<property name="cronExpression" value="0 0/1 * * * ?" /> <!-- 上线时： 每周一凌晨3点   0 0 3 * * 2-->
+	</bean>
+	
 	<bean id="quartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>

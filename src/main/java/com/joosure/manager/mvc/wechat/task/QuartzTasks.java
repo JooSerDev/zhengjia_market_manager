@@ -17,7 +17,7 @@ import com.shawn.server.core.util.DateUtil;
  * @author Administrator
  *
  */
-@Component
+@Component("quartzTasks")
 public class QuartzTasks {
 	
 	private Logger log = Logger.getLogger(QuartzTasks.class);
@@ -58,7 +58,7 @@ public class QuartzTasks {
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DAY_OF_MONTH, -7);//7天前
 		Date startTime = ManagerUtils.getDefaultBETime(cal).get(0);
-		cal.add(Calendar.DAY_OF_MONTH, -1);//1天前
+		cal.add(Calendar.DAY_OF_MONTH, 6);//1天前
 		Date endTime = ManagerUtils.getDefaultBETime(cal).get(1);
 		int ret = tasksService.reorderItemType(startTime,endTime);
 	}
