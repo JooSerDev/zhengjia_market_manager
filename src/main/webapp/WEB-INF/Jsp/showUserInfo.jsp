@@ -155,7 +155,7 @@ body {
 			valign : 'center',
 			title : '名称'
 		}, {
-			field : 'itemType',
+			field : 'itemTypeName',
 			align : 'center',
 			valign : 'center',
 			title : '宝贝分类'
@@ -163,12 +163,14 @@ body {
 			field : 'status',
 			align : 'center',
 			valign : 'center',
-			title : '状态'
+			title : '状态',
+			formatter:"itemStateFmt"
 		}, {
 			field : 'approvalStatus',
 			align : 'center',
 			valign : 'center',
-			title : '审批状态'
+			title : '审批状态',
+			formatter:"itemAprFmt"
 		}, {
 			field : 'createTime',
 			align : 'center',

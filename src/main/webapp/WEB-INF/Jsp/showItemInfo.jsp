@@ -38,7 +38,7 @@ body {
 					<div class="form-group">
 						<div class="col-md-4 col-sm-6 col-xs-6">
 							<p>
-								<label>用户名昵称：</label><span id="userNickName"></span>
+								<label>用户昵称：</label><span id="userNickName"></span>
 							</p>
 							<hr>
 							<p>
