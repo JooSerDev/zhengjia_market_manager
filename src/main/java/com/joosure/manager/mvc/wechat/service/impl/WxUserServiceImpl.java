@@ -35,6 +35,24 @@ public class WxUserServiceImpl implements WxUserService {
 	private WxItemDao wxItemDao;
 	@Autowired
 	private UserItemCmtDao userItemCmtDao;
+	
+	/**
+	 * 成功
+	 */
+	private static final int SUCCESS = 1;
+	/**
+	 * 失败
+	 */
+	private static final int FAIL = -1;
+	
+	/**
+	 * 用户状态 正常，已注册
+	 */
+	private static final int USERSTATE_0 = 0;	
+	/**
+	 * 用户状态 不正常，已封号
+	 */
+	private static final int USERSTATE_2 = 2;	
 
 	@Override
 	public int getWxUserCount(Map<String, Object> cond) {
@@ -50,10 +68,10 @@ public class WxUserServiceImpl implements WxUserService {
 	public int banUser(Map<String, Object> cond) {
 		User user = userDao.getUserById((Integer) cond.get("userId"));
 		if (user != null) {
-			if(user.getState() == 2){
+			if(user.getState() == USERSTATE_2){
 				return 0;//该用户已被封号
 			}
-			user.setState(2);
+			user.setState(USERSTATE_2);
 			// 状态0为已注册，2 封号
 			userDao.updateUser(user);
 			// 当 item_exchange 表中 exchangeStatus 为 exchanging 则 置为 cancel
@@ -62,25 +80,25 @@ public class WxUserServiceImpl implements WxUserService {
 			wxItemDao.banIten(user.getUserId());
 			// 进行积分惩罚处理,暂时没有这个动作
 			// scoreService.updateScoreByEvent(user.getUserId(), "")
-			return 1;
+			return SUCCESS;
 		}
-		return -1;
+		return FAIL;
 	}
 
 	@Override
 	public int cancelBanUser(Map<String, Object> cond) {
 		User user = userDao.getUserById((Integer) cond.get("userId"));
 		if(user!=null){
-			if(user.getState() == 0){
+			if(user.getState() == USERSTATE_0){
 				return 0;//该用户已被封号
 			}
-			user.setState(0);// 状态0为已注册，1为未注册 ？
+			user.setState(USERSTATE_0);// 状态0为已注册，1为未注册 ？
 			userDao.updateUser(user);
 			//将因为用户封号而下架的物品 改为正常的状态  2->0  3->1
 			wxItemDao.cancelBanItem(user.getUserId());
-			return 1;
+			return SUCCESS;
 		}
-		return -1;
+		return FAIL;
 	}
 
 	/**

@@ -116,7 +116,7 @@ public class WxExgBuzImpl implements WxExgBuz {
 			if(charge!=null){
 				boolean dealCpt = makeCptFromExg(exgDetailInfo,charge,chargeTargetMsg,chargeOwnMsg);
 				if(!dealCpt){
-					return "认证交换完成 -02";
+					return "认证交换完成 -02"; //添加评论失败
 				}
 			}
 			return "认证交换成功";
