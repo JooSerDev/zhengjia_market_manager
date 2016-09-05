@@ -66,7 +66,7 @@
 						<form role="form" id="dealFailForm">
 							<div class="form-group">
 								<label class="col-md-4 " for="infoNotReal">是否信息不实：</label> <label
-									class="col-md-4 ">交易方：</label> <input type="checkbox"
+									class="col-md-4 ">交换方：</label> <input type="checkbox"
 									name="infoNotReal" value="owner"> <label
 									class="col-md-4 ">申请方：</label> <input type="checkbox"
 									name="infoNotReal" value="target">
