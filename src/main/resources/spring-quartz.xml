@@ -15,9 +15,9 @@
 		<property name="targetMethod" value="cancelExgWhenExpire" />
 		<property name="concurrent" value="true" />
 	</bean>
-	<bean id="quartzTasksTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+	<bean id="cancelExpiredItemTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 		<property name="jobDetail" ref="cancelExpiredItem" />
-		<property name="cronExpression" value="0 0/1 * * * ?" /> <!-- 上线时： 每天凌晨3点   0 0 3 * * ? -->
+		<property name="cronExpression" value="0 0 3 * * ?" /> <!-- 上线时： 每天凌晨3点   0 0 3 * * ? -->
 	</bean>
 	
 	<bean id="reorderItemType" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
@@ -25,15 +25,16 @@
 		<property name="targetMethod" value="reorderItemType" />
 		<property name="concurrent" value="true" />
 	</bean>
-	<bean id="quartzTasksTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+	<bean id="reorderItemTypeTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 		<property name="jobDetail" ref="reorderItemType" />
-		<property name="cronExpression" value="0 0/1 * * * ?" /> <!-- 上线时： 每周一凌晨3点   0 0 3 * * 2-->
+		<property name="cronExpression" value="0 0 3 * * 2" /> <!-- 上线时： 每周一凌晨3点   0 0 3 * * 2-->
 	</bean>
 	
 	<bean id="quartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
-				<ref bean="quartzTasksTrigger" />
+				<ref bean="cancelExpiredItemTrigger" />
+				<ref bean="reorderItemTypeTrigger" />
 			</list>
 		</property>
 	</bean>
