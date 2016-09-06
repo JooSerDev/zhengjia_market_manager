@@ -79,6 +79,9 @@ public class WxItemServiceImpl implements WxItemService{
 					ret = hasForbid;
 				}else{
 					ret = wxItemDao.forceToDowm(item);
+					//物品下架 做积分处理
+					scoreService.updateScoreByEvent(temp.getOwnerId(), 
+							CommonConstant.SCORE_EVENT_ITEM_DOWN);
 				}
 			}else{
 				ret = forbidFail;
