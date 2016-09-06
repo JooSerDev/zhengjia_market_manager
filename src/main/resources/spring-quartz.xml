@@ -27,7 +27,7 @@
 	</bean>
 	<bean id="reorderItemTypeTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 		<property name="jobDetail" ref="reorderItemType" />
-		<property name="cronExpression" value="0 0 3 * * 2" /> <!-- 上线时： 每周一凌晨3点   0 0 3 * * 2-->
+		<property name="cronExpression" value="0 0 3 ? * MON" /> <!-- 上线时： 每周一凌晨3点   0 0 3 * * 2-->
 	</bean>
 	
 	<bean id="quartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
