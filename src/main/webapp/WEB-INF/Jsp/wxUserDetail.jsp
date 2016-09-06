@@ -177,9 +177,18 @@ body {
 		}];
 		/* onRowClk */
 		var oTable = new TableInit("wxUserItem", columns, null, 
-				"${pageContext.request.contextPath}/wx/userItems?userId="+userId, null,
+				"${pageContext.request.contextPath}/wx/userItems", queryParamsFunc,
 						null,true);
 		oTable.Init();
+// 		"${pageContext.request.contextPath}/wx/userItems?userId="+userId
+	}
+	function queryParamsFunc(params) {
+		var temp = { //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+			limit : params.limit, //页面大小
+			offset : params.offset, //页码
+			userId : userId//
+		};
+		return temp;
 	}
 	function onRowClk(row){
 		window.location.href="${pageContext.request.contextPath}/item/itemDetail?itemId="+row.itemId;
