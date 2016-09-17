@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 import com.joosure.manager.mvc.wechat.bean.ItemTypeCountBean;
 import com.joosure.manager.mvc.wechat.dao.TasksDao;
 import com.joosure.manager.mvc.wechat.service.TasksService;
-import com.joosure.server.mvc.wechat.dao.database.ItemDao;
 import com.joosure.server.mvc.wechat.entity.pojo.ItemType;
+import com.joosure.server.mvc.wechat.service.db.IItemDbService;
 
 @Service("tasksService")
 public class TasksServiceImpl implements TasksService{
@@ -22,7 +22,7 @@ public class TasksServiceImpl implements TasksService{
 	@Autowired
 	private TasksDao tasksDao;
 	@Autowired
-	private ItemDao itemDao;
+	private IItemDbService itemDbService;
 
 	@Override
 	public int chgExgStatus(Date startTime, Date endTime) {
@@ -32,7 +32,7 @@ public class TasksServiceImpl implements TasksService{
 	@Override
 	public int reorderItemType(Date startTime, Date endTime) {
 		//获取当前itemType
-		List<ItemType> old = itemDao.getItemTypes();
+		List<ItemType> old = itemDbService.getItemTypes();
 		if(old!=null){
 			//取到一个按照 数量从大到小 的类别 数组，
 			List<ItemTypeCountBean> typesCount = tasksDao.getTypeCount(startTime,endTime);

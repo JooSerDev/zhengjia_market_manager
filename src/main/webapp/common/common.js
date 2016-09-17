@@ -111,7 +111,7 @@ var TableInit = function(tableid,columns,toolbarid,url,queryParamsFunc,onclickRo
 //					var grandf = f.parent;
 				if(f.top!=self){
 					var c = f.parent.document.getElementById("content");
-					if(c!=null){
+					if(c!=null && c.hight<document.body.scrollHeight){
 						c.height=document.body.scrollHeight;
 					}
 				}
@@ -157,7 +157,6 @@ function setAutoHeight(f){
 }
 
 function showImg(url) {
-	console.log(url);
 	$("#showImgLarge").attr('src', url);
 	$("#imgModal").modal("show");
 }

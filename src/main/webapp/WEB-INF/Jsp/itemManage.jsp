@@ -65,26 +65,16 @@ body {
 <script type="text/javascript">
 	//模态对话框隐藏时移除数据  
 	$(function() {
+		parent.document.getElementById("content").height = 500;
 		//显示每个宝贝的发布时间、审核状态、等待审核时间、发布人昵称、宝贝名称、宝贝分类、是否被小编推荐，以及该宝贝交易状态
 		initItemsInfoTale();
 		buttonInitFunc();
-// 		$("#itemsInfoDiv").hide();
 		initOffenseItemsTable();
 		$("#offenseItemsDiv").hide();
 		itemTypeInit();
-		if ($("#itemFilter option:selected").val() == "complaint") {//当为被举报时
-			$("#itemsInfoDiv").hide();
-			$("#offenseItemsDiv").show();
-			showTableId = "offenseItems";
-		} else {
-			$("#itemsInfoDiv").show();
-			$("#offenseItemsDiv").hide();
-			showTableId = "itemsInfo";
-		}
-		$("itemsInfo").bootstrapTable('refresh',{
-			url:'${pageContext.request.contextPath}/item/itemList'
-		});
-		
+// 		$("itemsInfo").bootstrapTable('refresh',{
+// 			url:'${pageContext.request.contextPath}/item/itemList'
+// 		});
 		$("#btn_query").click();
 	});
 	function initItemsInfoTale() {
@@ -139,7 +129,8 @@ body {
 			title : '宝贝交易状态',
 			formatter:'itemBuzFmt'
 		} ];
-		var oTable = new TableInit("itemsInfo", columns, null, '${pageContext.request.contextPath}/item/itemList',
+// 		${pageContext.request.contextPath}/item/itemList
+		var oTable = new TableInit("itemsInfo", columns, null, null,
 				queryParamsFunc, onclickRowFunc,true,onBstLoadSuccess);
 		oTable.Init();
 	}

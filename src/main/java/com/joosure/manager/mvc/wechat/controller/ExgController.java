@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.joosure.common.base.entity.QryCondBean;
 import com.joosure.manager.mvc.wechat.bean.dto.ExchangeDetailInfo;
 import com.joosure.manager.mvc.wechat.buz.WxExgBuz;
 import com.joosure.manager.mvc.wechat.common.JsonResultBean;
+import com.joosure.manager.mvc.wechat.common.QryCondBean;
 import com.joosure.server.mvc.wechat.entity.pojo.Exchange;
 
 @Controller

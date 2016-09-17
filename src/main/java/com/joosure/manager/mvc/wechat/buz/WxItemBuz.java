@@ -2,8 +2,8 @@ package com.joosure.manager.mvc.wechat.buz;
 
 import java.util.List;
 
-import com.joosure.common.base.entity.QryCondBean;
 import com.joosure.manager.mvc.wechat.bean.dto.WxItemDetail;
+import com.joosure.manager.mvc.wechat.common.QryCondBean;
 
 public interface WxItemBuz {
 
@@ -12,7 +12,7 @@ public interface WxItemBuz {
 	 * @param qryCondBean
 	 * @return
 	 */
-	List<WxItemDetail> getItemList(QryCondBean qryCondBean);
+	List<WxItemDetail> getDetailItemList(QryCondBean qryCondBean);
 
 	int getItemsCount(QryCondBean qryCondBean);
 

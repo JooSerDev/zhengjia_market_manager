@@ -1,18 +1,17 @@
-package com.joosure.manager.mvc.wechat.service.impl;
+package com.joosure.manager.mvc.wechat.service.db.impl;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.joosure.common.base.entity.QryCondBean;
 import com.joosure.manager.mvc.wechat.bean.SysUser;
+import com.joosure.manager.mvc.wechat.common.QryCondBean;
 import com.joosure.manager.mvc.wechat.dao.SysUserDao;
-import com.joosure.manager.mvc.wechat.service.SysUserService;
-import com.joosure.manager.mvc.wechat.util.ManagerUtils;
+import com.joosure.manager.mvc.wechat.service.ISysUserDbService;
 
-@Service("sysUserService")
-public class SysUserServiceImpl implements SysUserService{
+@Service("sysUserDbService")
+public class SysUserDbService implements ISysUserDbService{
 
 	@Autowired
 	private SysUserDao sysUserDao;
@@ -38,12 +37,13 @@ public class SysUserServiceImpl implements SysUserService{
 
 	@Override
 	public int addSysUser(SysUser user) {
+		//先检查是否存在，然后再插入
+//		if()
 		return sysUserDao.insertSelective(user);
 	}
 
 	@Override
 	public int deleteSysUser(SysUser user) {
-		user.setStatus(0);//状态置为无效
 		return sysUserDao.updateByPrimaryKeySelective(user);
 	}
 

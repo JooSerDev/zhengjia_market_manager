@@ -1,11 +1,10 @@
 package com.joosure.manager.mvc.wechat.dao;
 
-import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.joosure.common.base.entity.QryCondBean;
+import com.joosure.manager.mvc.wechat.common.QryCondBean;
 import com.joosure.server.mvc.wechat.entity.pojo.Exchange;
 
 public interface WxExgDao {

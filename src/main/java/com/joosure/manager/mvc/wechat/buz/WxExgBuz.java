@@ -2,8 +2,8 @@ package com.joosure.manager.mvc.wechat.buz;
 
 import java.util.List;
 
-import com.joosure.common.base.entity.QryCondBean;
 import com.joosure.manager.mvc.wechat.bean.dto.ExchangeDetailInfo;
+import com.joosure.manager.mvc.wechat.common.QryCondBean;
 
 public interface WxExgBuz {
 

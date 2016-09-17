@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.joosure.common.base.entity.QryCondBean;
+import com.joosure.manager.mvc.wechat.common.QryCondBean;
 import com.joosure.manager.mvc.wechat.dao.WxExgDao;
 import com.joosure.manager.mvc.wechat.service.WxExgService;
 import com.joosure.server.mvc.wechat.entity.pojo.Exchange;

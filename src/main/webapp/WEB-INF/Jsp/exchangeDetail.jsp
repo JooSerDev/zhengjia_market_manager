@@ -20,7 +20,7 @@
 	<div class="panel-body" style="padding-bottom: 0px;">
 		<div class="panel panel-primary">
 			<div class="panel-heading">
-				<h3 class="panel-title">交易详情</h3>
+				<h3 class="panel-title">交换详情</h3>
 			</div>
 			<div class="panel-body">
 				<div class="row">
@@ -52,15 +52,15 @@
 						<label class="col-md-4 ">申请同意时间：</label><span id="exgRespTime"></span>
 					</div>
 					<div class="form-group">
-						<label class="col-md-4 ">交易状态：</label><span id="exgStatus"></span>
+						<label class="col-md-4 ">交换状态：</label><span id="exgStatus"></span>
 					</div>
 					<div class="form-group">
-						<label class="col-md-4 ">认证交易：</label><span id="exgFinishStatus"></span>
+						<label class="col-md-4 ">认证交换：</label><span id="exgFinishStatus"></span>
 					</div>
 					<div class="form-group" id="exgOprBtns" style="margin-left: 10px;">
 						<button class="btn btn-primary" id="btnExgSus"
-							style="margin-left: 20px;">确认认证交易</button>
-						<button class="btn btn-warning" id="btnExgFail">认证交易失败</button>
+							style="margin-left: 20px;">确认认证交换</button>
+						<button class="btn btn-warning" id="btnExgFail">认证交换失败</button>
 					</div>
 					<div id="failSelect" style="display: none">
 						<form role="form" id="dealFailForm">
@@ -122,24 +122,24 @@
 </body>
 <script type="text/javascript">
 	$(function() {
-		//显示每个宝贝的发布时间、审核状态、等待审核时间、发布人昵称、宝贝名称、宝贝分类、是否被小编推荐，以及该宝贝交易状态
+		//显示每个宝贝的发布时间、审核状态、等待审核时间、发布人昵称、宝贝名称、宝贝分类、是否被小编推荐，以及该宝贝交换状态
 		initUI();
 		initModal();
 	});
 	function initBtns() {
-		//交易失败处置，显示复选框
+		//交换失败处置，显示复选框
 		$("#btnExgFail").on("click", function() {
 			$("#btnExgSus").attr("disabled", true);
 			$("#failSelect").show();
 			frameSuit();
 		});
-		//交易成功保存
+		//交换成功保存
 		$("#btnExgSus")
 				.on(
 						"click",
 						function() {
 							//TODO 
-							if (!confirm("确认双方现场交易成功")) {
+							if (!confirm("确认双方现场交换成功")) {
 								return false;
 							}
 							var exchangeId = '${exgDetail.exchange.exchangeId}';
@@ -174,7 +174,7 @@
 				.on(
 						"click",
 						function() {
-							if (confirm("确认提交交易处置结果")) {
+							if (confirm("确认提交交换处置结果")) {
 								var exchangeId = '${exgDetail.exchange.exchangeId}';
 								var sendData = $("#dealFailForm").serialize();
 								$
@@ -237,8 +237,17 @@
 		frameSuit();
 	}
 	function frameSuit() {
-		parent.parent.document.getElementById("content").height = document.body.scrollHeight;
+		
+// 			parent.parent.document.getElementById("content").height = document.body.scrollHeight;
+		if(parent.document.body.scrollHeight < document.body.scrollHeight){
+			parent.document.body.scrollheight = document.body.scrollHeight;
+		}
+		if(parent.parent.document.body.scrollHeight< parent.document.body.scrollHeight){
+			parent.parent.document.body.scrollHeight = parent.document.body.scrollHeight;
+		}
 		parent.document.getElementById("content").height = document.body.scrollHeight;
+		parent.parent.document.getElementById("content").height = parent.document.body.scrollHeight;
+// 		$('body').animate({scrollTop:0},500);
 	}
 	function initUI() {
 		$("#exgCreateTime").html('${exgDetail.exchange.displayTime}');
@@ -247,8 +256,8 @@
 		$("#exgStatus").html(itemBuzFmt(exchangeState));
 		var exgFinishStatus = '${exgDetail.exchange.exchangeFinishStatus}';
 		$("#exgFinishStatus").html(itemFinishFmt(exgFinishStatus));
-		if (exchangeState == "cancel"
-				|| (exgFinishStatus != null && exgFinishStatus != 'wait')) {//已取消的交易就不需要显示
+		if ((exchangeState == "cancel" || exchangeState == "exchanging")
+				|| (exgFinishStatus != null && exgFinishStatus != 'wait')) {//已取消的交换就不需要显示
 			$("#exgOprBtns").hide();
 		}
 		initImgs();
@@ -272,20 +281,6 @@
 		/* $("#detailInfo").on('blur',function(){
 			$(this).modal('hide');
 		}) */
-	}
-
-	function transdate(endTime) {
-		var date = new Date();
-		date.setFullYear(endTime.substring(0, 4));
-		date.setMonth(endTime.substring(5, 7) - 1);
-		date.setDate(endTime.substring(8, 10));
-		date.setHours(endTime.substring(11, 13));
-		date.setMinutes(endTime.substring(14, 16));
-		date.setSeconds(endTime.substring(17, 19));
-		return Date.parse(date) / 1000;
-	}
-	function test() {
-		alert("callback");
 	}
 </script>
 </html>

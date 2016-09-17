@@ -14,7 +14,8 @@
 	<sql id="qryExgsCond">
 		from item_exchange a
 		<if test="mobile!=null and mobile!=''">
-			JOIN user_user b ON (a.ownerId = b.userId OR a.changerId = b.userId) AND
+			JOIN user_user b ON (a.ownerId = b.userId OR a.changerId =
+			b.userId) AND
 			b.mobile = #{mobile}
 		</if>
 		<if test="mobile ==null or mobile == ''">
@@ -23,21 +24,22 @@
 		<if test="exchangeFinishStatus != null and exchangeFinishStatus =='wait'">
 			and a.exchangeFinishStatus='wait'
 		</if>
-		<if test="exchangeFinishStatus != null and exchangeFinishStatus =='NotWait'">
+		<if
+			test="exchangeFinishStatus != null and exchangeFinishStatus =='NotWait'">
 			and a.exchangeFinishStatus !='wait'
 		</if>
 	</sql>
 
 	<!-- 查询微信用户 -->
-	<select id="getExgsCount" parameterType="java.util.Map"
-		resultType="java.lang.Integer">
+	<select id="getExgsCount" resultType="java.lang.Integer"
+		parameterType="com.joosure.manager.mvc.wechat.common.QryCondBean">
 		select count(1)
 		<include refid="qryExgsCond" />
 	</select>
 
 	<!-- 查询 交易 列表 -->
-	<select id="getExgsByMobile" parameterType="java.util.Map"
-		resultType="com.joosure.server.mvc.wechat.entity.pojo.Exchange">
+	<select id="getExgsByMobile" resultType="com.joosure.server.mvc.wechat.entity.pojo.Exchange"
+		parameterType="com.joosure.manager.mvc.wechat.common.QryCondBean">
 		select a.*
 		<include refid="qryExgsCond" />
 		<include refid="limitSql" />
@@ -59,7 +61,7 @@
 		</set>
 		where exchangeId = #{exchangeId}
 	</update>
-	
+
 	<update id="banExg">
 		update item_exchange
 		set exchangeState = 'cancel'

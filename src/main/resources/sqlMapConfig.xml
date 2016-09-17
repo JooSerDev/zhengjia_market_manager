@@ -5,7 +5,7 @@
 	
 	<typeAliases>
 		<typeAlias alias="wxUser" type="com.joosure.server.mvc.wechat.entity.pojo.User"/>
-		<typeAlias alias="qryCondBean" type="com.joosure.common.base.entity.QryCondBean"/>
+		<typeAlias alias="qryCondBean" type="com.joosure.manager.mvc.wechat.common.QryCondBean"/>
 	</typeAliases>
 
 	<!-- - - - - - - 懒加载和缓存 - - - - - - - - - - -->
@@ -23,26 +23,21 @@
 	</plugins> -->
 	<!-- - - - - - - -映射文件路径- - - - - - -->
 	<mappers>
-		
 		<mapper resource="com/joosure/manager/mvc/wechat/sql/SysConfParamMapper.xml" />
 		<mapper resource="com/joosure/manager/mvc/wechat/sql/SysUserOprMapper.xml" />
 		<mapper resource="com/joosure/manager/mvc/wechat/sql/SysUserMapper.xml" />
-		<mapper resource="com/joosure/manager/mvc/wechat/sql/WxScoreRuleMapper.xml"/>
         <mapper resource="com/joosure/manager/mvc/wechat/sql/WxUserScoreMapper.xml"/>
 		<mapper resource="com/joosure/manager/mvc/wechat/sql/WxUserCptMapper.xml"/>
-        
 		<mapper resource="com/joosure/manager/mvc/wechat/sql/WxUserMapper.xml"/>
 		<mapper resource="com/joosure/manager/mvc/wechat/sql/WxExgMapper.xml"/>
 		<mapper resource="com/joosure/manager/mvc/wechat/sql/WxItemMapper.xml"/>
+		<mapper resource="com/joosure/manager/mvc/wechat/sql/WxUserMsgMapper.xml"/>
+		
+		<mapper resource="com/joosure/manager/mvc/wechat/sql/tasksMapper.xml" />
 		
 		<mapper resource="com/joosure/server/mvc/wechat/sql/dictMapper.xml" />
 		<mapper resource="com/joosure/server/mvc/wechat/sql/scoreMapper.xml" />
 		<mapper resource="com/joosure/server/mvc/wechat/sql/userMapper.xml" />
 		<mapper resource="com/joosure/server/mvc/wechat/sql/itemMapper.xml" />
-		
-		
-		<mapper resource="com/joosure/manager/mvc/wechat/sql/tasksMapper.xml" />
-		
-		
 	</mappers>
 </configuration>

@@ -1,8 +1,6 @@
 package com.joosure.manager.mvc.wechat.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,9 +12,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.joosure.manager.mvc.wechat.bean.dto.WxUserDetail;
 import com.joosure.manager.mvc.wechat.common.JsonResultBean;
-import com.joosure.manager.mvc.wechat.service.WxUserDetailService;
 import com.joosure.manager.mvc.wechat.service.WxUserService;
+import com.joosure.manager.mvc.wechat.service.db.IWxUserDbService;
 import com.joosure.server.mvc.wechat.entity.pojo.Item;
+import com.joosure.server.mvc.wechat.entity.pojo.ItemComment;
 import com.joosure.server.mvc.wechat.entity.pojo.User;
 
 @Controller
@@ -25,8 +24,10 @@ public class WxUserController {
 	
 	@Autowired
 	private WxUserService wxUserService;
+//	@Autowired
+//	private WxUserDetailService wxUserDetailService;
 	@Autowired
-	private WxUserDetailService wxUserDetailService;
+	private IWxUserDbService wxUserDbService;
 
 	@RequestMapping("/userManage")
 	public String toWxUserManage(){
@@ -36,15 +37,8 @@ public class WxUserController {
 	@RequestMapping("/userList")
 	@ResponseBody
 	public JsonResultBean<User> getWxUserList(User userCond){
-		Map<String,Object> cond = new HashMap<String,Object>();
-		cond.put("startIndex", userCond.getOffset());
-		cond.put("limit", userCond.getLimit());
-		cond.put("state", userCond.getState());
-		cond.put("mobile", userCond.getMobile());
-		cond.put("nickname", userCond.getNickname());
-		cond.put("openid", userCond.getOpenid());
-		int count = wxUserService.getWxUserCount(cond);
-		List<User> data = wxUserService.getWxUserList(cond);
+		int count = wxUserDbService.getWxUserCount(userCond);
+		List<User> data = wxUserDbService.getWxUserList(userCond);
 		JsonResultBean<User> ret = new JsonResultBean<User>(data,count);
 		return ret;
 	}
@@ -59,12 +53,9 @@ public class WxUserController {
 	
 	@RequestMapping("/userDetailInfo")
 	@ResponseBody
-	public JsonResultBean<WxUserDetail> getWxUserDetail(@RequestParam("userId")String userId){
-		Map<String,Object> cond = new HashMap<String,Object>();
-		cond.put("userId", userId);
-//		int count = wxUserDetailService.getDetailUserInfoCount(cond);
+	public JsonResultBean<WxUserDetail> getWxUserDetail(User cond){
 		int count = 1;
-		List<WxUserDetail> data = wxUserDetailService.getDetailUserInfoList(cond);
+		List<WxUserDetail> data = wxUserService.getDetailUserInfoList(cond);
 		JsonResultBean<WxUserDetail> ret = new JsonResultBean<WxUserDetail>(data,count);
 		return ret;
 	}
@@ -75,9 +66,7 @@ public class WxUserController {
 	 */
 	@RequestMapping("/banUser")
 	@ResponseBody
-	public JsonResultBean<WxUserDetail> banUser(@RequestParam("userId")int userId){
-		Map<String,Object> cond = new HashMap<String,Object>();
-		cond.put("userId", userId);
+	public JsonResultBean<WxUserDetail> banUser(User cond){
 		int flag = wxUserService.banUser(cond);
 		JsonResultBean<WxUserDetail> ret = new JsonResultBean<WxUserDetail>();
 		if(flag == 0){
@@ -98,9 +87,7 @@ public class WxUserController {
 	@RequestMapping("/cancelBanUser")
 	@ResponseBody
 	public JsonResultBean<WxUserDetail> cancelBanUser(@RequestParam("userId")int userId){
-		Map<String,Object> cond = new HashMap<String,Object>();
-		cond.put("userId", userId);
-		int flag = wxUserService.cancelBanUser(cond);
+		int flag = wxUserService.cancelBanUser(userId);
 		JsonResultBean<WxUserDetail> ret = new JsonResultBean<WxUserDetail>();
 		if(flag == 0){
 			ret.setRetMsg("该用户未被屏蔽，无需解除屏蔽操作");
@@ -120,9 +107,9 @@ public class WxUserController {
 	@RequestMapping("/clearAllCmt")
 	@ResponseBody
 	public JsonResultBean<WxUserDetail> clearUserCmt(@RequestParam("userId")int userId){
-		Map<String,Object> cond = new HashMap<String,Object>();
-		cond.put("fromUserId", userId);
-		boolean flag = wxUserService.clearAllComment(cond);
+		ItemComment itemCmt = new ItemComment();
+		itemCmt.setFromUserId(userId);
+		boolean flag = wxUserService.clearAllComment(itemCmt);
 		JsonResultBean<WxUserDetail> ret = new JsonResultBean<WxUserDetail>();
 		ret.setRetFlag(flag);
 		if(flag){
@@ -141,12 +128,8 @@ public class WxUserController {
 	@RequestMapping("/userItems")
 	@ResponseBody
 	public JsonResultBean<Item> getWxUserItem(User userCond){
-		Map<String,Object> cond = new HashMap<String,Object>();
-		cond.put("ownerId", userCond.getUserId());
-		cond.put("startIndex", userCond.getOffset());
-		cond.put("limit", userCond.getLimit());
-		List<Item> items = wxUserService.getItemsList(cond);
-		int count = wxUserService.getItemsCount(cond);
+		List<Item> items = wxUserService.getItemsList(userCond);
+		int count = wxUserService.getItemsCount(userCond);
 		JsonResultBean<Item> ret = new JsonResultBean<Item>(items,count);
 		return ret;
 	}

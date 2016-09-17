@@ -11,11 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.joosure.common.base.entity.QryCondBean;
 import com.joosure.manager.mvc.wechat.bean.dto.WxItemDetail;
 import com.joosure.manager.mvc.wechat.buz.WxItemBuz;
 import com.joosure.manager.mvc.wechat.common.JsonResultBean;
+import com.joosure.manager.mvc.wechat.common.QryCondBean;
 import com.joosure.manager.mvc.wechat.service.WxItemService;
+import com.joosure.manager.mvc.wechat.service.db.IWxItemDbService;
 import com.joosure.server.mvc.wechat.dao.cache.ItemCache;
 import com.joosure.server.mvc.wechat.entity.pojo.Item;
 import com.joosure.server.mvc.wechat.entity.pojo.ItemType;
@@ -26,6 +27,8 @@ public class ItemController {
 
 	@Autowired
 	private WxItemService wxItemService;
+	@Autowired
+	private IWxItemDbService wxItemDbService;
 
 	@Autowired
 	private WxItemBuz wxItemBuz;
@@ -51,7 +54,7 @@ public class ItemController {
 		} else if("all".equals(qryCondBean.getItemFilter())){
 			
 		}
-		List<WxItemDetail> datas = wxItemBuz.getItemList(qryCondBean);
+		List<WxItemDetail> datas = wxItemBuz.getDetailItemList(qryCondBean);
 		int count = wxItemBuz.getItemsCount(qryCondBean);
 		JsonResultBean<WxItemDetail> ret = new JsonResultBean<WxItemDetail>(datas, count);
 		request.getSession().setAttribute("qryCondBean", qryCondBean);
@@ -69,7 +72,7 @@ public class ItemController {
 	public JsonResultBean<WxItemDetail> getItemDetail(@RequestParam("itemId") int itemId, HttpSession session) {
 		QryCondBean qryCondBean = new QryCondBean();
 		qryCondBean.setItemId(itemId);
-		List<WxItemDetail> retData = wxItemBuz.getItemList(qryCondBean);
+		List<WxItemDetail> retData = wxItemBuz.getDetailItemList(qryCondBean);
 		if(retData!=null && retData.size()>0){
 			session.setAttribute("itemDetailInfo", retData.get(0));
 		}else{

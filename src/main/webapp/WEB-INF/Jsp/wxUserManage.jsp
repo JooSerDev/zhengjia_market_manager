@@ -70,6 +70,8 @@ body {
 <script type="text/javascript">
 	//模态对话框隐藏时移除数据  
 	$(function() {
+		parent.document.getElementById("content").height = 500;
+		parent.document.body.scrollHeight = 500;
 		var oTable = new TableInit();
 		oTable.Init();
 		var oButtons = new ButtonInit();

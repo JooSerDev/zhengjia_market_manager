@@ -1,8 +1,8 @@
 package com.joosure.manager.mvc.wechat.bean.dto;
 
-import com.joosure.manager.mvc.wechat.bean.WxUserCpt;
 import com.joosure.server.mvc.wechat.entity.pojo.Item;
 import com.joosure.server.mvc.wechat.entity.pojo.User;
+import com.joosure.server.mvc.wechat.entity.pojo.WxUserCpt;
 
 public class WxItemDetail {
 	private Item item;//商品信息

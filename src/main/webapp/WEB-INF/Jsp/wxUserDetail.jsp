@@ -42,6 +42,8 @@ body {
 		//显示用户昵称、头像、OpenID、手机号、性别、地区、积分数、被点赞数、
 		//该用户发布的所有宝贝（包括未审核的，点击进入宝贝详情），该用户“认证完成”的交易数、
 		// “信息不实”的交易数、用户当前状态（是否被封号以及封号时间）、以及该用户的被投诉次数、最近一次被投诉的时间
+		parent.document.getElementById("content").height = 500;
+		parent.document.body.scrollHeight = 500;
 		userId = "${userId}";
 		initUserDetailTable(userId);
 		initUserItemTable(userId);

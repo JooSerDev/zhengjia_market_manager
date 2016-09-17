@@ -57,6 +57,7 @@ body {
 			</div>
 		</div>
 	</div>
+<!--	
 	<div class="modal fade" id="manageConfParam">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -73,21 +74,21 @@ body {
 							<label class="control-label col-sm-3" for="paramGroupA">所属组Id</label>
 							<div class="col-sm-6">
 								<input type="text" class="form-control" id="paramGroupA"
-									name="paramGroupA" required>
+									name="paramGroup" required>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="control-label col-sm-3" for="paramIdA">字典Id</label>
 							<div class="col-sm-6">
 								<input type="text" class="form-control" id="paramIdA"
-									name="paramIdA" required>
+									name="paramId" required>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="control-label col-sm-3" for="paramNameA">字典值</label>
 							<div class="col-sm-6">
 								<input type="text" class="form-control" id="paramNameA"
-									name="paramNameA" required>
+									name="paramName" required>
 							</div>
 						</div>
 						<div class="form-group">
@@ -113,6 +114,7 @@ body {
 			</div>
 		</div>
 	</div>
+-->
 </body>
 <script type="text/javascript">
 	//模态对话框隐藏时移除数据  

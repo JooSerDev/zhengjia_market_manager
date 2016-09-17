@@ -109,6 +109,7 @@ body {
 <script type="text/javascript">
 	//模态对话框隐藏时移除数据  
 	$(function() {
+		parent.document.getElementById("content").height = 500;
 		initExchangeInfoTale();
 		buttonInitFunc();
 		$('#sysUserInfo').bootstrapTable('refresh', {
@@ -171,7 +172,7 @@ body {
 				alert("请选择一个用户后再进行操作");
 				return false;
 			}else if(rows[0].status!=1){
-				alert("请选择状态为 '可使用' 的用户进行操作");
+				alert("请选择状态为 '有效' 的用户进行操作");
 				return false;
 			}
 			if(confirm("确认删除该用户？删除后无法恢复")){

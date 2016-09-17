@@ -62,4 +62,12 @@ body {
 		</div>
 	</div>
 </body>
+<script type="text/javascript">
+	$(function(){
+		parent.document.getElementById("content").height = 500;
+		if(parent.document.getElementById("content").height < document.body.scrollHeight){
+			parent.document.getElementById("content").height = document.body.scrollHeight
+		}
+	})
+</script>
 </html>

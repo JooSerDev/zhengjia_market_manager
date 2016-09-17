@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.joosure.manager.mvc.wechat.dao.SysConfParamDao">
+	<resultMap id="BaseResultMap"
+		type="com.joosure.manager.mvc.wechat.bean.SysConfParam">
+		<id column="paramgroup" property="paramgroup" jdbcType="VARCHAR" />
+		<id column="paramid" property="paramid" jdbcType="VARCHAR" />
+		<result column="paramname" property="paramname" jdbcType="VARCHAR" />
+		<result column="paramvalue" property="paramvalue" jdbcType="VARCHAR" />
+		<result column="paramdesc" property="paramdesc" jdbcType="VARCHAR" />
+		<result column="addtime" property="addtime" jdbcType="TIMESTAMP" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+		<result column="memo" property="memo" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		paramgroup, paramid, paramname,paramvalue, paramdesc, addtime, `status`, updatetime, memo
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="com.joosure.manager.mvc.wechat.bean.SysConfParam">
+		select
+		<include refid="Base_Column_List" />
+		from sys_conf_param
+		where paramgroup = #{paramgroup,jdbcType=VARCHAR}
+		and paramid = #{paramid,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="com.joosure.manager.mvc.wechat.bean.SysConfParam">
+		delete from sys_conf_param
+		where paramgroup = #{paramgroup,jdbcType=VARCHAR}
+		and paramid = #{paramid,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.joosure.manager.mvc.wechat.bean.SysConfParam">
+		insert into sys_conf_param (paramgroup, paramid, paramname,
+		paramvalue,paramdesc, addtime, `status`,
+		updatetime, memo)
+		values (#{paramgroup,jdbcType=VARCHAR}, #{paramid,jdbcType=VARCHAR},
+		#{paramname,jdbcType=VARCHAR},#{paramvalue,jdbcType=VARCHAR},
+		#{paramdesc,jdbcType=VARCHAR}, #{addtime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER},
+		#{updatetime,jdbcType=TIMESTAMP}, #{memo,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.joosure.manager.mvc.wechat.bean.SysConfParam">
+		insert into sys_conf_param
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			paramgroup,
+			paramid,
+			paramname,
+			paramvalue,
+			paramdesc,
+			addtime,
+			`status`,
+			updatetime,
+			memo,
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			#{paramgroup,jdbcType=VARCHAR},
+			#{paramid,jdbcType=VARCHAR},
+			#{paramname,jdbcType=VARCHAR},
+			#{paramvalue,jdbcType=VARCHAR},
+			#{paramdesc,jdbcType=VARCHAR},
+			now(),
+			1,
+			now(),
+			#{memo,jdbcType=VARCHAR},
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.joosure.manager.mvc.wechat.bean.SysConfParam">
+		update sys_conf_param
+		<set>
+			<if test="paramname != null">
+				paramname = #{paramname,jdbcType=VARCHAR},
+			</if>
+			<if test="paramvalue != null">
+				paramvalue = #{paramvalue,jdbcType=VARCHAR},
+			</if>
+			<if test="paramdesc != null">
+				paramdesc = #{paramdesc,jdbcType=VARCHAR},
+			</if>
+			<if test="addtime != null">
+				addtime = #{addtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				`status` = #{status,jdbcType=INTEGER},
+			</if>
+			updatetime=now(),
+			<if test="memo != null">
+				memo = #{memo,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where paramgroup = #{paramgroup,jdbcType=VARCHAR}
+		and paramid = #{paramid,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.joosure.manager.mvc.wechat.bean.SysConfParam">
+		update sys_conf_param
+		set 
+		paramname = #{paramname,jdbcType=VARCHAR},
+		paramvalue = #{paramvalue,jdbcType=VARCHAR},
+		paramdesc = #{paramdesc,jdbcType=VARCHAR},
+		addtime = #{addtime,jdbcType=TIMESTAMP},
+		`status` = #{status,jdbcType=INTEGER},
+		updatetime = #{updatetime,jdbcType=TIMESTAMP},
+		memo = #{memo,jdbcType=VARCHAR}
+		where paramgroup = #{paramgroup,jdbcType=VARCHAR}
+		and paramid = #{paramid,jdbcType=VARCHAR}
+	</update>
+
+	<sql id="qryParamsInfoCond">
+		from sys_conf_param where 1=1
+		order by paramgroup,paramid,addtime desc
+	</sql>
+	<sql id="limitSql">
+		limit #{offset},#{limit}
+	</sql>
+	<select id="qryParamsInfo" parameterType="com.joosure.manager.mvc.wechat.bean.SysConfParam"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		<include refid="qryParamsInfoCond" />
+		<include refid="limitSql" />
+	</select>
+	<select id="qryParamsCount" parameterType="com.joosure.manager.mvc.wechat.bean.SysConfParam" resultType="java.lang.Integer">
+		select count(1) 
+		<include refid="qryParamsInfoCond" />
+	</select>
+	<select id="chkIfExist" resultMap="BaseResultMap"
+		parameterType="com.joosure.manager.mvc.wechat.bean.SysConfParam">
+		select * from sys_conf_param
+		where paramgroup=#{paramgroup}
+		and paramid=#{paramid}
+	</select>
+	<update id="changeSysConfParam" parameterType="com.joosure.manager.mvc.wechat.bean.SysConfParam">
+		update sys_conf_param set
+		status = #{status}
+		where paramgroup=#{paramgroup}
+		and paramid=#{paramid}
+	</update>
+</mapper>

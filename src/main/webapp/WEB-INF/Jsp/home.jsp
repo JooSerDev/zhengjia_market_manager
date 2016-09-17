@@ -39,7 +39,7 @@ body {
 			<div class="collapse navbar-collapse">
 				<ul class="nav navbar-nav" style="margin-left: 40px;" id="mainUl">
 					<li id="li1"><a
-						href="${pageContext.request.contextPath}/item/itemManage"
+						href="${pageContext.request.contextPath}/item/itemManage?i=1"
 						target="content">审核管理</a></li>
 					<li id="li1"><a href="${pageContext.request.contextPath}/exg/exgManage"
 						target="content">交易管理</a></li>

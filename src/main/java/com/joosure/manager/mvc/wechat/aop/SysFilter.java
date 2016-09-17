@@ -23,7 +23,7 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 
 import com.joosure.manager.mvc.wechat.bean.SysUser;
 import com.joosure.manager.mvc.wechat.bean.SysUserOpr;
-import com.joosure.manager.mvc.wechat.service.SysUserOprService;
+import com.joosure.manager.mvc.wechat.service.db.ISysUserOprDbService;
 import com.joosure.server.mvc.wechat.constant.CommonConstant;
 import com.shawn.server.core.http.RequestHandler;
 import com.shawn.server.core.util.SpringUtil;
@@ -34,7 +34,7 @@ public class SysFilter implements Filter {
 	private Logger log = Logger.getLogger(SysFilter.class);
 
 	@Autowired
-	private SysUserOprService sysUserOprService;
+	private ISysUserOprDbService sysUserOprService;
 
 	@Override
 	public void destroy() {
@@ -44,7 +44,7 @@ public class SysFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
 		if (sysUserOprService == null) {
-			sysUserOprService = SpringUtil.getBean("sysUserOprService");
+			sysUserOprService = SpringUtil.getBean("sysUserOprDbService");
 		}
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) res;
@@ -89,13 +89,6 @@ public class SysFilter implements Filter {
 			} catch (Exception e) {
 				log.warn("插入请求记录失败");
 			}
-			// response.sendRedirect(request.getContextPath()+"/temp.jsp");
-			/*
-			 * if("XMLHttpRequest".equals(async)){ JsonResultBean<String> ret =
-			 * new JsonResultBean<String>(); List<String> data = new
-			 * ArrayList<String>(); data.add("1001"); ret.setResultList(data);
-			 * response.getWriter().write(JSON.toJSONString(ret)); return ; }
-			 */
 			request.getRequestDispatcher("/admin/loginout").forward(request, response);
 			return;
 		}

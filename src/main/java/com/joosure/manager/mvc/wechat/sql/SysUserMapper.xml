@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.joosure.manager.mvc.wechat.dao.SysUserDao" >
+  <resultMap id="BaseResultMap" type="com.joosure.manager.mvc.wechat.bean.SysUser" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="loginid" property="loginid" jdbcType="VARCHAR" />
+    <result column="loginpass" property="loginpass" jdbcType="VARCHAR" />
+    <result column="salt" property="salt" jdbcType="VARCHAR" />
+    <result column="addtime" property="addtime" jdbcType="TIMESTAMP" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="loginname" property="loginname" jdbcType="VARCHAR" />
+    <result column="extd" property="extd" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, loginid, loginpass, salt, addtime, updatetime, `status`, loginname, extd
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sys_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.joosure.manager.mvc.wechat.bean.SysUser" useGeneratedKeys="true" keyProperty="id" >
+    insert into sys_user (loginid, loginpass, salt, addtime, updatetime, `status`, loginname, extd)
+    values (#{loginid,jdbcType=VARCHAR}, #{loginpass,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, 
+      #{addtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, 
+      #{loginname,jdbcType=VARCHAR}, #{extd,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.joosure.manager.mvc.wechat.bean.SysUser" useGeneratedKeys="true" keyProperty="id" >
+    insert into sys_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      loginid,
+      loginpass,
+      salt,
+      addtime,
+      updatetime,
+      `status`,
+      loginname,
+      extd,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{loginid,jdbcType=VARCHAR},
+      #{loginpass,jdbcType=VARCHAR},
+      #{salt,jdbcType=VARCHAR},
+      now(),
+      now(),
+      1,
+      #{loginname,jdbcType=VARCHAR},
+      #{extd,jdbcType=VARCHAR},
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.joosure.manager.mvc.wechat.bean.SysUser" >
+    update sys_user
+    <set >
+      <if test="loginid != null" >
+        loginid = #{loginid,jdbcType=VARCHAR},
+      </if>
+      <if test="loginpass != null" >
+        loginpass = #{loginpass,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null" >
+        salt = #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null" >
+        addtime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+        updatetime = now(),
+      <if test="status != null" >
+        `status` = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="loginname != null" >
+        loginname = #{loginname,jdbcType=VARCHAR},
+      </if>
+      <if test="extd != null" >
+        extd = #{extd,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.joosure.manager.mvc.wechat.bean.SysUser" >
+    update sys_user
+    set loginid = #{loginid,jdbcType=VARCHAR},
+      loginpass = #{loginpass,jdbcType=VARCHAR},
+      salt = #{salt,jdbcType=VARCHAR},
+      addtime = #{addtime,jdbcType=TIMESTAMP},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      `status` = #{status,jdbcType=INTEGER},
+      loginname = #{loginname,jdbcType=VARCHAR},
+      extd = #{extd,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="getSysUserByLoginId" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from sys_user
+    where loginId = #{loginId}
+  </select>
+  
+	<sql id="limitSql">
+		limit #{offset},#{limit}
+	</sql>
+	<sql id="qryCond">
+		<if test="loginid!=null and loginid!=''">
+  			and loginid = #{loginid}
+	  	</if>
+	  	<if test=" loginname !=null and loginname !=''">
+	  		and loginname = #{loginname}
+	  	</if>
+	</sql>
+  <select id="getUserList" parameterType="qryCondBean" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List" />
+  	from sys_user
+  	where 1=1
+  	<include refid="qryCond" />
+  	order by id desc
+  	<include refid="limitSql" />
+  </select>
+  <select id="getUserListCount" parameterType="qryCondBean" resultType="java.lang.Integer">
+  	select count(1)
+  	from sys_user
+  	where 1=1
+  	<include refid="qryCond" />
+  </select>
+</mapper>

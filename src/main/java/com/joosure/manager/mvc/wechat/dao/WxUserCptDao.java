@@ -2,8 +2,8 @@ package com.joosure.manager.mvc.wechat.dao;
 
 import java.util.List;
 
-import com.joosure.common.base.entity.QryCondBean;
-import com.joosure.manager.mvc.wechat.bean.WxUserCpt;
+import com.joosure.manager.mvc.wechat.common.QryCondBean;
+import com.joosure.server.mvc.wechat.entity.pojo.WxUserCpt;
 
 public interface WxUserCptDao {
     /**

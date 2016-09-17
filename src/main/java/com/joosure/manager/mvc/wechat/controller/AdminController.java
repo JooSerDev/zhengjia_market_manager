@@ -2,9 +2,7 @@ package com.joosure.manager.mvc.wechat.controller;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,14 +17,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.joosure.common.base.entity.QryCondBean;
 import com.joosure.manager.mvc.wechat.bean.SysConfParam;
 import com.joosure.manager.mvc.wechat.bean.SysUser;
 import com.joosure.manager.mvc.wechat.common.JsonResultBean;
+import com.joosure.manager.mvc.wechat.common.QryCondBean;
+import com.joosure.manager.mvc.wechat.service.ISysUserDbService;
 import com.joosure.manager.mvc.wechat.service.SysConfParamService;
-import com.joosure.manager.mvc.wechat.service.SysUserService;
+import com.joosure.manager.mvc.wechat.service.db.ISysConfParamDbService;
 import com.joosure.manager.mvc.wechat.util.ManagerUtils;
 import com.joosure.server.mvc.wechat.constant.CommonConstant;
+import com.joosure.server.mvc.wechat.dao.cache.DictsCache;
 
 @Controller
 @RequestMapping("/admin")
@@ -37,7 +37,14 @@ public class AdminController {
 	@Autowired
 	private SysConfParamService sysConfParamService;
 	@Autowired
-	private SysUserService sysUserService;
+	private ISysConfParamDbService sysConfParamDbService;
+	
+	@Autowired
+	private ISysUserDbService sysUserService;
+	@Autowired
+	private ISysUserDbService sysUserDbService;
+	
+	
 
 	/**
 	 * 管理员登陆，成功则跳转至主页
@@ -58,17 +65,15 @@ public class AdminController {
 			SysUser loginUser = (SysUser) request.getSession().getAttribute(CommonConstant.CurrentSysUser);
 			if (loginUser != null) {
 				if (sysUser.getLoginid().equals(loginUser.getLoginid())) {
-//					return "redirect:/admin/home";
+					//return "redirect:/admin/home";
 					return "redirect:../tempHome.jsp";
 				}
-			} else {
-
 			}
 			try {
 				String secretPass = ManagerUtils.encryptBySHA256(loginPass, sysUser.getSalt());
 				if (sysUser.getLoginpass().equals(secretPass)) {
 					request.getSession().setAttribute(CommonConstant.CurrentSysUser, sysUser);
-//					return "redirect:/admin/home";
+					//					return "redirect:/admin/home";
 					return "redirect:../tempHome.jsp";
 				}
 			} catch (NoSuchAlgorithmException e) {
@@ -81,15 +86,15 @@ public class AdminController {
 
 	@RequestMapping("/tempHome")
 	public String toHomePage(){
-//		return "home";
+		//		return "home";
 		return "redirect:../tempHome.jsp";
 	}
-	
+
 	@RequestMapping("/home")
 	public String toHome(){
 		return "home";
 	}
-	
+
 	@RequestMapping("/homeWithoutLogin")
 	public String login() {
 		return "home";
@@ -126,12 +131,9 @@ public class AdminController {
 	 */
 	@RequestMapping("/showParamsInfo")
 	@ResponseBody
-	public JsonResultBean<SysConfParam> showParamsInfo(@RequestParam("limit") int limit, @RequestParam("offset") int offset) {
-		Map<String, Object> cond = new HashMap<String, Object>();
-		cond.put("startIndex", offset);
-		cond.put("limit", limit);
-		List<SysConfParam> data = sysConfParamService.getParamsInfo(cond);
-		int count = sysConfParamService.getParamsCount(cond);
+	public JsonResultBean<SysConfParam> showParamsInfo(SysConfParam cond) {
+		List<SysConfParam> data = sysConfParamDbService.getParamsInfo(cond);
+		int count = sysConfParamDbService.getParamsCount(cond);
 		JsonResultBean<SysConfParam> ret = new JsonResultBean<SysConfParam>(data, count);
 		return ret;
 	}
@@ -189,14 +191,17 @@ public class AdminController {
 	@RequestMapping("/deleteSysUser")
 	@ResponseBody
 	public JsonResultBean<String> deleteSysUser(SysUser user) {
-		int retCount = sysUserService.deleteSysUser(user);
 		JsonResultBean<String> ret = new JsonResultBean<String>();
-		if (retCount > 0) {
-			ret.setRetFlag(true);
-			ret.setRetMsg("用户已删除成功");
-		}else{
-			ret.setRetFlag(false);
-			ret.setRetMsg("用户删除失败，请稍后重试或联系维护人员查看相关数据");
+		if(user!=null){
+			user.setStatus(0);
+			int retCount = sysUserService.deleteSysUser(user);
+			if (retCount > 0) {
+				ret.setRetFlag(true);
+				ret.setRetMsg("用户已删除成功");
+			}else{
+				ret.setRetFlag(false);
+				ret.setRetMsg("用户删除失败，请稍后重试或联系维护人员查看相关数据");
+			}
 		}
 		return ret;
 	}
@@ -319,7 +324,7 @@ public class AdminController {
 		sysConfParam.setParamgroup(paramGroupA);
 		sysConfParam.setParamid(paramIdA);
 		sysConfParam.setStatus(0);
-		int retCount = sysConfParamService.changeSysConfParam(sysConfParam);
+		int retCount = sysConfParamDbService.changeSysConfParam(sysConfParam);
 		JsonResultBean<String> ret = new JsonResultBean<String>(true, null);
 		if (retCount != 1) {
 			ret.setRetFlag(false);
@@ -338,9 +343,11 @@ public class AdminController {
 	@RequestMapping(value = "/chgConfParamInfo")
 	public String chgConfParamInfo(SysConfParam sysConfParam,HttpServletRequest request) {
 		if (sysConfParam != null) {
-			int retCount = sysConfParamService.changeSysConfParam(sysConfParam);
+			int retCount = sysConfParamDbService.changeSysConfParam(sysConfParam);
+			//更新缓存中的数据
+			DictsCache.refreshGroup(sysConfParam.getParamgroup());
 			if (retCount > 0) {
-				
+
 			}else{
 				request.setAttribute("chgConfParamInfoPrompt", "修改字典配置信息出错，请联系管理员检查");
 			}

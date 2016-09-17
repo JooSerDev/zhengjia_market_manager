@@ -8,10 +8,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.joosure.common.base.entity.QryCondBean;
-import com.joosure.manager.mvc.wechat.bean.WxUserCpt;
 import com.joosure.manager.mvc.wechat.bean.dto.ExchangeDetailInfo;
 import com.joosure.manager.mvc.wechat.buz.WxExgBuz;
+import com.joosure.manager.mvc.wechat.common.QryCondBean;
 import com.joosure.manager.mvc.wechat.dao.WxUserCptDao;
 import com.joosure.manager.mvc.wechat.service.WxExgService;
 import com.joosure.server.mvc.wechat.constant.CommonConstant;
@@ -20,6 +19,7 @@ import com.joosure.server.mvc.wechat.dao.database.UserDao;
 import com.joosure.server.mvc.wechat.entity.pojo.Exchange;
 import com.joosure.server.mvc.wechat.entity.pojo.Item;
 import com.joosure.server.mvc.wechat.entity.pojo.User;
+import com.joosure.server.mvc.wechat.entity.pojo.WxUserCpt;
 import com.joosure.server.mvc.wechat.service.ScoreService;
 
 @Component("wxExgBuz")
@@ -139,7 +139,7 @@ public class WxExgBuzImpl implements WxExgBuz {
 		if(charges.contains(CommonConstant.OWN)){
 			userCpt = new WxUserCpt();
 			userCpt.setUserid(exgDetailInfo.getTarget().getUserId());
-			userCpt.setUsernmae(exgDetailInfo.getTarget().getNickname());
+			userCpt.setUsername(exgDetailInfo.getTarget().getNickname());
 			userCpt.setTouserid(exgDetailInfo.getUser().getUserId());
 			userCpt.setTousername(exgDetailInfo.getUser().getNickname());
 			userCpt.setExchangeid(exgDetailInfo.getExchange().getExchangeId());
@@ -154,7 +154,7 @@ public class WxExgBuzImpl implements WxExgBuz {
 		if(charges.contains(CommonConstant.TARGET)){
 			userCpt = new WxUserCpt();
 			userCpt.setUserid(exgDetailInfo.getUser().getUserId());
-			userCpt.setUsernmae(exgDetailInfo.getUser().getNickname());
+			userCpt.setUsername(exgDetailInfo.getUser().getNickname());
 			userCpt.setTouserid(exgDetailInfo.getTarget().getUserId());
 			userCpt.setTousername(exgDetailInfo.getTarget().getNickname());
 			userCpt.setExchangeid(exgDetailInfo.getExchange().getExchangeId());

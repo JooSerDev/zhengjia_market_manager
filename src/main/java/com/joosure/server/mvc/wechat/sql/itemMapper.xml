@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.joosure.server.mvc.wechat.dao.database.ItemDao">
+
+	<insert id="saveItem" keyColumn="itemId" useGeneratedKeys="true"
+		keyProperty="itemId">
+		insert into item_item
+		(name,description,itemType,ownerId,ownerNickname,itemImgNum,itemImgIds,itemImgUrls,itemCenterImgUrls,likeNum,unlikeNum,markNum,isRecommended,recommendedTime,approvalStatus,lockStatus,status,createTime,lastModifyTime,refreshTime,wishItem)
+		values
+		(#{name},#{description},#{itemType},#{ownerId},#{ownerNickname},#{itemImgNum},#{itemImgIds},#{itemImgUrls},#{itemCenterImgUrls},#{likeNum},#{unlikeNum},#{markNum},#{isRecommended},#{recommendedTime},#{approvalStatus},#{lockStatus},#{status},#{createTime},#{lastModifyTime},#{refreshTime},#{wishItem});
+	</insert>
+
+	<update id="updateItem">
+		update item_item set
+		name= #{name}, description=
+		#{description},
+		itemType= #{itemType}, ownerId=
+		#{ownerId},
+		ownerNickname=
+		#{ownerNickname}, itemImgNum= #{itemImgNum},
+		itemImgIds=
+		#{itemImgIds}, itemImgUrls= #{itemImgUrls},
+		itemCenterImgUrls=
+		#{itemCenterImgUrls}, likeNum= #{likeNum},
+		unlikeNum= #{unlikeNum},
+		markNum= #{markNum}, isRecommended=
+		#{isRecommended}, recommendedTime=
+		#{recommendedTime}, approvalStatus=
+		#{approvalStatus}, lockStatus=
+		#{lockStatus}, status= #{status},
+		lastModifyTime= #{lastModifyTime},
+		refreshTime= #{refreshTime},wishItem=#{wishItem} where
+		itemId=
+		#{itemId}
+	</update>
+
+	<select id="getItemById" resultType="com.joosure.server.mvc.wechat.entity.pojo.Item">
+		select * from
+		item_item where
+		itemId = #{itemId};
+	</select>
+
+	<select id="getItemsByOwnerId" resultType="com.joosure.server.mvc.wechat.entity.pojo.Item">
+		select * from
+		item_item where ownerId = #{ownerId} order by refreshTime desc;
+	</select>
+
+	<select id="getExchangeableItemsByOwnerId" resultType="com.joosure.server.mvc.wechat.entity.pojo.Item">
+		select *
+		from
+		item_item where ownerId = #{ownerId} and status = 0 and
+		approvalStatus = 'yes' and lockStatus not like 'exchanged' order by
+		refreshTime desc;
+	</select>
+
+	<select id="getItemsByOwnerIdPages" resultType="com.joosure.server.mvc.wechat.entity.pojo.Item">
+		select * from
+		item_item where ownerId = #{ownerId}
+		order by refreshTime desc limit
+		#{startRow},#{limitSize};
+	</select>
+
+	<select id="getMarketItemsPages" resultType="com.joosure.server.mvc.wechat.entity.pojo.Item">
+		select * from
+		item_item where approvalStatus = 'yes' 
+		 <if test="keyword != null and keyword != ''"> and description like '%${keyword}%' </if>
+		 order by refreshTime desc limit
+		#{startRow},#{limitSize};
+	</select>
+
+	<select id="getItemCommentByItemIdPages"
+		resultType="com.joosure.server.mvc.wechat.entity.pojo.ItemComment">
+		select * from item_item_comment where state = 0 and itemId
+		= #{itemId} order by createTime limit
+		#{startRow},#{limitSize};
+	</select>
+
+	<select id="getItemTypes" resultType="com.joosure.server.mvc.wechat.entity.pojo.ItemType">
+		select * from
+		item_item_type order by sort;
+	</select>
+
+	<insert id="saveExchange" keyColumn="exchangeId" keyProperty="exchangeId"
+		useGeneratedKeys="true">
+		insert into item_exchange
+		(ownerItemId,ownerItemName,ownerId,changerItemId,changerItemName,changerId,state,exchangeFinishStatus,exchangeState,createTime,exchangeTime,exchangeFinishTime)
+		values
+		(#{ownerItemId},#{ownerItemName},#{ownerId},#{changerItemId},#{changerItemName},#{changerId},#{state},#{exchangeFinishStatus},#{exchangeState},#{createTime},#{exchangeTime},#{exchangeFinishTime});
+	</insert>
+
+	<update id="updateExchange">
+		update item_exchange set ownerItemId=
+		#{ownerItemId},
+		ownerItemName= #{ownerItemName}, ownerId= #{ownerId},
+		changerItemId=
+		#{changerItemId}, changerItemName= #{changerItemName},
+		changerId=
+		#{changerId}, state= #{state}, exchangeFinishStatus=
+		#{exchangeFinishStatus}, exchangeState= #{exchangeState},
+		exchangeTime= #{exchangeTime}, exchangeFinishTime=
+		#{exchangeFinishTime} where exchangeId= #{exchangeId};
+	</update>
+
+	<update id="updateExchanges4cancelOthersWhenAgreeExchange">
+		update item_exchange set exchangeState = 'cancel'
+		where (ownerItemId = #{ownerItemId} or ownerItemId = #{changerItemId}
+		or changerItemId = #{changerItemId} or changerItemId = #{ownerItemId})
+		and exchangeId &lt;> #{exchangeId};
+	</update>
+
+	<select id="getExchangeById" resultType="com.joosure.server.mvc.wechat.entity.pojo.Exchange">
+		select * from
+		item_exchange where exchangeId = #{exchangeId};
+	</select>
+
+	<select id="getExchangeByBothSideItemId" resultType="com.joosure.server.mvc.wechat.entity.pojo.Exchange">
+		select *
+		from item_exchange where (ownerItemId = #{ownerItemId} and
+		changerItemId = #{changerItemId}) or (ownerItemId = #{changerItemId}
+		and
+		changerItemId = #{ownerItemId}) limit 1;
+	</select>
+
+	<select id="getExchangesByUserIdPages" resultType="com.joosure.server.mvc.wechat.entity.pojo.Exchange">
+		select * from
+		item_exchange where ownerId = #{userId} or changerId = #{userId} order
+		by createTime desc limit
+		#{startRow},#{limitSize};
+	</select>
+
+	<select id="getExchangesByUserIdInOwnerSidePages" resultType="com.joosure.server.mvc.wechat.entity.pojo.Exchange">
+		select * from
+		item_exchange where ownerId = #{userId} order
+		by
+		createTime
+		desc limit #{startRow},#{limitSize};
+	</select>
+
+	<select id="getExchangesByUserIdInChangerSidePages" resultType="com.joosure.server.mvc.wechat.entity.pojo.Exchange">
+		select * from
+		item_exchange where changerId = #{userId} order
+		by
+		createTime desc limit #{startRow},#{limitSize};
+	</select>
+
+	<insert id="saveItemLike">
+		insert into item_like (itemId,userId) values
+		(#{itemId},#{userId});
+	</insert>
+
+	<select id="getItemLike" resultType="com.joosure.server.mvc.wechat.entity.pojo.ItemLike">
+		select * from item_like
+		where itemId = #{itemId} and
+		userId = #{userId};
+	</select>
+	
+</mapper>

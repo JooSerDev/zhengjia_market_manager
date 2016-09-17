@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.joosure.manager.mvc.wechat.dao.WxUserCptDao">
+	<resultMap id="BaseResultMap" type="com.joosure.server.mvc.wechat.entity.pojo.WxUserCpt">
+		<id column="oId" property="oid" jdbcType="INTEGER" />
+		<result column="userId" property="userid" jdbcType="INTEGER" />
+		<result column="username" property="username" jdbcType="VARCHAR" />
+		<result column="itemId" property="itemid" jdbcType="INTEGER" />
+		<result column="itemName" property="itemname" jdbcType="VARCHAR" />
+		<result column="exchangeId" property="exchangeid" jdbcType="INTEGER" />
+		<result column="toUserId" property="touserid" jdbcType="INTEGER" />
+		<result column="toUserName" property="tousername" jdbcType="VARCHAR" />
+		<result column="addTime" property="addtime" jdbcType="TIMESTAMP" />
+		<result column="message" property="message" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="modifyTime" property="modifytime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		oId, userId, username, itemId, itemName, exchangeId,
+		toUserId, toUserName,
+		addTime,
+		message, `status`, remark, modifyTime
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from wx_user_cpt
+		where oId = #{oid,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		wx_user_cpt
+		where oId = #{oid,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.joosure.server.mvc.wechat.entity.pojo.WxUserCpt">
+		insert into wx_user_cpt (oId,
+		userId, username,
+		itemId, itemName, exchangeId,
+		toUserId, toUserName,
+		addTime,
+		message, `status`, remark,
+		modifyTime)
+		values
+		(#{oid,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER},
+		#{username,jdbcType=VARCHAR},
+		#{itemid,jdbcType=INTEGER},
+		#{itemname,jdbcType=VARCHAR}, #{exchangeid,jdbcType=INTEGER},
+		#{touserid,jdbcType=INTEGER}, #{tousername,jdbcType=VARCHAR},
+		#{addtime,jdbcType=TIMESTAMP},
+		#{message,jdbcType=VARCHAR},
+		#{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR},
+		#{modifytime,jdbcType=TIMESTAMP})
+		
+		insert into wx_user_cpt (userId, username,itemId, itemName, exchangeId,toUserId, 
+		toUserName,addTime,message, status, remark,modifyTime)
+		values(#{userid},#{username},#{itemid},#{itemname}, #{exchangeid},#{touserid}, 
+		#{tousername},#{addtime},#{message},#{status}, #{remark},#{modifytime})
+	</insert>
+	<insert id="insertSelective" parameterType="com.joosure.server.mvc.wechat.entity.pojo.WxUserCpt">
+		insert into wx_user_cpt
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			userId,
+			username,
+			itemId,
+			itemName,
+			exchangeId,
+			toUserId,
+			toUserName,
+			addTime,
+			message,
+			status,
+			remark,
+			modifyTime,
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			#{userid},#{username},#{itemid},#{itemname}, #{exchangeid},#{touserid}, 
+		#{tousername},now(),#{message},1, #{remark},now()
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.joosure.server.mvc.wechat.entity.pojo.WxUserCpt">
+		update wx_user_cpt
+		<set>
+			<if test="userid != null">
+				userId = #{userid,jdbcType=INTEGER},
+			</if>
+			<if test="username != null">
+				username = #{username,jdbcType=VARCHAR},
+			</if>
+			<if test="itemid != null">
+				itemId = #{itemid,jdbcType=INTEGER},
+			</if>
+			<if test="itemname != null">
+				itemName = #{itemname,jdbcType=VARCHAR},
+			</if>
+			<if test="exchangeid != null">
+				exchangeId = #{exchangeid,jdbcType=INTEGER},
+			</if>
+			<if test="touserid != null">
+				toUserId = #{touserid,jdbcType=INTEGER},
+			</if>
+			<if test="tousername != null">
+				toUserName = #{tousername,jdbcType=VARCHAR},
+			</if>
+			<if test="addtime != null">
+				addTime = #{addtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="message != null">
+				message = #{message,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				`status` = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="modifytime != null">
+				modifyTime = #{modifytime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where oId = #{oid,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.joosure.server.mvc.wechat.entity.pojo.WxUserCpt">
+		update wx_user_cpt
+		set userId = #{userid,jdbcType=INTEGER},
+		username =
+		#{username,jdbcType=VARCHAR},
+		itemId = #{itemid,jdbcType=INTEGER},
+		itemName = #{itemname,jdbcType=VARCHAR},
+		exchangeId =
+		#{exchangeid,jdbcType=INTEGER},
+		toUserId =
+		#{touserid,jdbcType=INTEGER},
+		toUserName =
+		#{tousername,jdbcType=VARCHAR},
+		addTime =
+		#{addtime,jdbcType=TIMESTAMP},
+		message = #{message,jdbcType=VARCHAR},
+		`status` = #{status,jdbcType=INTEGER},
+		remark =
+		#{remark,jdbcType=VARCHAR},
+		modifyTime =
+		#{modifytime,jdbcType=TIMESTAMP}
+		where oId = #{oid,jdbcType=INTEGER}
+	</update>
+
+	<sql id="getCptCond">
+		on a.itemId = b.itemId
+		<if test="itemType != null and itemType!=-1">
+			and b.itemType = #{itemType}
+		</if>
+		<if test="itemName !=null and itemName!=''">
+			and a.itemName = #{itemName}
+		</if>
+	</sql>
+
+	<sql id="limitSql">
+		limit #{offset},#{limit}
+	</sql>
+	<!-- 查询被举报的商品 -->
+	<select id="getCptList" parameterType="qryCondBean" resultMap="BaseResultMap">
+		select a.* from wx_user_cpt a join item_item b
+		<include refid="getCptCond" />
+		<include refid="limitSql" />
+	</select>
+
+	<select id="getCptListCount" parameterType="qryCondBean"
+		resultType="java.lang.Integer">
+		select count(1) from wx_user_cpt a join item_item b
+		<include refid="getCptCond" />
+	</select>
+
+</mapper>

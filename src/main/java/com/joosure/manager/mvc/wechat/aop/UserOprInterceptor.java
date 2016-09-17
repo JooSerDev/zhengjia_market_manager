@@ -11,7 +11,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.joosure.manager.mvc.wechat.bean.SysUser;
-import com.joosure.manager.mvc.wechat.service.SysUserOprService;
+import com.joosure.manager.mvc.wechat.service.db.ISysUserOprDbService;
 import com.joosure.server.mvc.wechat.constant.CommonConstant;
 
 public class UserOprInterceptor implements HandlerInterceptor {
@@ -19,7 +19,7 @@ public class UserOprInterceptor implements HandlerInterceptor {
 	private static Logger log = Logger.getLogger(UserOprInterceptor.class);
 
 	@Autowired
-	private SysUserOprService sysUserOprService;
+	private ISysUserOprDbService sysUserOprService;
 	
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object obj, Exception exp) throws Exception {
