@@ -15,10 +15,10 @@ public class DictDbService implements IDictDbService{
 	@Autowired
 	private DictDao dictDao;
 
-	@Override
-	public List<Dict> getScoreEventMap(String string) {
-		return dictDao.getScoreEventMap(string);
-	}
+//	@Override
+//	public List<Dict> getScoreEventMap(String string) {
+//		return dictDao.getScoreEventMap(string);
+//	}
 
 	@Override
 	public List<Dict> getAllDict(Dict cond) {

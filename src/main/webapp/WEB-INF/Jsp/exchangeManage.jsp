@@ -10,7 +10,7 @@
 <jsp:include page="/common/common_css.jsp" />
 <jsp:include page="/common/common_js.jsp" />
 <script
-	src="${pageContext.request.contextPath}/include/pagejs/exchange.js"></script>
+	src="${pageContext.request.contextPath}/fxsj/include/pagejs/exchange.js"></script>
 <style type="text/css">
 body {
 	margin: 0px;
@@ -136,7 +136,7 @@ body {
 			title : '认证状态',
 			formatter : 'finishExgStatusFmt'
 		} ];
-		var oTable = new TableInit("exchangeInfo", columns, null, "${pageContext.request.contextPath}/exg/exgList",
+		var oTable = new TableInit("exchangeInfo", columns, null, "${pageContext.request.contextPath}/fxsj/exg/exgList",
 				queryParamsFunc, onclickRowFunc, true);
 		oTable.Init();
 	}
@@ -150,14 +150,14 @@ body {
 		return temp;
 	}
 	function onclickRowFunc(row) {
-		var url = "${pageContext.request.contextPath}/exg/exgDetail?exchangeId="
+		var url = "${pageContext.request.contextPath}/fxsj/exg/exgDetail?exchangeId="
 				+ row.exchange.exchangeId;
 		$("#content").attr("src", url);
 	}
 	function buttonInitFunc() {
 		$("#btn_query").bind("click", function() {
 			$('#exchangeInfo').bootstrapTable('refresh', {
-				url : '${pageContext.request.contextPath}/exg/exgList'
+				url : '${pageContext.request.contextPath}/fxsj/exg/exgList'
 			});
 		});
 	}

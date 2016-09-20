@@ -35,6 +35,6 @@
 	<bean class="com.shawn.server.core.util.SpringUtil"></bean>
 
 	<import resource="spring-database.xml" />
-	<import resource="spring-quartz.xml" />
+<!-- 	<import resource="spring-quartz.xml" /> -->
 
 </beans>

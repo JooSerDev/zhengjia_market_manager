@@ -30,17 +30,40 @@ public final class CommonConstant {
 	public static final String SCORE_EVENT_ItemInfoNotReal = "SEItemInfoNotReal";//宝贝信息不实
 	public static final String SCORE_EVENT_UserNotReach = "SEUserNotReach";//用户爽约为
 
+	/**
+	 * 每日最大阈值
+	 */
 	public static final int DayMaxScore = 5;//单日某个操作累计积分 阈值
 	
 	public static final String OWN = "owner";
 	public static final String TARGET = "target";
 	
-	public static final String PASSWORD = "88888888";
+	/**
+	 * 用户重置密码所使用的默认密码
+	 */
+	public static final String PASSWORD = "88888888";//默认密码 重置后所使用的密码
 
 	public static final int INT_0 = 0;
 
 	public static final int STATUS_1 = 1;
 
+	/**
+	 * 当前登陆用户 key
+	 */
 	public static final String CurrentSysUser = "CurrentSysUser";
+	
+	
+	/**
+	 * 用户消息类型-收到交易请求
+	 */
+	public static final String UserMsgType_Req = "UserMsgTypeOfRequest";
+	/**
+	 * 用户消息类型-收到交易响应
+	 */
+	public static final String UserMsgType_Rep = "UserMsgTypeOfResponse";
+	/**
+	 * 用户消息类型-物品被审核
+	 */
+	public static final String UserMsgType_Apr = "UserMsgTypeOfApproval";
 	
 }

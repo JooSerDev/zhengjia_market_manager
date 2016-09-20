@@ -32,32 +32,32 @@ body {
 	<div class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container-fluid">
 			<div class="navbar-header">
-<%-- 			href="${pageContext.request.contextPath}/welcome.jsp" --%>
+<%-- 			href="${pageContext.request.contextPath}/fxsj/welcome.jsp" --%>
 				<span class="navbar-brand" onclick="javascript:void(0)"
 					>正佳广场共享市集</span>
 			</div>
 			<div class="collapse navbar-collapse">
 				<ul class="nav navbar-nav" style="margin-left: 40px;" id="mainUl">
 					<li id="li1"><a
-						href="${pageContext.request.contextPath}/item/itemManage?i=1"
+						href="${pageContext.request.contextPath}/fxsj/item/itemManage?i=1"
 						target="content">审核管理</a></li>
-					<li id="li1"><a href="${pageContext.request.contextPath}/exg/exgManage"
+					<li id="li1"><a href="${pageContext.request.contextPath}/fxsj/exg/exgManage"
 						target="content">交易管理</a></li>
 					<!-- userManage -->
-					<li id="li1"><a href="${pageContext.request.contextPath}/wx/userManage"
+					<li id="li1"><a href="${pageContext.request.contextPath}/fxsj/wx/userManage"
 						target="content">用户管理</a></li>
 					<li id="li1" class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown"> 系统管理 <b class="caret"></b>
 					</a>
 						<ul class="dropdown-menu">
 							<li><a target="content"
-								href="${pageContext.request.contextPath}/admin/sysUserManage">管理员管理</a></li>
+								href="${pageContext.request.contextPath}/fxsj/admin/sysUserManage">管理员管理</a></li>
 							<li class="divider"></li>
 							<li><a target="content"
-								href="${pageContext.request.contextPath}/admin/sysConfParamInit">字典管理</a></li>
+								href="${pageContext.request.contextPath}/fxsj/admin/sysConfParamInit">字典管理</a></li>
 							<li class="divider"></li>
 							<li><a target="content"
-								href="${pageContext.request.contextPath}/admin/toChgSysUserInfo">修改密码</a></li>
+								href="${pageContext.request.contextPath}/fxsj/admin/toChgSysUserInfo">修改密码</a></li>
 						</ul></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
@@ -70,7 +70,7 @@ body {
 	<div style="margin: 10px; margin-top: 70px; margin-bottom: 0px;">
 		<iframe id="content" name="content" scrolling="no" frameborder="0"
 			width="100%" height="auto;"
-			src="${pageContext.request.contextPath}/item/itemManage"></iframe>
+			src="${pageContext.request.contextPath}/fxsj/item/itemManage"></iframe>
 	</div>
 	<div class="modal fade" id="loginOutModal" aria-hidden="true">
 		<div class="modal-dialog" style="width: 400px; margin-top: 200px;">
@@ -109,7 +109,7 @@ body {
 		});
 	});
 	function loginOut() {
-		window.location.href = "${pageContext.request.contextPath}/admin/loginout";
+		window.location.href = "${pageContext.request.contextPath}/fxsj/admin/loginout";
 	}
 </script>
 </html>

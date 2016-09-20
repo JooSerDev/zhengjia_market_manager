@@ -101,7 +101,7 @@ var TableInit = function(tableid,columns,toolbarid,url,queryParamsFunc,onclickRo
 					console.log(data);
 				}*/
 				/*if(obj.retCode=="1001"){//表示用户未登陆
-					window.top.location.href = "${pageContext.request.contextPath}/login.jsp"
+					window.top.location.href = "${pageContext.request.contextPath}/fxsj/login.jsp"
 				}*/
 				
 				if(onBstLoadSuccess!=null){
@@ -222,7 +222,7 @@ function itemStateFmt(value){
 		return "已下架";
 	}
 	if(value==0){
-		return "上架中";
+		return "上架";
 	}
 }
 /**

@@ -62,7 +62,7 @@ body {
 				</div>
 				<div class="modal-body">
 					<form class="form-horizontal" method="post" id="addSysUserForm"
-						action="${pageContext.request.contextPath}/admin/addSysUser">
+						action="${pageContext.request.contextPath}/fxsj/admin/addSysUser">
 						<div class="form-group">
 							<label class="control-label col-sm-3" for="loginnameA">管理员昵称</label>
 							<div class="col-sm-6">
@@ -113,7 +113,7 @@ body {
 		initExchangeInfoTale();
 		buttonInitFunc();
 		$('#sysUserInfo').bootstrapTable('refresh', {
-			url : '${pageContext.request.contextPath}/admin/sysUserList'
+			url : '${pageContext.request.contextPath}/fxsj/admin/sysUserList'
 		});
 	});
 	function initExchangeInfoTale() {
@@ -176,7 +176,7 @@ body {
 				return false;
 			}
 			if(confirm("确认删除该用户？删除后无法恢复")){
-				$.get("${pageContext.request.contextPath}/admin/deleteSysUser?id="
+				$.get("${pageContext.request.contextPath}/fxsj/admin/deleteSysUser?id="
 						+ rows[0].id, function(data) {
 					var obj = JSON.parse(data);
 					alert(obj.retMsg);
@@ -191,7 +191,7 @@ body {
 				return false;
 			}
 			if(confirm("是否重置该用户密码")){
-				$.get("${pageContext.request.contextPath}/admin/changeSysUser?id="
+				$.get("${pageContext.request.contextPath}/fxsj/admin/changeSysUser?id="
 							+ rows[0].id + "&salt=" + rows[0].salt,function(data) {
 					var obj = JSON.parse(data);
 					alert(obj.retMsg);
@@ -201,7 +201,7 @@ body {
 		});
 		$("#btn_query").on("click", function() {
 			$('#sysUserInfo').bootstrapTable('refresh', {
-				url : '${pageContext.request.contextPath}/admin/sysUserList'
+				url : '${pageContext.request.contextPath}/fxsj/admin/sysUserList'
 			});
 		});
 	}

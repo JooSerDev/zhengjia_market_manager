@@ -132,7 +132,7 @@ body {
 			formatter : 'dateTimeFormatter'
 		} ];
 		var oTable = new TableInit("wxUserDetail", columns, "toolbar", 
-				"${pageContext.request.contextPath}/wx/userDetailInfo?userId="+userId, null,null,false);
+				"${pageContext.request.contextPath}/fxsj/wx/userDetailInfo?userId="+userId, null,null,false);
 		oTable.Init();
 		var oButtons = new ButtonInit(buttonFunc);
 		oButtons.Init();
@@ -160,6 +160,12 @@ body {
 			title : '宝贝状态',
 			formatter:"itemStateFmt"
 		}, {
+			field : 'lockStatus',
+			align : 'center',
+			valign : 'center',
+			title : '宝贝交易状态',
+			formatter:"itemBuzFmt"
+		}, {
 			field : 'approvalStatus',
 			align : 'center',
 			valign : 'center',
@@ -179,10 +185,10 @@ body {
 		}];
 		/* onRowClk */
 		var oTable = new TableInit("wxUserItem", columns, null, 
-				"${pageContext.request.contextPath}/wx/userItems", queryParamsFunc,
+				"${pageContext.request.contextPath}/fxsj/wx/userItems", queryParamsFunc,
 						null,true);
 		oTable.Init();
-// 		"${pageContext.request.contextPath}/wx/userItems?userId="+userId
+// 		"${pageContext.request.contextPath}/fxsj/wx/userItems?userId="+userId
 	}
 	function queryParamsFunc(params) {
 		var temp = { //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
@@ -193,12 +199,12 @@ body {
 		return temp;
 	}
 	function onRowClk(row){
-		window.location.href="${pageContext.request.contextPath}/item/itemDetail?itemId="+row.itemId;
+		window.location.href="${pageContext.request.contextPath}/fxsj/item/itemDetail?itemId="+row.itemId;
 	}
 	function buttonFunc(){
 		$("#btn_ban").bind("click",function(){
 			if(confirm("确认屏蔽该用户？")){
-				var url = "${pageContext.request.contextPath}/wx/banUser?userId="+userId;
+				var url = "${pageContext.request.contextPath}/fxsj/wx/banUser?userId="+userId;
 				$.get(url,function(data){
 					var retObj = JSON.parse(data);
 					alert(retObj.retMsg);//提示
@@ -209,7 +215,7 @@ body {
 		});
 		$("#btn_ban_cancel").bind("click",function(){
 			if(confirm("解除屏蔽该用户？")){
-				var url = "${pageContext.request.contextPath}/wx/cancelBanUser?userId="+userId;
+				var url = "${pageContext.request.contextPath}/fxsj/wx/cancelBanUser?userId="+userId;
 				$.get(url,function(data){
 					var retObj = JSON.parse(data);
 					alert(retObj.retMsg);//提示
@@ -220,7 +226,7 @@ body {
 		});
 		$("#btn_clear_all").bind("click",function(){
 			if(confirm("确认清除该所有评论记录")){
-				var url = "${pageContext.request.contextPath}/wx/clearAllCmt?userId="+userId;
+				var url = "${pageContext.request.contextPath}/fxsj/wx/clearAllCmt?userId="+userId;
 				$.get(url,function(data){
 					var retObj = JSON.parse(data);
 					alert(retObj.retMsg);//提示

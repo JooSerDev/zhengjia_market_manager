@@ -9,6 +9,6 @@
 <body>
 </body>
 <script>
-	window.top.location.href = "${pageContext.request.contextPath}/admin/home";
+	window.top.location.href = "${pageContext.request.contextPath}/fxsj/admin/home";
 </script>
 </html>

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.joosure.manager.mvc.wechat.bean.SysUser;
 import com.joosure.manager.mvc.wechat.common.QryCondBean;
 import com.joosure.manager.mvc.wechat.dao.SysUserDao;
-import com.joosure.manager.mvc.wechat.service.ISysUserDbService;
+import com.joosure.manager.mvc.wechat.service.db.ISysUserDbService;
 
 @Service("sysUserDbService")
 public class SysUserDbService implements ISysUserDbService{

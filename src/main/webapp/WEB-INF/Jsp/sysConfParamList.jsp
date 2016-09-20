@@ -34,7 +34,7 @@ body {
 		style="width: auto; height: auto; margin-left: auto; margin-right: auto;">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<form action="${pageContext.request.contextPath}/admin/chgConfParamInfo"
+				<form action="${pageContext.request.contextPath}/fxsj/admin/chgConfParamInfo"
 					method="post" class="form-horizontal" id="chgConfForm"
 					style="margin-left: 10px;">
 					<p id="loginPrompt">
@@ -107,7 +107,7 @@ body {
 		initEvent();
 		initSysConfParamListTale();
 	});
-	/* ${pageContext.request.contextPath}/admin/showParamsInfo */
+	/* ${pageContext.request.contextPath}/fxsj/admin/showParamsInfo */
 	function initSysConfParamListTale() {
 		var columns = [ {
 			radio : true
@@ -156,7 +156,7 @@ body {
 			formatter : 'statusFmt'
 		} ];
 		var oTable = new TableInit("confParamInfo", columns, "toolbar",
-				"${pageContext.request.contextPath}/admin/showParamsInfo",
+				"${pageContext.request.contextPath}/fxsj/admin/showParamsInfo",
 				queryParamsFunc, null, true);
 		oTable.Init();
 

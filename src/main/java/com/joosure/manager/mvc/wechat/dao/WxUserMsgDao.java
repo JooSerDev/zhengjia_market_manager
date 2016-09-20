@@ -50,4 +50,8 @@ public interface WxUserMsgDao {
      * @ibatorgenerated 2016-09-14 14:33:22
      */
     int updateByPrimaryKey(WxUserMsg record);
+
+	WxUserMsg getById(WxUserMsg wxUserMsg);
+
+	int deleteById(WxUserMsg record);
 }

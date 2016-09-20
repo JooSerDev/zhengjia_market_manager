@@ -12,7 +12,7 @@ body {
 	background-color: #2B3E50;
 	margin: 0px;
 	padding: 0px;
-	background-image: url("${pageContext.request.contextPath}/bak/background.jpg");
+	background-image: url("${pageContext.request.contextPath}/fxsj/bak/background.jpg");
 }
 </style>
 </head>

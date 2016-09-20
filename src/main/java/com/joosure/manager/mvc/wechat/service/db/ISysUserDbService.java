@@ -1,4 +1,4 @@
-package com.joosure.manager.mvc.wechat.service;
+package com.joosure.manager.mvc.wechat.service.db;
 
 import java.util.List;
 

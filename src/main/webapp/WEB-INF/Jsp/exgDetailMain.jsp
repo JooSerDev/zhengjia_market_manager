@@ -8,7 +8,7 @@
 <jsp:include page="/common/common_css.jsp" />
 <jsp:include page="/common/common_js.jsp" />
 <script
-	src="${pageContext.request.contextPath}/include/pagejs/exchange.js"></script>
+	src="${pageContext.request.contextPath}/fxsj/include/pagejs/exchange.js"></script>
 <style type="text/css">
 * {
 	border-radius: 0;
@@ -25,21 +25,21 @@
 				<div class="row">
 					<div class="form-group">
 						<label class="col-md-4 ">甲方昵称：</label> <a class="col-md-4"
-							href="${pageContext.request.contextPath}/wx/showUserInfo?userId=${exgDetail.exchange.ownerId}"
+							href="${pageContext.request.contextPath}/fxsj/wx/showUserInfo?userId=${exgDetail.exchange.ownerId}"
 							data-target="#detailInfo" data-toggle="modal">${exgDetail.user.nickname}</a>
 						<label class="col-md-4 ">商品名称：</label> <a class="col-md-4"
 							data-target="#detailInfo" data-toggle="modal"
-							href="${pageContext.request.contextPath}/item/showItemInfo?itemId=${exgDetail.exchange.ownerItemId}">${exgDetail.exchange.ownerItemName}</a>
+							href="${pageContext.request.contextPath}/fxsj/item/showItemInfo?itemId=${exgDetail.exchange.ownerItemId}">${exgDetail.exchange.ownerItemName}</a>
 					</div>
 					<div class="form-group" id="userItemImgs" style="margin-left: 5px;"></div>
 					<hr>
 					<div class="form-group">
 						<label class="col-md-4 ">乙方昵称：</label> <a class="col-md-4"
 							data-target="#detailInfo" data-toggle="modal"
-							href="${pageContext.request.contextPath}/wx/showUserInfo?userId=${exgDetail.exchange.changerId}">${exgDetail.target.nickname}</a>
+							href="${pageContext.request.contextPath}/fxsj/wx/showUserInfo?userId=${exgDetail.exchange.changerId}">${exgDetail.target.nickname}</a>
 						<label class="col-md-4 ">商品名称：</label> <a class="col-md-4"
 							data-target="#detailInfo" data-toggle="modal"
-							href="${pageContext.request.contextPath}/item/showItemInfo?itemId=${exgDetail.exchange.changerItemId}">${exgDetail.exchange.changerItemName}</a>
+							href="${pageContext.request.contextPath}/fxsj/item/showItemInfo?itemId=${exgDetail.exchange.changerItemId}">${exgDetail.exchange.changerItemName}</a>
 					</div>
 					<div id="targetItemImgs" class="form-group"
 						style="margin-left: 5px;"></div>
@@ -144,7 +144,7 @@
 							var exchangeId = '${exgDetail.exchange.exchangeId}';
 							$
 									.get(
-											"${pageContext.request.contextPath}/exg/exgFaceSuccess?exchangeId=${exgDetail.exchange.exchangeId}",
+											"${pageContext.request.contextPath}/fxsj/exg/exgFaceSuccess?exchangeId=${exgDetail.exchange.exchangeId}",
 											function(data) {
 												alert(JSON.parse(data).retMsg);
 												$("#btnExgSus").attr(
@@ -156,10 +156,10 @@
 														.bootstrapTable(
 																'refresh');
 												/* , {
-													url : '${pageContext.request.contextPath}/exg/exgList'
+													url : '${pageContext.request.contextPath}/fxsj/exg/exgList'
 												} */
 												window.close();
-												//window.location.href = "${pageContext.request.contextPath}/exg/exgDetail?exchangeId="+exchangeId;
+												//window.location.href = "${pageContext.request.contextPath}/fxsj/exg/exgDetail?exchangeId="+exchangeId;
 											});
 						});
 		//取消处理，隐藏复选框选项
@@ -178,7 +178,7 @@
 								var sendData = $("#dealFailForm").serialize();
 								$
 										.get(
-												"${pageContext.request.contextPath}/exg/exgFaceFail?exchangeId=${exgDetail.exchange.exchangeId}",
+												"${pageContext.request.contextPath}/fxsj/exg/exgFaceFail?exchangeId=${exgDetail.exchange.exchangeId}",
 												sendData,
 												function(data) {
 													alert(JSON.parse(data).retMsg);
@@ -195,7 +195,7 @@
 															.bootstrapTable(
 																	'refresh',
 																	{
-																		url : '${pageContext.request.contextPath}/exg/exgList'
+																		url : '${pageContext.request.contextPath}/fxsj/exg/exgList'
 																	});
 													window.close();
 												});
@@ -256,7 +256,7 @@
 	}
 	function initModal() {
 		/* $("#detailInfo").on('shown.bs.modal',function(){
-			var url = "${pageContext.request.contextPath}/Jsp/showUserInfo.jsp?userId=${exgDetail.exchange.changerId}";
+			var url = "${pageContext.request.contextPath}/fxsj/Jsp/showUserInfo.jsp?userId=${exgDetail.exchange.changerId}";
 			$(this).load(url);
 			console.log('modal has show');
 		}) */

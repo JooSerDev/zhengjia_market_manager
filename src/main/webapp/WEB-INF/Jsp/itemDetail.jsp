@@ -177,7 +177,7 @@ body {
 			title : '宝贝描述'
 		} ];
 		var oTable = new TableInit("itemDetail", columns, "toolbar",
-				"${pageContext.request.contextPath}/item/itemDetailInfo?itemId="
+				"${pageContext.request.contextPath}/fxsj/item/itemDetailInfo?itemId="
 						+ itemId, null, null, false, onBstLoadSuccess);
 		oTable.Init();
 		var oButtons = new ButtonInit(buttonFunc);
@@ -246,10 +246,10 @@ body {
 								var param = {
 									itemId : item.itemId,
 								}
-								$.get("${pageContext.request.contextPath}/item/forceToDowm",param,function(data) {
+								$.get("${pageContext.request.contextPath}/fxsj/item/forceToDowm",param,function(data) {
 									var obj = JSON.parse(data);
 									alert(obj.retMsg);
-									window.location.href = "${pageContext.request.contextPath}/item/itemDetail?itemId="
+									window.location.href = "${pageContext.request.contextPath}/fxsj/item/itemDetail?itemId="
 											+ param.itemId
 								});
 							}
@@ -285,11 +285,11 @@ body {
 									isRecommended : rcm,
 									approvalMsg : $("#chkFailMsg").val()
 								}
-								$.get("${pageContext.request.contextPath}/item/approvalItem",param, function(data) {
+								$.get("${pageContext.request.contextPath}/fxsj/item/approvalItem",param, function(data) {
 									var obj = JSON.parse(data);
 									alert(obj.retMsg);
 									history.go(-1);
-									/* 	window.location.href = "${pageContext.request.contextPath}/item/itemDetail?itemId="
+									/* 	window.location.href = "${pageContext.request.contextPath}/fxsj/item/itemDetail?itemId="
 												+ param.itemId */
 								});
 							}
