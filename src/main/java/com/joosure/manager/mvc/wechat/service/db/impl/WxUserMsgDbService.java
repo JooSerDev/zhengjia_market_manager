@@ -85,6 +85,46 @@ public class WxUserMsgDbService implements IWxUserMsgDbService{
 		return changeCount(msgType,userId,true);
 	}
 
+	/**
+	 * 一次阅读同一类型的消息
+	 * @param msgType
+	 * @param userId
+	 * @return
+	 */
+	public int readSameTypeMsg(String msgType,int userId){
+		if(msgType==null){
+			return -1;//失败吧
+		}
+		WxUserMsg cond = new WxUserMsg();
+		cond.setUserid(userId);
+		WxUserMsg msg = wxUserMsgDao.getById(cond);
+		if(msg !=null && msg.getUserid() !=null){
+			String[] msgTypes = msg.getMsgtype().split(",");
+			String[] msgCounts = msg.getMsgcount().split(",");
+			for(int i=0;i<msgTypes.length;i++){
+				if(msgType.equals(msgTypes[i])){
+					String countStr = msgCounts[i].trim();
+					if(countStr!=null || "".equals(countStr)){
+						int count = Integer.parseInt(countStr);
+						msgCounts[i] = "0";  //该类型的消息 全部阅读完
+						msg.setTotal(msg.getTotal()-count);
+						break;
+					}
+				}
+			}
+			StringBuffer sb = new StringBuffer();
+			for(int i=0;i<msgCounts.length;i++){
+				if(i<msgCounts.length-1){
+					sb.append(msgCounts[i].trim()+",");
+				}else{
+					sb.append(msgCounts[i]);
+				}
+			}
+			msg.setMsgcount(sb.toString());
+			return wxUserMsgDao.updateByPrimaryKeySelective(msg);
+		}
+		return 0;
+	}
 
 	/**
 	 * 更改 消息数量

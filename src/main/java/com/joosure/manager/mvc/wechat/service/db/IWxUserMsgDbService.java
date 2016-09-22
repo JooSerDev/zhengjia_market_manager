@@ -54,4 +54,12 @@ public interface IWxUserMsgDbService {
 	 * @return
 	 */
 	public int readWxUserMsg(String msgType,int userId);
+	
+	/**
+	 * 一次阅读同一类型的消息
+	 * @param msgType
+	 * @param userId
+	 * @return
+	 */
+	public int readSameTypeMsg(String msgType,int userId);
 }
