@@ -14,6 +14,7 @@ import com.joosure.manager.mvc.wechat.service.WxUserService;
 import com.joosure.manager.mvc.wechat.service.db.IWxItemDbService;
 import com.joosure.manager.mvc.wechat.service.db.IWxUserCptDbService;
 import com.joosure.manager.mvc.wechat.service.db.IWxUserDbService;
+import com.joosure.manager.mvc.wechat.service.db.IWxUserMsgDbService;
 import com.joosure.server.mvc.wechat.constant.CommonConstant;
 import com.joosure.server.mvc.wechat.entity.pojo.Item;
 import com.joosure.server.mvc.wechat.entity.pojo.User;
@@ -34,6 +35,9 @@ public class WxItemServiceImpl implements WxItemService{
 	private IWxUserDbService wxUserDbService;
 	@Autowired
 	private IUserDbService userDbService;
+	
+	@Autowired
+	private IWxUserMsgDbService wxUserMsgDbService;
 	
 	
 	
@@ -100,6 +104,9 @@ public class WxItemServiceImpl implements WxItemService{
 		if(temp!=null){
 			if("wait".endsWith(temp.getApprovalStatus())){//如果是已经审核的则不进行审核
 				ret = wxItemDao.approvalItem(item);
+				//modify by Ted 20160923 审核之后进行 消息通知
+				wxUserMsgDbService.receiveWxUserMsg(CommonConstant.UserMsgType_Apr, temp.getOwnerId());
+				
 				if(ret>0){
 					scoreService.updateScoreByEvent(item.getOwnerId(), 
 							CommonConstant.SCORE_EVENT_APPROVAL);

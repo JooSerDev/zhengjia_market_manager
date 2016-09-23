@@ -62,4 +62,11 @@ public interface IWxUserMsgDbService {
 	 * @return
 	 */
 	public int readSameTypeMsg(String msgType,int userId);
+	
+	/**
+	 * 一次性阅读所有消息 ，即将记录清除
+	 * @param userId
+	 * @return
+	 */
+	public int readAllMsgs(Integer userId);
 }

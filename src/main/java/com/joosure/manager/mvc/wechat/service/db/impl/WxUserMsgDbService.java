@@ -85,6 +85,24 @@ public class WxUserMsgDbService implements IWxUserMsgDbService{
 		return changeCount(msgType,userId,true);
 	}
 
+	
+	/**
+	 * 一次性阅读所有消息 ，即将记录清除
+	 * @param userId
+	 * @return
+	 */
+	public int readAllMsgs(Integer userId){
+		if(userId != null){
+			WxUserMsg cond = new WxUserMsg();
+			cond.setUserid(userId);
+			WxUserMsg msg = wxUserMsgDao.getById(cond);
+			if(msg != null){
+				return wxUserMsgDao.deleteById(msg);
+			}
+		}
+		return 0;
+	}
+	
 	/**
 	 * 一次阅读同一类型的消息
 	 * @param msgType
