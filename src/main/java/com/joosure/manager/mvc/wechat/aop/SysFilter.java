@@ -101,7 +101,10 @@ public class SysFilter implements Filter {
 	}
 
 	public boolean isExclude(String path) {
-		if (path.endsWith(".png") || path.endsWith(".css") || path.endsWith(".js") || path.endsWith(".jpg") || path.endsWith("temp.jsp")) {
+		if(path.endsWith(".png") || path.endsWith(".css") || path.endsWith(".js") || path.endsWith(".jpg") || path.endsWith("temp.jsp")) {
+			return true;
+		}
+		if(path.startsWith("/itf/")){
 			return true;
 		}
 		return false;

@@ -1,6 +1,7 @@
 package com.joosure.manager.mvc.wechat.common;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class QryCondBean implements Serializable{
 
@@ -11,6 +12,8 @@ public class QryCondBean implements Serializable{
 	private Integer limit = DEFAULT_SIZE;// 每页大小
 	private Integer offset = 0;// 偏移，起始位置
 	private Integer pageNum = 1;// 第几页
+	private Date startTime;
+	private Date endTime;
 	
 	private Integer exchangeId;//交易号
 	private Integer userId;//用户标识
@@ -168,5 +171,17 @@ public class QryCondBean implements Serializable{
 
 	public void setApprovalStatus(String approvalStatus) {
 		this.approvalStatus = approvalStatus;
+	}
+	public Date getStartTime() {
+		return startTime;
+	}
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
+	}
+	public Date getEndTime() {
+		return endTime;
+	}
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
 	}
 }

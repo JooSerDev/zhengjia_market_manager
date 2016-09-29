@@ -9,11 +9,16 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.joosure.server.mvc.wechat.constant.CommonConstant;
+import com.shawn.server.core.util.EncryptUtil;
 
 public class ManagerUtils {
 
 	private static final String KEY_SHA_256 = "SHA-256";
+	
+	private static Logger log = Logger.getLogger(ManagerUtils.class);
 
 	/**
 	 * SHA-256 加密
@@ -38,9 +43,25 @@ public class ManagerUtils {
 		try {
 			return encryptBySHA256(CommonConstant.PASSWORD,salt);
 		} catch (NoSuchAlgorithmException e) {
-			//log
+			log.error("getDefaultPass error:"+e.getMessage());
 		}
 		return "";
+	}
+	
+	/**
+	 * 对申请名称 和 时间戳  先进行 base64加密，然后进行sha-1 加密
+	 * @param applyName
+	 * @return
+	 */
+	public static String encryptAppId(String applyName){
+		String encryptStr = applyName+new Date().getTime();
+		String base64Str = EncryptUtil.encryptBASE64(encryptStr.getBytes());
+		try {
+			return EncryptUtil.encryptSHA(base64Str).toString();
+		} catch (Exception e) {
+			log.error("encryptAppId error:"+e.getMessage());
+		}
+		return null;
 	}
 	
 	/**

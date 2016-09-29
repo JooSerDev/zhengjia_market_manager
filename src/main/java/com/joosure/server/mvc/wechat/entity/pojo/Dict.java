@@ -12,13 +12,10 @@ public class Dict {
 	private int status;
 	private Date updateTime;
 	private String paramvalue;
-	public String getParamvalue() {
-		return paramvalue;
-	}
-	public void setParamvalue(String paramvalue) {
-		this.paramvalue = paramvalue;
-	}
 	private String memo;
+	
+	public static final Long Expires = 7200L;
+	public static final Long Redundance = 200*1000L;
 	
 	public String getParamId() {
 		return paramId;
@@ -67,5 +64,11 @@ public class Dict {
 	}
 	public void setAddTime(Date addTime) {
 		this.addTime = addTime;
+	}
+	public String getParamvalue() {
+		return paramvalue;
+	}
+	public void setParamvalue(String paramvalue) {
+		this.paramvalue = paramvalue;
 	}
 }

@@ -8,19 +8,6 @@
 		<typeAlias alias="qryCondBean" type="com.joosure.manager.mvc.wechat.common.QryCondBean"/>
 	</typeAliases>
 
-	<!-- - - - - - - 懒加载和缓存 - - - - - - - - - - -->
-	<!-- <settings>
-		<setting name="cacheEnabled" value="true" />
-		<setting name="lazyLoadingEnabled" value="true" />
-		<setting name="aggressiveLazyLoading" value="false" />
-	</settings> -->
-	<!-- - - - - - - - 物理分页拦截器 - - - - - - - -->
-	<!-- <plugins>
-		<plugin interceptor="ibator.dialect.tool.ResultSetInterceptor" />
-		<plugin interceptor="ibator.dialect.tool.StatementInterceptor">
-			<property name="dialect" value="ibator.dialect.MySQLDialect" />
-		</plugin>
-	</plugins> -->
 	<!-- - - - - - - -映射文件路径- - - - - - -->
 	<mappers>
 		<mapper resource="com/joosure/manager/mvc/wechat/sql/SysConfParamMapper.xml" />
@@ -34,6 +21,8 @@
 		<mapper resource="com/joosure/manager/mvc/wechat/sql/WxUserMsgMapper.xml"/>
 		
 		<mapper resource="com/joosure/manager/mvc/wechat/sql/tasksMapper.xml" />
+		
+		<mapper resource="com/joosure/manager/mvc/wechat/sql/ItfTokenAppMapper.xml" />
 		
 		<mapper resource="com/joosure/server/mvc/wechat/sql/dictMapper.xml" />
 		<mapper resource="com/joosure/server/mvc/wechat/sql/scoreMapper.xml" />
