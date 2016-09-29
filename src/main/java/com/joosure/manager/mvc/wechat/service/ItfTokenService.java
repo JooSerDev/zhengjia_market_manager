@@ -20,4 +20,9 @@ public interface ItfTokenService {
 
 	int insertTokenLog(ItfTokenLog tokenLog);
 
+	int updateTokenApp(ItfTokenApp cond);
+
+	List<ItfTokenLog> getTokenLogByPage(ItfTokenLog cond);
+
+	int getTokenLogCount(ItfTokenLog cond);
 }

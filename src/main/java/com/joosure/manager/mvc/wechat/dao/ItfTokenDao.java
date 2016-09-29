@@ -38,7 +38,7 @@ public interface ItfTokenDao {
 	/****** 以上为 tokenApp， 以下为 tokenApp 的访问记录  tokenTokenLog *******/
 	
 	
-	ItfTokenLog getTokenAppLogByPage(ItfTokenLog cond);
+	List<ItfTokenLog> getTokenAppLogByPage(ItfTokenLog cond);
 	
 	int getTokenAppLogCountByPage(ItfTokenLog cond);
 	

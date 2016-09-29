@@ -33,6 +33,15 @@ body {
 						<div class="col-sm-2">
 							<input type="text" class="form-control" name="applyName" id="applyName">
 						</div>
+						<label class="control-label col-sm-1" for="status">状态</label>
+						<div class="col-sm-2">
+							<select id="status" name="status" class="form-control col-sm-2">
+								<option value="">全部</option>
+								<option value="normal" selected>正常</option>
+								<option value="deleted" >已删除</option>
+								
+							</select>
+						</div>
 						<div class="col-sm-2" style="text-align: left;">
 							<button type="button" style="margin-left: 50px" id="btn_query"
 								class="btn btn-primary">查询</button>
@@ -160,6 +169,7 @@ body {
 			offset : params.offset, //页码
 			appId:$("#appId").val(),
 			applyName:$("#applyName").val(),
+			status:$("#status").val()
 		};
 		return temp;
 	}
@@ -171,15 +181,19 @@ body {
 		});
 		$("#btnDelete").bind("click",function(){
 			var row = $("#itfTokenApp").bootstrapTable('getSelections');
-			if(row.length==0 || row[0].status == 'deleted'){
-				alert("请选择要删除的 appId");
+			if(row.length==0 ){
+				alert("请选择要删除的 记录");
+				return false;
+			}
+			if(row[0].status == 'deleted'){
+				alert("请选择状态为normal 的记录");
 				return false;
 			}
 			if(confirm("确认删除该 appId ?")){
 				var param = {
-						appId:row.appId
+						appId:row[0].appId
 				}
-				$.get('${pageContext.request.contextPath}/itfToken/addTokenApp', param,function(data){
+				$.get('${pageContext.request.contextPath}/itfToken/deleteTokenApp', param,function(data){
 					var obj = JSON.parse(data);
 					alert(obj.retMsg);
 					$("#btn_query").click();

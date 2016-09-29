@@ -63,6 +63,9 @@
 			<if test="remark != null">
 				remark = #{remark},
 			</if>
+			<if test="invalidTime != null">
+				invalidTime = #{invalidTime},
+			</if>
 			updatetime=now(),
 		</set>
 		where appId = #{appId}

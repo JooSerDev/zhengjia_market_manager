@@ -45,4 +45,18 @@ public class ItfTokenServiceImpl implements ItfTokenService{
 		return itfTokenDao.insertTokenAppLog(tokenLog);
 	}
 
+	@Override
+	public int updateTokenApp(ItfTokenApp cond) {
+		return itfTokenDao.updateTokenApp(cond);
+	}
+
+	@Override
+	public List<ItfTokenLog> getTokenLogByPage(ItfTokenLog cond) {
+		return itfTokenDao.getTokenAppLogByPage(cond);
+	}
+	
+	public int getTokenLogCount(ItfTokenLog cond){
+		return itfTokenDao.getTokenAppLogCountByPage(cond);
+	}
+
 }
