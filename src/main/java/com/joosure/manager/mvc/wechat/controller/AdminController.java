@@ -61,7 +61,7 @@ public class AdminController {
 		// 先检查是否存在该id，若不存在则提示账号或密码错误；若存在则取得盐和密文密码，并且进行加密比较
 		response.setCharacterEncoding("utf8");
 		SysUser sysUser = sysUserService.getUserById(loginId);
-		if (sysUser != null) {
+		if (sysUser != null && sysUser.getStatus()!=null && sysUser.getStatus().equals(1)) {
 			SysUser loginUser = (SysUser) request.getSession().getAttribute(CommonConstant.CurrentSysUser);
 			if (loginUser != null) {
 				if (sysUser.getLoginid().equals(loginUser.getLoginid())) {
