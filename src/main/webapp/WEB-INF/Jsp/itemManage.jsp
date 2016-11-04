@@ -10,7 +10,7 @@
 <title>宝贝审核</title>
 <jsp:include page="/common/common_css.jsp" />
 <jsp:include page="/common/common_js.jsp" />
-<script src="${pageContext.request.contextPath}/fxsj/include/pagejs/wxItem.js"></script>
+<script src="${pageContext.request.contextPath}/include/pagejs/wxItem.js"></script>
 <style type="text/css">
 body {
 	margin: 0px;
@@ -73,7 +73,7 @@ body {
 		$("#offenseItemsDiv").hide();
 		itemTypeInit();
 // 		$("itemsInfo").bootstrapTable('refresh',{
-// 			url:'${pageContext.request.contextPath}/fxsj/item/itemList'
+// 			url:'${pageContext.request.contextPath}/item/itemList'
 // 		});
 		$("#btn_query").click();
 	});
@@ -129,7 +129,7 @@ body {
 			title : '宝贝交易状态',
 			formatter:'itemBuzFmt'
 		} ];
-// 		${pageContext.request.contextPath}/fxsj/item/itemList
+// 		${pageContext.request.contextPath}/item/itemList
 		var oTable = new TableInit("itemsInfo", columns, null, null,
 				queryParamsFunc, onclickRowFunc,true,onBstLoadSuccess);
 		oTable.Init();
@@ -193,12 +193,12 @@ body {
 	}
 	function onclickRowFunc(row) {
 		if(row!=null){
-			window.location.href = "${pageContext.request.contextPath}/fxsj/item/itemDetail?itemId="+row.itemId;
+			window.location.href = "${pageContext.request.contextPath}/item/itemDetail?itemId="+row.itemId;
 		}
 	}
 	function onclickRowFuncOffsense(row) {
 		if(row!=null){
-			window.location.href = "${pageContext.request.contextPath}/fxsj/item/itemDetail?itemId="+row.itemid;
+			window.location.href = "${pageContext.request.contextPath}/item/itemDetail?itemId="+row.itemid;
 		}
 	}
 	function buttonInitFunc() {
@@ -214,7 +214,7 @@ body {
 				showTableId = "itemsInfo";
 			}
 			$('#'+showTableId).bootstrapTable('refresh', {
-				url : '${pageContext.request.contextPath}/fxsj/item/itemList'
+				url : '${pageContext.request.contextPath}/item/itemList'
 			});
 		});
 	}
@@ -222,7 +222,7 @@ body {
 	function itemTypeInit(){
 		$("#itemType").empty();
 		$("#itemType").append('<option value="-1">全部</option>');
-		$.get('${pageContext.request.contextPath}/fxsj/item/itemTypes',function(data){
+		$.get('${pageContext.request.contextPath}/item/itemTypes',function(data){
 			var obj = JSON.parse(data);
 			var itemTypes = obj.resultList;
 			$.each(itemTypes,function(index,value){

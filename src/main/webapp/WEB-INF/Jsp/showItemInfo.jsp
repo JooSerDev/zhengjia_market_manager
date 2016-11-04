@@ -110,7 +110,7 @@ body {
 			title : '期望交换物'
 		}];
 		var oTable = new TableInit("itemDetail", columns, null,
-				"${pageContext.request.contextPath}/fxsj/item/itemDetailInfo?itemId="
+				"${pageContext.request.contextPath}/item/itemDetailInfo?itemId="
 						+ itemId, null, null, false, onBstLoadSuccess);
 		oTable.Init();
 	}

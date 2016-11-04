@@ -8,7 +8,7 @@
 <jsp:include page="/common/common_css.jsp" />
 <jsp:include page="/common/common_js.jsp" />
 <script
-	src="${pageContext.request.contextPath}/fxsj/include/pagejs/exchange.js"></script>
+	src="${pageContext.request.contextPath}/include/pagejs/exchange.js"></script>
 <style type="text/css">
 body {
 	margin: 0px;
@@ -126,7 +126,7 @@ body {
 			formatter : 'exgStatusFmt'
 		} ];
 		var oTable = new TableInit("exchangeInfo", columns, null,
-				"${pageContext.request.contextPath}/fxsj/exg/exgList",
+				"${pageContext.request.contextPath}/exg/exgList",
 				queryParamsFunc, onclickRowFunc, true);
 		oTable.Init();
 	}
@@ -146,7 +146,7 @@ body {
 				.on(
 						'shown.bs.modal',
 						function() {
-							var url = "${pageContext.request.contextPath}/fxsj/exg/exgDetail?exchangeId="
+							var url = "${pageContext.request.contextPath}/exg/exgDetail?exchangeId="
 									+ row.exchange.exchangeId;
 							$(this).load(url);
 							console.log('modal has show');
@@ -156,7 +156,7 @@ body {
 	function buttonInitFunc() {
 		$("#btn_query").bind("click", function() {
 			$('#exchangeInfo').bootstrapTable('refresh', {
-				url : '${pageContext.request.contextPath}/fxsj/exg/exgList'
+				url : '${pageContext.request.contextPath}/exg/exgList'
 			});
 		});
 	}

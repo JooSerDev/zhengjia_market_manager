@@ -19,7 +19,7 @@ body {
 <body>
 	<div class="container" style="margin-top:100px;">
 		<div class="jumbotron" style="align:center;width:500px;margin-left:auto;margin-right:auto">
-			<form action="${pageContext.request.contextPath}/fxsj/admin/chgSysUserInfo" 
+			<form action="${pageContext.request.contextPath}/admin/chgSysUserInfo" 
 					method="post" id="chgSysUserInfoForm" class="form-horizontal" >
 				<p id="chgPrompt" align="center"><font size="1" color="red">${prompt}</font></p>
 				<div class="form-group">
@@ -55,7 +55,7 @@ body {
 						<button type="submit" class="btn btn-primary ">提交</button>
 					</div>
 					<div class="col-sm-3 col-xs-4">
-						<a href="${pageContext.request.contextPath}/fxsj/welcome.jsp" class="btn btn-default">取消</a>
+						<a href="${pageContext.request.contextPath}/welcome.jsp" class="btn btn-default">取消</a>
 					</div>
 				</div>
 			</form>

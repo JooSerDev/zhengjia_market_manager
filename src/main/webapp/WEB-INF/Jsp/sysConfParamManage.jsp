@@ -69,7 +69,7 @@ body {
 				<div class="modal-body">
 					<form class="form-horizontal" method="post"
 						id="addSysConfParamForm"
-						action="${pageContext.request.contextPath}/fxsj/admin/addSysConfParam">
+						action="${pageContext.request.contextPath}/admin/addSysConfParam">
 						<div class="form-group">
 							<label class="control-label col-sm-3" for="paramGroupA">所属组Id</label>
 							<div class="col-sm-6">
@@ -141,7 +141,7 @@ body {
 										.bootstrapTable(
 												'refresh',
 												{
-													url : '${pageContext.request.contextPath}/fxsj/admin/showParamsInfo'
+													url : '${pageContext.request.contextPath}/admin/showParamsInfo'
 												});
 							});
 			$("#btn_delete")
@@ -164,7 +164,7 @@ body {
 								};
 								$
 										.post(
-												"${pageContext.request.contextPath}/fxsj/admin/changeSysConfParam",
+												"${pageContext.request.contextPath}/admin/changeSysConfParam",
 												sendData, function(data) {
 													var obj = JSON.parse(data);
 													if (!obj.retFlag) {

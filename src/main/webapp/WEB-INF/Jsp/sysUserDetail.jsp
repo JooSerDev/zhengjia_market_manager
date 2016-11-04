@@ -133,7 +133,7 @@ body {
 		} ];
 		var pagination = false;
 		var oTable = new TableInit("wxUserDetail", columns, "toolbar", 
-				"${pageContext.request.contextPath}/fxsj/wx/userDetailInfo?userId="+userId, null,null,pagination);
+				"${pageContext.request.contextPath}/wx/userDetailInfo?userId="+userId, null,null,pagination);
 		oTable.Init();
 		var oButtons = new ButtonInit(buttonFunc);
 		oButtons.Init();
@@ -177,16 +177,16 @@ body {
 		}];
 		var pagenation = true;
 		var oTable = new TableInit("wxUserItem", columns, null, 
-				"${pageContext.request.contextPath}/fxsj/wx/userItems?userId="+userId, null,onRowClk,pagenation);
+				"${pageContext.request.contextPath}/wx/userItems?userId="+userId, null,onRowClk,pagenation);
 		oTable.Init();
 	}
 	function onRowClk(row){
-		window.location.href="${pageContext.request.contextPath}/fxsj/item/itemDetail?itemId="+row.itemId;
+		window.location.href="${pageContext.request.contextPath}/item/itemDetail?itemId="+row.itemId;
 	}
 	function buttonFunc(){
 		$("#btn_ban").bind("click",function(){
 			if(confirm("确认进行封号处理")){
-				var url = "${pageContext.request.contextPath}/fxsj/wx/banUser?userId="+userId;
+				var url = "${pageContext.request.contextPath}/wx/banUser?userId="+userId;
 				$.get(url,function(data){
 					if(data.retFlag){
 						$("#wxUserDetail").bootstrapTable('refresh');
@@ -202,7 +202,7 @@ body {
 		});
 		$("#btn_clear_all").bind("click",function(){
 			if(confirm("确认清除所有评论")){
-				var url = "${pageContext.request.contextPath}/fxsj/wx/clearAllCmt?userId="+userId;
+				var url = "${pageContext.request.contextPath}/wx/clearAllCmt?userId="+userId;
 				$.get(url,function(data){
 				});
 			}

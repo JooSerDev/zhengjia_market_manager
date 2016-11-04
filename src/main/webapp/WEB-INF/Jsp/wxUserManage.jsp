@@ -86,7 +86,7 @@ body {
 		oButtonInit.Init = function() {
 			$("#btn_query").bind("click", function() {
 				$('#wxUserInfo').bootstrapTable('refresh', {
-					url : '${pageContext.request.contextPath}/fxsj/wx/userList'
+					url : '${pageContext.request.contextPath}/wx/userList'
 				});
 			});
 		};
@@ -98,7 +98,7 @@ body {
 			$("#wxUserInfo")
 					.bootstrapTable(
 							{
-								url : '${pageContext.request.contextPath}/fxsj/wx/userList',
+								url : '${pageContext.request.contextPath}/wx/userList',
 								method : 'get', //请求方式（*）
 								striped : true, //是否显示行间隔色
 								cache : false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
@@ -162,7 +162,7 @@ body {
 									return '无符合条件的记录';
 								},
 								onClickRow : function(row) {
-									window.location.href = "${pageContext.request.contextPath}/fxsj/wx/userDetail?userId="
+									window.location.href = "${pageContext.request.contextPath}/wx/userDetail?userId="
 											+ row.userId;
 								}
 							});

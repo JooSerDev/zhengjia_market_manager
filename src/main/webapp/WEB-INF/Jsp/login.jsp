@@ -17,7 +17,7 @@ body {
 	<div class="container" style="margin-top: 100px;">
 		<div class="jumbotron center-block"
 			style="width: 500px; margin-left: auto; margin-right: auto">
-			<form action="${pageContext.request.contextPath}/fxsj/admin/login"
+			<form action="${pageContext.request.contextPath}/admin/login"
 				method="post" class="form-horizontal" id="loginForm">
 				<div class="form-group" id="headLabel">
 					<label class="label label-primary col-sm-offset-5 col-sm-3"

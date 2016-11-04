@@ -67,10 +67,9 @@ body {
 						<ul class="dropdown-menu">
 							<li><a target="content"
 								href="${pageContext.request.contextPath}/itfToken/toItfToken">token生成</a></li>
-							<li class="divider"></li>
-							<li><a target="content"
-								href="${pageContext.request.contextPath}/itfToken/toItfTokenLog">访问日志</a></li>
-							<li class="divider"></li>
+							<!-- <li class="divider"></li> -->
+							<%-- <li><a target="content"
+								href="${pageContext.request.contextPath}/itfToken/toItfTokenLog">访问日志</a></li> --%>
 						</ul></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">

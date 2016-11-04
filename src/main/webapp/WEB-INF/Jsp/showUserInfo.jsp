@@ -139,7 +139,7 @@ body {
 			formatter : 'dateTimeFormatter'
 		} ];
 		var oTable = new TableInit("wxUserDetail", columns, null,
-				"${pageContext.request.contextPath}/fxsj/wx/userDetailInfo?userId="
+				"${pageContext.request.contextPath}/wx/userDetailInfo?userId="
 						+ userId, null, null, false);
 		oTable.Init();
 	}
@@ -179,7 +179,7 @@ body {
 			formatter : 'dateTimeFormatter'
 		}];
 		var oTable = new TableInit("wxUserItem", columns, null,
-				"${pageContext.request.contextPath}/fxsj/wx/userItems?userId="
+				"${pageContext.request.contextPath}/wx/userItems?userId="
 						+ userId, null, null, true);
 		oTable.Init();
 	}

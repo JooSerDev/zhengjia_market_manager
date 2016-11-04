@@ -9,6 +9,6 @@
 <body>
 </body>
 <script>
-	window.top.location.href = "${pageContext.request.contextPath}/fxsj/login.jsp";
+	window.top.location.href = "${pageContext.request.contextPath}/login.jsp";
 </script>
 </html>

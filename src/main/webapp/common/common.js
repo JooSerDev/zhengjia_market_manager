@@ -101,7 +101,7 @@ var TableInit = function(tableid,columns,toolbarid,url,queryParamsFunc,onclickRo
 					console.log(data);
 				}*/
 				/*if(obj.retCode=="1001"){//表示用户未登陆
-					window.top.location.href = "${pageContext.request.contextPath}/fxsj/login.jsp"
+					window.top.location.href = "${pageContext.request.contextPath}/login.jsp"
 				}*/
 				
 				if(onBstLoadSuccess!=null){
