@@ -10,6 +10,7 @@ public class JsonResultBean<E extends Object> {
 	
 	private List<E> rows;
 	private int total;
+	private int page;
 	
 	private String retMsg;
 	private boolean retFlag;
@@ -86,6 +87,12 @@ public class JsonResultBean<E extends Object> {
 
 	public void setTotal(int total) {
 		this.total = total;
+	}
+	public int getPage() {
+		return page;
+	}
+	public void setPage(int page) {
+		this.page = page;
 	}
 
 }

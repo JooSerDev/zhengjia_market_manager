@@ -23,6 +23,8 @@ public class UserWechatInfo {
 	private Date createTime;
 	private Date lastUpdateTime;
 
+	private String sysId;
+	
 	public UserWechatInfo() {
 	}
 
@@ -130,6 +132,14 @@ public class UserWechatInfo {
 
 	public void setUnionid(String unionid) {
 		this.unionid = unionid;
+	}
+
+	public String getSysId() {
+		return sysId;
+	}
+
+	public void setSysId(String sysId) {
+		this.sysId = sysId;
 	}
 
 }

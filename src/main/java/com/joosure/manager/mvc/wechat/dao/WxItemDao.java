@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.joosure.manager.mvc.wechat.common.QryCondBean;
 import com.joosure.server.mvc.wechat.entity.pojo.Item;
+import com.joosure.server.mvc.wechat.entity.pojo.User;
 
 public interface WxItemDao {
 	/**
@@ -24,4 +25,7 @@ public interface WxItemDao {
 	int banIten(@Param("ownerId")Integer userId);
 
 	void cancelBanItem(@Param("ownerId")Integer userId);
+	
+	List<Item> getUnionUserItems(User userCond);
+	int getUnionUserItemsCount(User userCond);
 }

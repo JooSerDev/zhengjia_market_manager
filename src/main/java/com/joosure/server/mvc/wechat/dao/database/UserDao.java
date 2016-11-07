@@ -23,6 +23,9 @@ public interface UserDao {
 	public User getUserByMobile(@Param("mobile") String mobile);
 	
 	public List<User> getUsersOrderByItemNumTop8();
+	
+	public List<User> getMultiTop8User();//替换上面的  getUsersOrderByItemNumTop8
+	List<User> getUnionUsers(@Param("unionId")String unionId);
 	/*
 	 * 基本用户信息相关 结束--------------------------------------------------------------
 	 */
@@ -38,5 +41,5 @@ public interface UserDao {
 	/*
 	 * 微信用户信息相关 结束--------------------------------------------------------------
 	 */
-	
+
 }

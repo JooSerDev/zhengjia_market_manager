@@ -43,9 +43,13 @@ body {
 						<div class="col-sm-2">
 							<input type="text" class="form-control" id="mobile" name="mobile">
 						</div>
-						<label class="control-label col-sm-1" for="openid">OpenId</label>
+						<!-- <label class="control-label col-sm-1" for="openid">OpenId</label>
 						<div class="col-sm-2">
 							<input type="text" class="form-control" id="openid" name="openid">
+						</div> -->
+						<label class="control-label col-sm-1" for="unionId">UnionId</label>
+						<div class="col-sm-2">
+							<input type="text" class="form-control" id="unionId" name="unionId">
 						</div>
 						<div class="col-sm-3" style="text-align: left;">
 							<button type="button" style="margin-left: 50px" id="btn_query"
@@ -68,6 +72,7 @@ body {
 	</div>
 </body>
 <script type="text/javascript">
+	var page = 0;
 	//模态对话框隐藏时移除数据  
 	$(function() {
 		parent.document.getElementById("content").height = 500;
@@ -116,11 +121,12 @@ body {
 								detailView : false, //是否显示父子表
 								queryParamsType : "limit", //参数格式,发送标准的RESTFul类型的参数请求
 								silent : true, //刷新事件必须设置
-								columns : [ {
+								columns : [{
 									field : 'userId',
 									align : 'center',
 									valign : 'center',
-									title : '编号'
+									visible : false,
+									title : '用户编号'
 								}, {
 									field : 'nickname',
 									align : 'center',
@@ -133,10 +139,10 @@ body {
 									title : '头像',
 									formatter : 'imgFormat'
 								}, {
-									field : 'openid',
+									field : 'unionId',
 									align : 'center',
 									valign : 'center',
-									title : 'OpenId'
+									title : 'UnionId'
 								}, {
 									field : 'mobile',
 									align : 'center',
@@ -163,7 +169,9 @@ body {
 								},
 								onClickRow : function(row) {
 									window.location.href = "${pageContext.request.contextPath}/wx/userDetail?userId="
-											+ row.userId;
+											+ row.userId+"&unionId="+row.unionId;
+									/* window.location.href = "${pageContext.request.contextPath}/wx/userDetail?unionId="
+										+ row.unionId; */
 								}
 							});
 		};

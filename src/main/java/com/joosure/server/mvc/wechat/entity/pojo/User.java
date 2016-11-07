@@ -25,6 +25,9 @@ public class User extends PagenationBean{
 	private Integer exchangeFailNum;//正佳认证交易失败数量  即  信息不实 交易数
 	private Integer cptNum;//投诉次数
 	private Date cptTime;//投诉时间
+	
+	private String sysId;
+	private String unionId;
 
 	public Integer getCptNum() {
 		return cptNum;
@@ -160,6 +163,22 @@ public class User extends PagenationBean{
 
 	public void setFinishNum(Integer finishNum) {
 		this.finishNum = finishNum;
+	}
+
+	public String getSysId() {
+		return sysId;
+	}
+
+	public void setSysId(String sysId) {
+		this.sysId = sysId;
+	}
+
+	public String getUnionId() {
+		return unionId;
+	}
+
+	public void setUnionId(String unionId) {
+		this.unionId = unionId;
 	}
 
 }

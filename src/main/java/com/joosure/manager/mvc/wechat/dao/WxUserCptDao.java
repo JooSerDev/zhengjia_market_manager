@@ -68,4 +68,8 @@ public interface WxUserCptDao {
 	 */
 	int getCptListCount(QryCondBean qryCondBean);
 	
+	
+	int getCptCountByUnionId(String unionId);
+	WxUserCpt getLatestCptByUnionId(String unionId);
+	
 }

@@ -41,16 +41,7 @@ body {
 				</form>
 			</div>
 		</div>
-		<div id="toolbar" >
-			<button id="btnAdd" style="margin-right: 20px;"class="btn btn-danger" 
-				data-toggle="modal" data-target="#addTokenAppModal">
-				申请
-			</button>
-			<button id="btnDelete" style="margin-right: 20px;" class="btn btn-primary">
-				删除
-			</button>
-		</div>
-		<div id="itfTokenAppDiv" style="margin-bottom:20px;">
+		<div id="itfTokenLogDiv" style="margin-bottom:20px;">
 			<table id="itfTokenLog" class="table table-bordered table-striped"></table>
 		</div>
 	</div>
@@ -101,7 +92,7 @@ body {
 			title : '过期时间',
 			formatter:'dateTimeFormatter'
 		}];
-		var oTable = new TableInit("itfTokenLog", columns, 'toolbar', 
+		var oTable = new TableInit("itfTokenLog", columns, null, 
 				'${pageContext.request.contextPath}/itfToken/listTokenAppLog',
 				queryParamsFunc, null,true,null);
 		oTable.Init();

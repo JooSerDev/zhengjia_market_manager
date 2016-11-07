@@ -50,6 +50,7 @@ public class WxUserDetail {
 		this.exchangeFailNum = user.getExchangeFailNum();
 		this.cptNum = user.getCptNum();
 		this.cptTime = user.getCptTime();
+		this.unionid = user.getUnionId();
 		this.address = "";
 	}
 	

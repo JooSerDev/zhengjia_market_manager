@@ -10,4 +10,22 @@ public interface IWxUserDbService {
 
 	List<User> getWxUserList(User cond);
 
+	/**
+	 * 通过unionid获取用户数量
+	 * @author Ted-wuhuhu
+	 * @Time 2016年11月4日 下午5:59:31
+	 * @param userCond
+	 * @return
+	 */
+	int getUnionUserCount(User userCond);
+
+	/**
+	 * 通过 条件获取unionids ，然后再去遍历
+	 * unionids获取用户信息
+	 * @author Ted-wuhuhu
+	 * @Time 2016年11月4日 下午5:59:49
+	 * @param userCond
+	 * @return
+	 */
+	List<String> getUnionIds(User userCond);
 }

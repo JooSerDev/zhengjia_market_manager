@@ -21,6 +21,10 @@ public interface IUserDbService {
 	User getUserByMobile(String mobile);
 	
 	List<User> getUsersOrderByItemNumTop8();
+	
+	List<User> getUnionUsers(String unionId);
+	
+	List<User> getMultiTop8User();
 	/*
 	 * 基本用户信息相关 结束--------------------------------------------------------------
 	 */
@@ -36,4 +40,5 @@ public interface IUserDbService {
 	/*
 	 * 微信用户信息相关 结束--------------------------------------------------------------
 	 */
+
 }

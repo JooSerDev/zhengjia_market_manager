@@ -22,6 +22,9 @@
 			<if test="openid !=null and openid !=''">
 				and openid = #{openid}
 			</if>
+			<if test="unionId !=null and unionId !=''">
+				and unionId = #{unionId}
+			</if>
 		</where>
 	</sql>
 
@@ -50,13 +53,19 @@
 		resultType="com.joosure.manager.mvc.wechat.bean.dto.WxUserDetail">
 		select
 		a.userId,a.openid,a.nickname,a.mobile,a.headImgUrl,a.sex,a.state,
-		a.lastModifyTime,a.likeNum,a.finishNum,a.score,0 cptNum, now()
-		cptTime,
-		(select concat(b.province,b.city) from user_wechat b join
-		user_user a on a.openid=b.openid and a.userid = #{userId}) address,
-		(select count(1) from item_exchange where exchangefinishstatus='no'
+		a.lastModifyTime,a.likeNum,a.finishNum,a.score,0 cptNum,
+		(SELECT
+		ADDTIME FROM wx_user_cpt WHERE userId = #{userId} ORDER BY ADDTIME
+		DESC LIMIT 1) cptTime,
+		(select concat(b.province,b.city) from
+		user_wechat b join
+		user_user a on a.openid=b.openid and a.userid =
+		#{userId}) address,
+		(select count(1) from item_exchange where
+		exchangefinishstatus='no'
 		and ownerid = #{userId}) exchangeFailNum
-		from user_user a where
+		from
+		user_user a where
 		a.userId = #{userId}
 	</select>
 
@@ -88,4 +97,51 @@
 		select count(1) from item_item
 		where ownerId = #{userId}
 	</select>
+
+	<!-- ************** 20161104 **************** -->
+	<select id="getUnionUsers" resultType="com.joosure.server.mvc.wechat.entity.pojo.User">
+		select * from user_user
+		where unionid = #{unionId}
+	</select>
+
+	<select id="getUnionUserCount" parameterType="com.joosure.server.mvc.wechat.entity.pojo.User"
+		resultType="java.lang.Integer">
+		SELECT COUNT(DISTINCT(unionid))
+		<include refid="condSql" />
+	</select>
+
+	<select id="getUnionIds" parameterType="com.joosure.server.mvc.wechat.entity.pojo.User"
+		resultType="java.lang.String">
+		select unionid from user_user
+		where 1 = 1
+		<if test="state != null and state!=-1">
+			and state = #{state}
+		</if>
+		<if test="nickname !=null and nickname !=''">
+			and nickname = #{nickname}
+		</if>
+		<if test="mobile !=null and mobile !=''">
+			and mobile = #{mobile}
+		</if>
+		<if test="openid !=null and openid !=''">
+			and openid = #{openid}
+		</if>
+		<if test="unionId !=null and unionId !=''">
+			and unionId = #{unionId}
+		</if>
+		group by unionId
+		<include refid="limitSql" />
+	</select>
+
+	<select id="getFirstUserByUnionId" resultType="com.joosure.server.mvc.wechat.entity.pojo.User">
+		select * from
+		user_user where unionId = #{unionId} order by lastModifyTime desc
+		limit 1;
+	</select>
+
+	<select id="getSumUnionUser" resultType="com.joosure.server.mvc.wechat.entity.pojo.User">
+		SELECT SUM(a.likeNum) likeNum, SUM(a.finishNum) finishNum, SUM(a.score) score
+		FROM user_user a WHERE unionid = #{unionId} GROUP BY unionid ;
+	</select>
+	
 </mapper>

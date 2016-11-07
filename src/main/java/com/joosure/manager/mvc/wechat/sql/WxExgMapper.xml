@@ -30,7 +30,7 @@
 		</if>
 	</sql>
 
-	<!-- 查询微信用户 -->
+	<!-- 查询交易 列表数量 -->
 	<select id="getExgsCount" resultType="java.lang.Integer"
 		parameterType="com.joosure.manager.mvc.wechat.common.QryCondBean">
 		select count(1)
@@ -42,6 +42,7 @@
 		parameterType="com.joosure.manager.mvc.wechat.common.QryCondBean">
 		select a.*
 		<include refid="qryExgsCond" />
+		order by exchangeId desc
 		<include refid="limitSql" />
 	</select>
 

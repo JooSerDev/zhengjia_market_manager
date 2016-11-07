@@ -76,7 +76,13 @@ body {
 			field : 'openid',
 			align : 'center',
 			valign : 'center',
+			visible: false,
 			title : 'OpenId'
+		}, {
+			field : 'unionid',
+			align : 'center',
+			valign : 'center',
+			title : 'UnionId'
 		}, {
 			field : 'mobile',
 			align : 'center',
@@ -113,6 +119,7 @@ body {
 			field : 'exchangeFailNum',
 			align : 'center',
 			valign : 'center',
+			visible : false,
 			title : '信息不实交换数'
 		}, {
 			field : 'state',

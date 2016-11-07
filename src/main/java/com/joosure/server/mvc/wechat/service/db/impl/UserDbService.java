@@ -61,4 +61,14 @@ public class UserDbService implements IUserDbService{
 		return userDao.getUserWechatInfoByOpenid(openid);
 	}
 
+	@Override
+	public List<User> getUnionUsers(String unionId) {
+		return userDao.getUnionUsers(unionId);
+	}
+
+	@Override
+	public List<User> getMultiTop8User() {
+		return userDao.getMultiTop8User();
+	}
+
 }

@@ -83,5 +83,18 @@
 		ELSE STATUS END
 		WHERE ownerId = #{ownerId}
 	</update>
-
+	
+	<!--################# 20161105 使用unionid ##############################-->
+	
+	<select id="getUnionUserItems" resultType="com.joosure.server.mvc.wechat.entity.pojo.Item">
+		SELECT * FROM item_item a JOIN user_user b 
+		ON a.ownerid = b.userid WHERE b.unionId = #{unionId}
+		order by a.createTime desc
+		<include refid="limitSql" />
+	</select>
+	
+	<select id="getUnionUserItemsCount" resultType="java.lang.Integer">
+		SELECT count(1) FROM item_item a JOIN user_user b 
+		ON a.ownerid = b.userid WHERE b.unionId = #{unionId}
+	</select>
 </mapper>

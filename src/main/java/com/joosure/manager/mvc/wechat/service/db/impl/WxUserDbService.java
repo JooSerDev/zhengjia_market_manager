@@ -24,4 +24,14 @@ public class WxUserDbService implements IWxUserDbService{
 	public List<User> getWxUserList(User cond) {
 		return wxUserDao.getWxUserList(cond);
 	}
+
+	@Override
+	public int getUnionUserCount(User userCond) {
+		return wxUserDao.getUnionUserCount(userCond);
+	}
+
+	@Override
+	public List<String> getUnionIds(User userCond) {
+		return wxUserDao.getUnionIds(userCond);
+	}
 }

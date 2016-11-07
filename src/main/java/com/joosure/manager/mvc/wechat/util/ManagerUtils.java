@@ -86,4 +86,15 @@ public class ManagerUtils {
 		date.add(endTime);
 		return date;
 	}
+	
+	public static void main(String[] args) {
+		try {
+			String secrectPass = encryptBySHA256(CommonConstant.PASSWORD, "9999");
+			System.out.println(secrectPass);
+			String secrectPass1 = encryptBySHA256(CommonConstant.PASSWORD, "ce97d620-79f1-411c-ac57-c6dd6c513364");
+			System.out.println(secrectPass1);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+	}
 }

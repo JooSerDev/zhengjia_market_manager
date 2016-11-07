@@ -6,9 +6,10 @@
 	<insert id="saveUser" keyColumn="userId" keyProperty="userId"
 		useGeneratedKeys="true">
 		insert into user_user
-		(openid,nickname,mobile,headImgUrl,state,createTime,lastModifyTime,likeNum,sex,itemNum,exchangeNum,finishNum)
+		(openid,nickname,mobile,headImgUrl,state,createTime,lastModifyTime,likeNum,sex,itemNum,exchangeNum,finishNum,sysId,unionid)
 		values
-		(#{openid},#{nickname},#{mobile},#{headImgUrl},#{state},#{createTime},#{lastModifyTime},#{likeNum},#{sex},#{itemNum},#{exchangeNum},#{finishNum});
+		(#{openid},#{nickname},#{mobile},#{headImgUrl},#{state},#{createTime},#{lastModifyTime},#{likeNum},
+		#{sex},#{itemNum},#{exchangeNum},#{finishNum},#{sysId},#{unionId});
 	</insert>
 
 	<update id="updateUser">
@@ -34,14 +35,28 @@
 		where mobile= #{mobile} limit 1;
 	</select>
 
+	<select id="getUsersOrderByItemNumTop8" resultType="com.joosure.server.mvc.wechat.entity.pojo.User">
+		select * from
+		user_user where state = 0 order by likeNum desc limit 8;
+	</select>
+	
+	<select id="getUnionUsers" resultType="com.joosure.server.mvc.wechat.entity.pojo.User">
+		select * from 
+		user_user where state = 0 and unionid = #{unionId} order by lastModifyTime desc
+	</select>
+
+	<select id="getMultiTop8User" resultType="com.joosure.server.mvc.wechat.entity.pojo.User">
+		SELECT unionid unionId,SUM(likenum) likeNum FROM user_user WHERE state =0 GROUP BY unionId order by likeNum desc limit 8;
+	</select>
 	<!-- 基本用户信息相关-结束 -->
 
 	<!-- 微信用户信息相关-开始 -->
 	<insert id="saveUserWechatInfo">
 		insert into user_wechat
-		(openid,nickname,sex,province,city,country,headimgurl,unionid,createTime,lastUpdateTime)
+		(openid,nickname,sex,province,city,country,headimgurl,unionid,createTime,lastUpdateTime,sysId)
 		values
-		(#{openid},#{nickname},#{sex},#{province},#{city},#{country},#{headimgurl},#{unionid},#{createTime},#{lastUpdateTime});
+		(#{openid},#{nickname},#{sex},#{province},#{city},#{country},#{headimgurl},
+		#{unionid},#{createTime},#{lastUpdateTime},#{sysId});
 	</insert>
 
 	<update id="updateUserWechatInfo">

@@ -176,8 +176,8 @@ public class AdminController {
 		user.setLoginid(loginidA);
 		user.setLoginname(loginnameA);
 		user.setExtd(extdA);
-		user.setLoginpass(ManagerUtils.getDefaultPass(user.getSalt()));
 		user.setSalt(UUID.randomUUID().toString());
+		user.setLoginpass(ManagerUtils.getDefaultPass(user.getSalt()));
 		sysUserService.addSysUser(user);
 		return "forward:/admin/sysUserManage";
 	}

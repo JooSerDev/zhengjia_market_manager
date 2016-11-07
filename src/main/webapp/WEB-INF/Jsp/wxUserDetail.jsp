@@ -34,9 +34,13 @@ body {
 	<div class="panel-body" style="padding-bottom: 0px;">
 		<table id="wxUserItem" class="table table-bordered table-striped" title="用户宝贝概览"></table>
 	</div>
+	
+	<input type="hidden" value="${userId}" id="userIdInput" />
+	<input type="hidden" value="${unionId}" id="unionIdInput" />
 </body>
 <script type="text/javascript">
 	var userId = "";
+	var unionId = "";
 	// 	模态对话框隐藏时移除数据  
 	$(function() {
 		//显示用户昵称、头像、OpenID、手机号、性别、地区、积分数、被点赞数、
@@ -44,7 +48,8 @@ body {
 		// “信息不实”的交易数、用户当前状态（是否被封号以及封号时间）、以及该用户的被投诉次数、最近一次被投诉的时间
 		parent.document.getElementById("content").height = 500;
 		parent.document.body.scrollHeight = 500;
-		userId = "${userId}";
+		userId = $("#userIdInput").val();
+		unionId = $("#unionIdInput").val();
 		initUserDetailTable(userId);
 		initUserItemTable(userId);
 	});
@@ -66,10 +71,10 @@ body {
 			title : '头像',
 			formatter : 'imgFormat'
 		}, {
-			field : 'openid',
+			field : 'unionid',
 			align : 'center',
 			valign : 'center',
-			title : 'OpenId'
+			title : 'UnionId'
 		}, {
 			field : 'mobile',
 			align : 'center',
@@ -106,6 +111,7 @@ body {
 			field : 'exchangeFailNum',
 			align : 'center',
 			valign : 'center',
+			visible: false,
 			title : '信息不实交换数'
 		}, {
 			field : 'state',
@@ -131,8 +137,9 @@ body {
 			title : '投诉时间',
 			formatter : 'dateTimeFormatter'
 		} ];
+		//"${pageContext.request.contextPath}/wx/userDetailInfo?userId="+userId
 		var oTable = new TableInit("wxUserDetail", columns, "toolbar", 
-				"${pageContext.request.contextPath}/wx/userDetailInfo?userId="+userId, null,null,false);
+				"${pageContext.request.contextPath}/wx/userDetailInfo?userId="+userId+"&unionId="+unionId, null,null,false);
 		oTable.Init();
 		var oButtons = new ButtonInit(buttonFunc);
 		oButtons.Init();
@@ -194,7 +201,8 @@ body {
 		var temp = { //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
 			limit : params.limit, //页面大小
 			offset : params.offset, //页码
-			userId : userId//
+			userId : userId, //
+			unionId: unionId
 		};
 		return temp;
 	}
@@ -204,7 +212,7 @@ body {
 	function buttonFunc(){
 		$("#btn_ban").bind("click",function(){
 			if(confirm("确认屏蔽该用户？")){
-				var url = "${pageContext.request.contextPath}/wx/banUser?userId="+userId;
+				var url = "${pageContext.request.contextPath}/wx/banUser?userId="+userId+"&unionId="+unionId;
 				$.get(url,function(data){
 					var retObj = JSON.parse(data);
 					alert(retObj.retMsg);//提示
@@ -215,7 +223,7 @@ body {
 		});
 		$("#btn_ban_cancel").bind("click",function(){
 			if(confirm("解除屏蔽该用户？")){
-				var url = "${pageContext.request.contextPath}/wx/cancelBanUser?userId="+userId;
+				var url = "${pageContext.request.contextPath}/wx/cancelBanUser?userId="+userId+"&unionId="+unionId;
 				$.get(url,function(data){
 					var retObj = JSON.parse(data);
 					alert(retObj.retMsg);//提示
@@ -226,7 +234,7 @@ body {
 		});
 		$("#btn_clear_all").bind("click",function(){
 			if(confirm("确认清除该所有评论记录")){
-				var url = "${pageContext.request.contextPath}/wx/clearAllCmt?userId="+userId;
+				var url = "${pageContext.request.contextPath}/wx/clearAllCmt?userId="+userId+"&unionId="+unionId;
 				$.get(url,function(data){
 					var retObj = JSON.parse(data);
 					alert(retObj.retMsg);//提示
