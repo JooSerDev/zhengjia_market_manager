@@ -182,7 +182,7 @@ body {
 				state : $("#state").val(),
 				nickname : $("#nickname").val(),
 				mobile : $("#mobile").val(),
-				openid : $("#openid").val()
+				unionId : $("#unionId").val()
 			};
 			return temp;
 		};
