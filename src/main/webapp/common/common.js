@@ -62,6 +62,7 @@ var ButtonInit = function(buttonInitFunc) {
 	return oButtonInit;
 };
 /**
+ * 表格初始化
  * param 1:tableId
  * param 2:columns
  * param 3:toolbarid
@@ -111,13 +112,15 @@ var TableInit = function(tableid,columns,toolbarid,url,queryParamsFunc,onclickRo
 //					var grandf = f.parent;
 				if(f.top!=self){
 					var c = f.parent.document.getElementById("content");
-					if(c!=null && c.hight<document.body.scrollHeight){
-						c.height=document.body.scrollHeight;
+					if(c!=null && c.hight<document.body.offsetHeight){
+//						c.height=document.body.scrollHeight;
+						c.height=document.body.offsetHeight;
 					}
 				}
 				var pc = parent.document.getElementById("content");
 				if(pc!=null){
-					pc.height = document.body.scrollHeight;
+//					pc.height = document.body.scrollHeight;
+					pc.height = document.body.offsetHeight;
 				}
 				
 			},
@@ -278,4 +281,8 @@ function itemRcmFmt(value){
 	if(value==0){
 		return "否";
 	}
+}
+
+function resizeHeight(){
+	
 }

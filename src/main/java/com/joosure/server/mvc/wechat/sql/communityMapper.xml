@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.joosure.server.mvc.wechat.dao.database.CommunityDao">
+
+	<select id="getAllCommunity" resultType="com.joosure.server.mvc.wechat.entity.pojo.Community">
+		select * from
+		zj_community where status = 'normal' order by showOrder, readNum desc
+	</select>
+
+	<select id="getCommunityById" resultType="com.joosure.server.mvc.wechat.entity.pojo.Community">
+		select * from zj_community
+		where 1=1
+		<if test="cmty != null">
+			and cmtyId = #{cmtyId}
+		</if>
+		and status = 'normal'
+	</select>
+
+	<update id="updateCommunity" parameterType="com.joosure.server.mvc.wechat.entity.pojo.Community">
+		update zj_community
+		<set>
+			<if test="cmtyName != null">
+				cmtyName = #{cmtyName},
+			</if>
+			<if test="createTime != null">
+				createTime = #{createTime},
+			</if>
+			<if test="updateTime != null">
+				updateTime = #{updateTime},
+			</if>
+			<if test="status != null">
+				status = #{status},
+			</if>
+			<if test="articleNum != null">
+				articleNum = #{articleNum},
+			</if>
+			<if test="noteNum != null">
+				noteNum = #{noteNum},
+			</if>
+			<if test="readNum != null">
+				readNum = #{readNum}
+			</if>
+			<if test="bgImgUrl != null">
+				bgImgUrl = #{bgImgUrl},
+			</if>
+			<if test="showOrder != null and showOrder != -1">
+				showOrder = #{showOrder}
+			</if>
+		</set>
+		where cmtyId = #{cmtyId}
+	</update>
+
+	<select id="getSubCmtyTypeByParentId"
+		resultType="com.joosure.server.mvc.wechat.entity.pojo.CommunityType">
+		select * from zj_community_type where parentId =
+		#{cmtyTypeId} and status = 'normal' order by showOrder
+	</select>
+
+	<select id="getAllCmtySubTypes"
+		resultType="com.joosure.server.mvc.wechat.entity.pojo.CommunityType">
+		select * from zj_community_type where status = 'normal'
+		order by parentId , showOrder
+	</select>
+
+	<insert id="insertCmtyType" parameterType="com.joosure.server.mvc.wechat.entity.pojo.CommunityType">
+		insert into zj_community_type
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			typeName, parentId, status, remark, level, addTime, updateTime, showOrder,
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			#{typeName}, #{parentId}, 'normal', #{remark},
+			#{level}, now(), now(), #{showOrder},
+		</trim>
+	</insert>
+
+</mapper>

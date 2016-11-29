@@ -52,7 +52,9 @@ public class JsonResultBean<E extends Object> {
 	public boolean isRetFlag() {
 		return retFlag;
 	}
-
+	public boolean getRetFlag(){
+		return retFlag;
+	}
 	public void setRetFlag(boolean retFlag) {
 		this.retFlag = retFlag;
 	}

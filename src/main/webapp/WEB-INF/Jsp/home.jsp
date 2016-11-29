@@ -41,13 +41,17 @@ body {
 					<li><a
 						href="${pageContext.request.contextPath}/item/itemManage?i=1"
 						target="content">审核管理</a></li>
-					<li><a
-						href="${pageContext.request.contextPath}/exg/exgManage"
+					<li><a href="${pageContext.request.contextPath}/exg/exgManage"
 						target="content">交易管理</a></li>
 					<!-- userManage -->
-					<li><a
-						href="${pageContext.request.contextPath}/wx/userManage"
+					<li><a href="${pageContext.request.contextPath}/wx/userManage"
 						target="content">用户管理</a></li>
+					<li><a
+						href="${pageContext.request.contextPath}/community/cmtyManage"
+						target="content">社群管理</a></li>
+					<li><a
+						href="${pageContext.request.contextPath}/community/articleManage"
+						target="content">文章管理</a></li>
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown">系统管理 <b class="caret"></b>
 					</a>
@@ -78,6 +82,10 @@ body {
 			</div>
 		</div>
 	</div>
+	
+	<div style="display:none;position:fixed;margin:20px;top:30px;height:30px;width:100px;background-color: black;
+		line-height: 30px;text-align: center;border-radius:5px;z-index: 999"><a style="color:white;">返回</a></div>
+	
 	<div style="margin: 10px; margin-top: 70px; margin-bottom: 0px;">
 		<iframe id="content" name="content" scrolling="no" frameborder="0"
 			width="100%" height="auto;"
@@ -97,23 +105,6 @@ body {
 </body>
 <script type="text/javascript">
 	$(function() {
-		/* $('[data-toggle="popover"]').popover();
-		$("#myLoginOutPop").popover({
-			html : true,
-			content : function() {
-				return $("#loginOutOptions").html();
-			}
-		}); */
-		/* $("mainUl a").on("click",function(){
-			var lias = $("li a");
-			var cur = $(this);
-			$.each(lias,function(index,a){
-				if(a!=cur){
-					$(a).removeClass("highLight");
-				}
-			});
-			$(this).addClass("highLight");
-		}); */
 		$("#mainUl li").on("click", function() {
 			$("#mainUl li").removeClass("highLight");
 			$(this).addClass("highLight");

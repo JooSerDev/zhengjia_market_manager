@@ -25,4 +25,17 @@ public class UtilTest {
 		b = b == null ? "" : b;
 		System.out.println(a+b);
 	}
+	
+	@Test
+	public void testSwitch(){
+		System.out.println(getIsPublished(null));
+	}
+	
+	public String getIsPublished(String a){
+		switch(a){
+			case "normal":return "yes";
+			case "waiting":return "no";
+			default:return "yes";
+		}
+	}
 }

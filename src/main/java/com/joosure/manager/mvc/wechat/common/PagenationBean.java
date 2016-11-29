@@ -10,6 +10,9 @@ public class PagenationBean {
 	private int offset = 0;//偏移，起始位置
 	private int pageNum = 1;//第几页
 	
+	private String retCode;
+	private String retMsg;
+	
 	private Date startTime;
 	private Date endTime;
 	
@@ -42,5 +45,17 @@ public class PagenationBean {
 	}
 	public void setPageNum(int pageNum) {
 		this.pageNum = pageNum;
+	}
+	public String getRetCode() {
+		return retCode;
+	}
+	public void setRetCode(String retCode) {
+		this.retCode = retCode;
+	}
+	public String getRetMsg() {
+		return retMsg;
+	}
+	public void setRetMsg(String retMsg) {
+		this.retMsg = retMsg;
 	}
 }

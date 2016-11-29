@@ -80,6 +80,8 @@ public class SysFilter implements Filter {
 			try {
 				sysUserOprService.insertUserOpr(userOpr);
 			} catch (Exception e) {
+				e.printStackTrace();
+				log.error(e.getMessage());
 				log.warn("插入请求记录失败");
 			}
 			chain.doFilter(request, response);
@@ -87,6 +89,8 @@ public class SysFilter implements Filter {
 			try {
 				sysUserOprService.insertUserOpr(userOpr);
 			} catch (Exception e) {
+				e.printStackTrace();
+				log.error(e.getMessage());
 				log.warn("插入请求记录失败");
 			}
 			request.getRequestDispatcher("/admin/loginout").forward(request, response);

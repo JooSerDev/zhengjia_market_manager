@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.joosure.server.mvc.wechat.dao.database.NoteDao">
+
+	<sql id="noteWhereCondition">
+		<if test="cmtyId != null and cmtyId != 0">
+			and cmtyId = #{cmtyId}
+		</if>
+		<if test="hotFlag != null and hotFlag != ''">
+			and hotFlag = #{hotFlag}
+		</if>
+		<if test="topFlag != null and hotFlag != ''">
+			and topFlag = #{topFlag}
+		</if>
+		and status = 'normal'
+	</sql>
+
+	<!-- 添加帖子 -->
+	<insert id="insertNote" parameterType="com.joosure.server.mvc.wechat.entity.pojo.Note">
+		insert into zj_note
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			noteId, noteTitle,
+			userId, typeId, typeName,
+			cmtyId, cmtyName, status, createTime,
+			updateTime,
+			imgUrls, imgCenterUrls, shareUrl, sysId, outUserId,
+			content,
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			#{noteId},
+			#{noteTitle}, #{userId}, #{typeId}, #{typeName},
+			#{cmtyId},
+			#{cmtyName}, 'normal', now(), now(),
+			#{imgUrls}, #{imgCenterUrls},
+			#{shareUrl}, #{sysId}, #{outUserId},
+			#{content},
+		</trim>
+	</insert>
+	<insert id="insertArticle">
+		insert into zj_article
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			articleId,
+			articleTitle, userId, author, cmtyId, cmtyName,
+			hotFlag, hotTime,
+			topFlag, topTime, status, createTime,
+			updateTime, shareUrl, sysId,
+			outUserId, content,
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			#{articleId},
+			#{articleTitle}, #{userId}, #{author}, #{cmtyId}, #{cmtyName},
+			#{hotFlag}, #{hotTime}, #{topFlag}, #{topTime}, #{status}, now(),
+			now(), #{shareUrl}, #{sysId}, #{outUserId}, #{content},
+		</trim>
+	</insert>
+
+
+	<!-- 社群首页的帖子展示 -->
+	<select id="getCmtyPageNotes" resultType="com.joosure.server.mvc.wechat.entity.pojo.Note">
+		select * from zj_note
+		where status='normal'
+		order by likeNum desc limit 0,2;
+	</select>
+
+	<!-- 获取某个社群页面中帖子的加载 -->
+	<select id="getNotesByPage" resultType="com.joosure.server.mvc.wechat.entity.pojo.Note">
+		select * from zj_note where 1=1
+		<if test="userId != null">
+			and userId = #{userId}
+		</if>
+		<include refid="noteWhereCondition" />
+		<choose>
+			<when test="topFlag != null and topFlag != ''">
+				and topTime &lt; #{topTime}
+			</when>
+			<when test="topFlag == null and hotFlag != null and hotFlag != ''">
+				and hotTime &lt; #{hotTime}
+			</when>
+			<otherwise>
+				and createTime &lt; #{createTime}
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="topFlag != null and topFlag != ''">
+				order by topTime desc
+			</when>
+			<when test="topFlag == null and hotFlag != null and hotFlag != ''">
+				order by hotTime desc
+			</when>
+			<otherwise>
+				order by createTime desc
+			</otherwise>
+		</choose>
+		<if test="limit != 0">
+			limit #{limit};
+		</if>
+	</select>
+	<select id="getArticlesByPage" resultType="com.joosure.server.mvc.wechat.entity.pojo.Article">
+		select * from zj_article where 1=1
+		<include refid="noteWhereCondition" />
+		<choose>
+			<when test="topFlag != null and topFlag != ''">
+				and topTime &lt; #{topTime}
+			</when>
+			<when test="topFlag == null and hotFlag != null and hotFlag != ''">
+				and hotTime &lt; #{hotTime}
+			</when>
+			<otherwise>
+				and createTime &lt; #{createTime}
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="topFlag != null and topFlag != ''">
+				order by topTime desc
+			</when>
+			<when test="topFlag == null and hotFlag != null and hotFlag != ''">
+				order by hotTime desc
+			</when>
+			<otherwise>
+				order by createTime desc
+			</otherwise>
+		</choose>
+		<if test="limit != 0">
+			limit #{limit};
+		</if>
+	</select>
+
+	<!-- 根据id获取 -->
+	<select id="getNoteById" resultType="com.joosure.server.mvc.wechat.entity.pojo.Note">
+		select * from zj_note where
+		noteId = #{noteId};
+	</select>
+	<select id="getArticleById" resultType="com.joosure.server.mvc.wechat.entity.pojo.Article">
+		select * from zj_article
+		where articleId = #{articleId};
+	</select>
+
+	<!-- 根据id分页获取评论 -->
+	<select id="getNoteCmtsByPage"
+		resultType="com.joosure.server.mvc.wechat.entity.pojo.NoteComment">
+		select * from zj_note_cmt where status = 'normal' and
+		noteId = #{noteId}
+		order by createTime limit #{startRow},#{limitSize};
+	</select>
+	<select id="getArticleCmtsByPage"
+		resultType="com.joosure.server.mvc.wechat.entity.pojo.ArticleComment">
+		select * from zj_article_cmt where status = 'normal' and
+		articleId = #{article}
+		order by createTime limit
+		#{startRow},#{limitSize};
+	</select>
+
+	<!-- 插入评论 -->
+	<insert id="saveNtComment">
+		insert into zj_note_cmt
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			createTime,
+			fromUserId, noteId, noteTitle, toUserId,
+			content, fromUserName,
+			toUserName, status, modifyTime,
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			now(),
+			#{fromUserId}, #{noteId}, #{noteTitle}, #{toUserId},
+			#{content},
+			#{fromUserName}, #{toUserName}, 'normal', now(),
+		</trim>
+	</insert>
+	<insert id="saveAtComment">
+		insert into zj_article_cmt
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			createTime,
+			fromUserId, articlId, articleTitle, toUserId,
+			content, fromUserName,
+			toUserName, status, modifyTime,
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			now(),
+			#{fromUserId}, #{articlId}, #{articleTitle}, #{toUserId},
+			#{content},
+			#{fromUserName}, #{toUserName}, 'normal', now(),
+		</trim>
+	</insert>
+
+	<!-- 根据用户id获取他的有效帖子 -->
+	<select id="getNotesByOwnerId" resultType="com.joosure.server.mvc.wechat.entity.pojo.Note">
+		select * from zj_note
+		where userId = #{userId} and status = 'normal';
+	</select>
+
+	<!-- 保存用户点赞行为 -->
+	<insert id="saveNtatLike">
+		insert into
+		zj_ntat_like(userId,ntatId,createTime,ntatFlag)
+		values(#{userId},#{ntatId},now(),#{ntatFlag});
+	</insert>
+
+	<!-- 查询某个用户的点赞行为 -->
+	<select id="getUserNtatLike" resultType="com.joosure.server.mvc.wechat.entity.pojo.NtatLike">
+		select * from
+		zj_ntat_like where
+		userId = #{userId} and ntatId = #{ntatId}
+	</select>
+
+	<!-- 更新文章、帖子信息： 评论数、阅读数、点赞数、分享数、置顶、加精、社群分类、社群二级分类、状态、 内容 -->
+	<update id="updateArticle">
+		update zj_article
+		<set>
+			<if test="typeId != null">
+				typeId = #{typeId},
+			</if>
+			<if test="typeName != null">
+				typeName = #{typeName},
+			</if>
+			<if test="cmtyId != null">
+				cmtyId = #{cmtyId},
+			</if>
+			<if test="cmtyName != null">
+				cmtyName = #{cmtyName},
+			</if>
+			<if test="cmtNum != null">
+				cmtNum = #{cmtNum},
+			</if>
+			<if test="likeNum != null">
+				likeNum = #{likeNum},
+			</if>
+			<if test="shareNum != null">
+				shareNum = #{shareNum},
+			</if>
+			<if test="readNum != null">
+				readNum = #{readNum},
+			</if>
+			<if test="hotFlag != null">
+				hotFlag = #{hotFlag},
+			</if>
+			<if test="hotTime != null">
+				hotTime = #{hotTime},
+			</if>
+			<if test="topFlag != null">
+				topFlag = #{topFlag},
+			</if>
+			<if test="topTime != null">
+				topTime = #{topTime},
+			</if>
+			<if test="status != null">
+				status = #{status},
+				updateTime = now(),
+			</if>
+			<if test="shareUrl != null">
+				shareUrl = #{shareUrl},
+			</if>
+		</set>
+		where articleId = #{articleId}
+	</update>
+	<update id="updateNote">
+		update zj_note
+		<set>
+			<if test="typeId != null">
+				typeId = #{typeId},
+			</if>
+			<if test="typeName != null">
+				typeName = #{typeName},
+			</if>
+			<if test="cmtyId != null">
+				cmtyId = #{cmtyId},
+			</if>
+			<if test="cmtyName != null">
+				cmtyName = #{cmtyName},
+			</if>
+			<if test="cmtNum != null">
+				cmtNum = #{cmtNum},
+			</if>
+			<if test="likeNum != null">
+				likeNum = #{likeNum},
+			</if>
+			<if test="shareNum != null">
+				shareNum = #{shareNum},
+			</if>
+			<if test="readNum != null">
+				readNum = #{readNum},
+			</if>
+			<if test="hotFlag != null">
+				hotFlag = #{hotFlag},
+			</if>
+			<if test="hotTime != null">
+				hotTime = #{hotTime},
+			</if>
+			<if test="topFlag != null">
+				topFlag = #{topFlag},
+			</if>
+			<if test="topTime != null">
+				topTime = #{topTime},
+			</if>
+			<if test="status != null">
+				status = #{status},
+				updateTime = now(),
+			</if>
+			<if test="shareUrl != null">
+				shareUrl = #{shareUrl},
+			</if>
+		</set>
+		where noteId = #{noteId}
+	</update>
+
+	<!-- 查询某个用户对帖子或文章的投诉记录 -->
+	<select id="getUserNtatCpt" resultType="com.joosure.server.mvc.wechat.entity.pojo.NtatCpt">
+		Select * from zj_ntat_cpt
+		where
+		userId = #{userId} and ntatId = #{ntatId};
+	</select>
+	
+	<!-- 保存 对帖子、文章的投诉记录 -->
+	<insert id="saveNtatCpt">
+		insert into
+		zj_ntat_cpt(userId,ntatId,ntatFlag,createTime,content,toUserId)
+		values(#{userId},#{ntatId},#{ntatFlag},now(),#{content},#{toUserId});
+	</insert>
+
+	<!-- 获取帖子文章总量 -->
+	<select id="getNoteCount" resultType="java.lang.Integer">
+		select count(1) from zj_note where status = 'normal'
+		<if test="cmtyId != null and cmtyId > 0">
+			and cmtyId = #{cmtyId}
+		</if>
+		<if test="userId != null ">
+			and userId = #{userId}
+		</if>
+	</select>
+	<select id="getArticleCount" resultType="java.lang.Integer">
+		select count(1) from zj_article where status = 'normal'
+		<if test="cmtyId != null and cmtyId > 0">
+			and cmtyId = #{cmtyId}
+		</if>
+		<if test="userId != null">
+			and userId = #{userId}
+		</if>
+	</select>
+	
+	<!-- 分页条件分别查找帖子、文章 -->
+	<select id="getNotesByCond" resultType="com.joosure.server.mvc.wechat.entity.pojo.Note">
+		select * from zj_note where status = 'normal'
+		<if test="cmtyId != null and cmtyId != 0">
+			and cmtyId = #{cmtyId}
+		</if>
+		<if test="typeId != null and typeId != 0">
+			and typeId = #{typeId}
+		</if>
+		<if test="topFlag != null ">
+			and topFlag = #{topFlag}
+		</if>
+		<if test="hotFlag != null ">
+			and hotFlag = #{hotFlag}
+		</if>
+		<if test="noteTitle != null and noteTitle != ''">
+			and noteTitle like #{noteTitle}
+		</if>
+		<if test="userId != null">
+			and userId = #{userId}
+		</if>
+		<if test="topFlag != null and hotFlag == null">
+			order by topTime desc,createTime desc
+		</if>
+		<if test="hotFlag != null and topFlag == null">
+			order by hotTime desc,createTime desc
+		</if>
+		<if test="hotFlag != null and topFlag != null">
+			order by hotTime desc,topTime desc
+		</if>
+		<if test="hotFlag == null and topFlag == null">
+			order by createTime desc,likeNum desc
+		</if>
+		<if test="limit != 0">
+			limit #{offset},#{limit}
+		</if>
+	</select>
+	<select id="getArticlesByCond" resultType="com.joosure.server.mvc.wechat.entity.pojo.Article">
+		select * from zj_article where 1 = 1 
+		<if test="status != null and status != ''">
+			and status = #{status}
+		</if>
+		<if test="cmtyId != null and cmtyId != 0">
+			and cmtyId = #{cmtyId}
+		</if>
+		<if test="typeId != null and typeId != 0">
+			and typeId = #{typeId}
+		</if>
+		<if test="topFlag != null ">
+			and topFlag = #{topFlag}
+		</if>
+		<if test="hotFlag != null ">
+			and hotFlag = #{hotFlag}
+		</if>
+		<if test="noteTitle != null and noteTitle != ''">
+			and noteTitle like #{noteTitle}
+		</if>
+		<if test="userId != null">
+			and userId = #{userId}
+		</if>
+		<if test="topFlag != null and hotFlag == null">
+			order by topTime desc,createTime desc
+		</if>
+		<if test="hotFlag != null and topFlag == null">
+			order by hotTime desc,createTime desc
+		</if>
+		<if test="hotFlag != null and topFlag != null">
+			order by hotTime desc,topTime desc
+		</if>
+		<if test="hotFlag == null and topFlag == null">
+			order by createTime desc,likeNum desc
+		</if>
+		<if test="limit != 0">
+			limit #{offset},#{limit}
+		</if>
+	</select>
+
+</mapper>

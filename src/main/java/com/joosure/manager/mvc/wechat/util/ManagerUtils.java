@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import org.apache.log4j.Logger;
 
@@ -17,6 +18,15 @@ import com.shawn.server.core.util.EncryptUtil;
 public class ManagerUtils {
 
 	private static final String KEY_SHA_256 = "SHA-256";
+	
+	/**
+	 * 帖子编号后缀
+	 */
+	private static final String SUFFIX_NOTE = "nt";
+	/**
+	 * 文章编号后缀
+	 */
+	private static final String SUFFIX_ARTICLE = "at";
 	
 	private static Logger log = Logger.getLogger(ManagerUtils.class);
 
@@ -85,6 +95,17 @@ public class ManagerUtils {
 		date.add(startTime);
 		date.add(endTime);
 		return date;
+	}
+	
+	public static String generateIdForNote(boolean flag){
+		long timestamp = System.currentTimeMillis();
+		String uuid = UUID.randomUUID().toString();
+		String prefix = uuid.substring(0,4)+timestamp;
+		if(flag){
+			return prefix+SUFFIX_NOTE;//帖子  note
+		}else{
+			return prefix+SUFFIX_ARTICLE;//文章  article
+		}
 	}
 	
 	public static void main(String[] args) {
