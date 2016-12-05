@@ -49,6 +49,18 @@ body {
 					<li><a
 						href="${pageContext.request.contextPath}/community/cmtyManage"
 						target="content">社群管理</a></li>
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown">活动管理 <b class="caret"></b>
+					</a>
+						<ul class="dropdown-menu">
+							<li><a
+								href="${pageContext.request.contextPath}/activity/actyManage"
+								target="content">活动管理</a></li>
+							<li class="divider"></li>
+							<li><a
+								href="${pageContext.request.contextPath}/activity/enterManage"
+								target="content">报名管理</a></li>
+						</ul></li>
 					<li><a
 						href="${pageContext.request.contextPath}/community/articleManage"
 						target="content">文章管理</a></li>
@@ -82,10 +94,12 @@ body {
 			</div>
 		</div>
 	</div>
-	
-	<div style="display:none;position:fixed;margin:20px;top:30px;height:30px;width:100px;background-color: black;
-		line-height: 30px;text-align: center;border-radius:5px;z-index: 999"><a style="color:white;">返回</a></div>
-	
+
+	<div
+		style="display: none; position: fixed; margin: 20px; top: 30px; height: 30px; width: 100px; background-color: black; line-height: 30px; text-align: center; border-radius: 5px; z-index: 999">
+		<a style="color: white;">返回</a>
+	</div>
+
 	<div style="margin: 10px; margin-top: 70px; margin-bottom: 0px;">
 		<iframe id="content" name="content" scrolling="no" frameborder="0"
 			width="100%" height="auto;"

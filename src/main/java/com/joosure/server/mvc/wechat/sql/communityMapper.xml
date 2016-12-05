@@ -38,13 +38,13 @@
 				noteNum = #{noteNum},
 			</if>
 			<if test="readNum != null">
-				readNum = #{readNum}
+				readNum = #{readNum},
 			</if>
 			<if test="bgImgUrl != null">
 				bgImgUrl = #{bgImgUrl},
 			</if>
 			<if test="showOrder != null and showOrder != -1">
-				showOrder = #{showOrder}
+				showOrder = #{showOrder},
 			</if>
 		</set>
 		where cmtyId = #{cmtyId}

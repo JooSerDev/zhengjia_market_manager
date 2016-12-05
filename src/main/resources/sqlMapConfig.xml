@@ -32,5 +32,6 @@
 		<!-- 二期  社群 -->
 		<mapper resource="com/joosure/server/mvc/wechat/sql/noteMapper.xml" />
 		<mapper resource="com/joosure/server/mvc/wechat/sql/communityMapper.xml" />
+		<mapper resource="com/joosure/server/mvc/wechat/sql/activityMapper.xml" />
 	</mappers>
 </configuration>

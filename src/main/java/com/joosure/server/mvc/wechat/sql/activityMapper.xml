@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.joosure.server.mvc.wechat.dao.database.ActivityDao">
+
+	<!-- 根据主键查询活动信息 -->
+	<select id="selectById" resultType="com.joosure.server.mvc.wechat.entity.pojo.Activity">
+		select * from zj_activity where id = #{id}
+	</select>
+
+	<!-- 获取所有有效的活动信息  排除 报名活动-->
+	<select id="selectAllAvailable" resultType="com.joosure.server.mvc.wechat.entity.pojo.Activity">
+		select * from zj_activity
+		where status &lt;&gt; 'deleted' 
+		<if test="id != null and id > 0">
+			and id = #{id}
+		</if>
+		<if test="id == null">
+			and id &lt;&gt; 1
+		</if>
+		order by publishTime desc, showOrder
+		<if test="limit > 0">
+			limit #{offset},#{limit};
+		</if>
+	</select>
+
+	<!-- 获取所有有效的活动数量  排除 报名活动-->
+	<select id="getAllAvailableActyCount" resultType="java.lang.Integer">
+		select count(1) from zj_activity 
+		where status &lt;&gt; 'deleted'
+		<if test="id != null and id > 0">
+			and id = #{id}
+		</if>
+		<if test="id == null">
+			and id &lt;&gt; 1
+		</if>
+		order by publishTime
+		desc, showOrder
+	</select>
+
+
+
+	<!-- 获取所有显示的活动 -->
+	<select id="selectAllVisible" resultType="com.joosure.server.mvc.wechat.entity.pojo.Activity">
+		select * from
+		zj_activity
+		where status = 'normal' and showOrder > 0
+		order by publishTime desc,
+		showOrder ;
+	</select>
+
+	<!-- 获取线下报名活动 -->
+	<select id="selectTheEnterActy" resultType="com.joosure.server.mvc.wechat.entity.pojo.Activity">
+		select * from
+		zj_activity
+		where showOrder = 0
+	</select>
+
+	<!-- 插入报名者信息 -->
+	<insert id="insertEnter">
+		insert into zj_activity_enter
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			actyId, actyTitle,
+			userMobile, userName,
+			userRemark, enterTime, actyTime,userId
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			#{actyId},
+			#{actyTitle}, #{userMobile}, #{userName},
+			#{userRemark}, now(),
+			#{actyTime},#{userId}
+		</trim>
+	</insert>
+
+	<!-- 获取当前活动周期，该手机号报名的信息 -->
+	<select id="getCurrentCycleEnterInfo"
+		resultType="com.joosure.server.mvc.wechat.entity.pojo.ActivityEnter">
+		select * from zj_activity_enter where userMobile =
+		#{userMobile}
+		and actyId = #{actyId} and actyTime = #{actyTime}
+	</select>
+
+	<!-- 获取活动报名记录分页 -->
+	<select id="getEnterListByPage"
+		resultType="com.joosure.server.mvc.wechat.entity.pojo.ActivityEnter">
+		select * from zj_activity_enter where 1 = 1
+		<if test="approvalStatus != 'all'">
+			and approvalStatus = #{approvalStatus}
+		</if>
+		<if test="limit > 0">
+			limit #{offset},#{limit};
+		</if>
+	</select>
+
+	<!-- 获取活动报名记录数量 -->
+	<select id="getEnterListCount" resultType="java.lang.Integer">
+		select count(1) from zj_activity_enter where 1 = 1
+		<if test="approvalStatus != 'all'">
+			and approvalStatus = #{approvalStatus}
+		</if>
+	</select>
+
+	<!-- 更新报名活动的参数配置 -->
+	<update id="updateActivity">
+		update zj_activity
+		<set>
+			<if test="status != null">
+				status = #{status},
+				statusTime = now(),
+			</if>
+			<if test="enterStartTime != null">
+				enterStartTime = #{enterStartTime},
+			</if>
+			<if test="enterEndTime != null">
+				enterEndTime = #{enterEndTime},
+			</if>
+			<if test="title != null">
+				title = #{title},
+			</if>
+			<if test="outSideUrl != null and outSideUrl != ''">
+				outSideUrl = #{outSideUrl},
+			</if>
+			<if test="bgImgUrl != null and bgImgUrl != ''">
+				bgImgUrl = #{bgImgUrl},
+			</if>
+			<if test="limitCount != null and limitCount > 0">
+				limitCount = #{limitCount},
+			</if>
+			<if test="alreadyCount != null and alreadyCount > 0">
+				alreadyCount = #{alreadyCount},
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<!-- 添加活动 -->
+	<insert id="insertActivity">
+		insert into zj_activity
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			title, createTime, showOrder, bgImgUrl, adminId,
+			outSideUrl, description, status, statusTime, enterCount,
+			limitCount, restCount, topFlag, topTime, publishTime,
+			enterStartTime, enterEndTime,
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			#{title}, now(), #{showOrder}, #{bgImgUrl}, #{adminId},
+			#{outSideUrl}, #{description}, 'normal', now(), #{enterCount},
+		    #{limitCount}, #{restCount}, #{topFlag}, #{topTime}, now(),
+		    #{enterStartTime}, #{enterEndTime},
+		</trim>
+	</insert>
+	
+	<!-- 通过id获取报名信息 -->
+	<select id="getEnterInfoById" resultType="com.joosure.server.mvc.wechat.entity.pojo.ActivityEnter">
+		select * from zj_activity_enter where oId = #{oId};
+	</select>
+	
+	<!-- 改变报名信息 -->
+	<update id="changeEnterInfo">
+		update zj_activity_enter set 
+		approvalStatus = #{approvalStatus},
+		approvalTime = #{approvalTime}
+		where oId = #{oId};
+	</update>
+</mapper>
