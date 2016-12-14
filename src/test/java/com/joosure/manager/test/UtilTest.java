@@ -1,6 +1,7 @@
 package com.joosure.manager.test;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.Calendar;
 
 import org.junit.Test;
 
@@ -37,5 +38,19 @@ public class UtilTest {
 			case "waiting":return "no";
 			default:return "yes";
 		}
+	}
+	
+	@Test
+	public void testD(){
+		double rate = 1d/6;
+		System.out.println(String.format("%.4f", rate));
+	}
+	
+	@Test
+	public void testCalWeek(){
+		Calendar cal = Calendar.getInstance();
+		System.out.println(cal.getTime());
+		cal.add(Calendar.WEEK_OF_YEAR, 1);
+		System.out.println(cal.getTime());
 	}
 }

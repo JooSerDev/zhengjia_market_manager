@@ -118,4 +118,12 @@ public interface IActivityService {
 	 * 
 	 */
 	int approvalTheActy(int actyId, int oId, String approvalStatus);
+	
+	/**
+	 * 开启新一轮的报名活动，沿用上一期的配置
+	 * @author Ted-wuhuhu
+	 * @Time 2016年12月12日 下午1:59:07
+	 * @return
+	 */
+	int startCycle();
 }

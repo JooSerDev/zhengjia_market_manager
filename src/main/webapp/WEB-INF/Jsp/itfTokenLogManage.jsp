@@ -80,6 +80,7 @@ body {
 			align : 'center',
 			valign : 'center',
 			title : 'Token',
+			width: 100,
 		}, {
 			field : 'flag',
 			align : 'center',

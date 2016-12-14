@@ -87,6 +87,19 @@ body {
 							<li><a target="content"
 								href="${pageContext.request.contextPath}/itfToken/toItfTokenLog">访问日志</a></li>
 						</ul></li>
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown">数据统计<b class="caret"></b>
+					</a>
+						<ul class="dropdown-menu">
+							<li><a target="content"
+								href="${pageContext.request.contextPath}/statistics/user">用户统计</a></li>
+							<li class="divider"></li>
+							<li><a target="content"
+								href="${pageContext.request.contextPath}/statistics/item">宝贝统计</a></li>
+							<li class="divider"></li>
+							<li><a target="content"
+								href="${pageContext.request.contextPath}/statistics/visit">访问统计</a></li>
+						</ul></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li><a data-toggle="modal" data-target="#loginOutModal">登出</a></li>

@@ -1,5 +1,6 @@
 package com.joosure.manager.mvc.wechat.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -31,5 +32,7 @@ public interface WxUserDao {
 	User getFirstUserByUnionId(@Param("unionId")String unionId);
 	
 	User getSumUnionUser(@Param("unionId")String unionId);
+
+	int getUserCountByDay(@Param("startTime")Date startTime, @Param("endTime")Date endTime);
 	
 }

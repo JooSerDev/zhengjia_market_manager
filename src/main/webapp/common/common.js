@@ -22,6 +22,38 @@ function dateTimeFormatter(value) {
 	return y + '-' + add0(m) + '-' + add0(d) + ' ' + add0(h) + ':' + add0(mm)
 			+ ':' + add0(s);
 }
+function dateFormatter(value) {
+	if(value==null || value ==""){
+		return "";
+	}
+	var time = new Date(value);
+	var y = time.getFullYear();
+	var m = time.getMonth() + 1;
+	var d = time.getDate();
+	return y + '-' + add0(m) + '-' + add0(d) ;
+}
+
+/**
+ * 时间的加减
+ * @param date
+ * @param days
+ * @returns {String}
+ */
+function addDate(date,days){
+    var d=new Date(date);
+    d.setDate(d.getDate()+days);
+    var month=d.getMonth()+1;
+    var day = d.getDate();
+    if(month<10){
+        month = "0"+month;
+    }
+    if(day<10){
+        day = "0"+day;
+    }
+    var val = d.getFullYear()+""+month+""+day;
+    return val;
+}
+
 /**
  * 状态转换 微信用户状态
  * @param value
@@ -72,7 +104,10 @@ var ButtonInit = function(buttonInitFunc) {
  * param 7:pagination
  * param 8:onBstLoadSuccess
  */
-var TableInit = function(tableid,columns,toolbarid,url,queryParamsFunc,onclickRowFunc,pagination,onBstLoadSuccess) {
+var TableInit = function(tableid,columns,toolbarid,url,queryParamsFunc,onclickRowFunc,pagination,onBstLoadSuccess,sidePagination) {
+	if(sidePagination == null || sidePagination == "undefined"){
+		sidePagination = "server";
+	}
 	var oTableInit = new Object();
 	oTableInit.Init = function() {
 		$("#"+tableid).bootstrapTable({
@@ -85,7 +120,7 @@ var TableInit = function(tableid,columns,toolbarid,url,queryParamsFunc,onclickRo
 			sortable : true, //是否启用排序
 			sortOrder : "asc", //排序方式
 			queryParams : oTableInit.queryParams,//传递参数（*）
-			sidePagination : "server", //分页方式：client客户端分页，server服务端分页（*）
+			sidePagination : sidePagination, //分页方式：client客户端分页，server服务端分页（*）
 			pageNumber : 1, //初始化加载第一页，默认第一页
 			pageSize : 10, //每页的记录行数（*）
 			pageList : [ 10, 25, 50, 100 ], //可供选择的每页的行数（*）
@@ -123,6 +158,13 @@ var TableInit = function(tableid,columns,toolbarid,url,queryParamsFunc,onclickRo
 					pc.height = document.body.offsetHeight;
 				}
 				
+			},
+			responseHandler:function(data){
+				if(sidePagination == "client"){
+					return data.rows;
+				}else{
+					return data;
+				}
 			},
 			formatShowingRows: function (pageFrom, pageTo, totalRows) {
 		            return '展示第 '+pageFrom+' 条到  '+pageTo+' 条，总量： '+totalRows+' 条';

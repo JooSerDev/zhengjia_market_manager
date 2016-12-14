@@ -10,6 +10,7 @@ public class InitialListener extends PreContextInitListener{
 	public void Initial() {
 		ItemCache.loadData();
 		DictsCache.initDicts();
+		StatisticsCache.onInit();
 	}
 
 	@Override

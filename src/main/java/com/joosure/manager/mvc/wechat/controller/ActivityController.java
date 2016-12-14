@@ -2,6 +2,7 @@ package com.joosure.manager.mvc.wechat.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -19,6 +20,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.joosure.manager.mvc.wechat.bean.SysUser;
 import com.joosure.manager.mvc.wechat.common.JsonResultBean;
+import com.joosure.manager.mvc.wechat.util.ManagerUtils;
 import com.joosure.server.mvc.wechat.constant.CommonConstant;
 import com.joosure.server.mvc.wechat.constant.StorageConstant;
 import com.joosure.server.mvc.wechat.entity.pojo.Activity;
@@ -34,9 +36,9 @@ import com.joosure.server.mvc.wechat.service.itf.IActivityService;
 @Controller
 @RequestMapping("/activity")
 public class ActivityController {
-	
-	public volatile static int approvalLimitCount = 0;//审核限制名额
-	public volatile static int alreadyApprovedCount = 0;//已经通过名额
+
+	//public volatile static int approvalLimitCount = 0;//审核限制名额
+	//public volatile static int alreadyApprovedCount = 0;//已经通过名额
 	public static String Acty_Status = Activity.STATUS_normal;//当前报名活动状态
 
 	private static Logger log = Logger.getLogger(ActivityController.class);
@@ -67,6 +69,19 @@ public class ActivityController {
 	 */
 	@RequestMapping("/enterManage")
 	public String toEnterManagePage(HttpServletRequest request,Model model){
+		Activity enterActy = activityService.getTheEnterActy();
+		model.addAttribute("limitCount",enterActy.getLimitCount());
+		Date deadLine = enterActy.getEnterEndTime();
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(deadLine);
+		int week = cal.get(Calendar.DAY_OF_WEEK);//周几   从0-6   表示 周天-周六
+		int hour = cal.get(Calendar.HOUR_OF_DAY);//
+		int minute = cal.get(Calendar.MINUTE);//
+		int second = cal.get(Calendar.SECOND);//
+		model.addAttribute("week",week);
+		model.addAttribute("hour",hour);
+		model.addAttribute("minute",minute);
+		model.addAttribute("second",second);
 		return "activity/enterManage";
 	}
 
@@ -288,7 +303,7 @@ public class ActivityController {
 		log.info("方法的运行时间："+String.valueOf(endTime-startTime)+"ms");
 		return "forward:/activity/actyManage";
 	}
-	
+
 	/**
 	 * 审核报名状态
 	 * @author Ted-wuhuhu
@@ -296,33 +311,38 @@ public class ActivityController {
 	 * @return
 	 */
 	@RequestMapping("/approvalTheEnter")
+	@ResponseBody
 	public JsonResultBean<String> approvalTheEnter(HttpServletRequest request){
 		JsonResultBean<String> ret = new JsonResultBean<String>();
 		String approvalStatus = request.getParameter("opType");
-		if(approvalStatus == null || 
-				!ActivityEnter.ApprovalStatus_Approved.equals(approvalStatus)
-			|| !ActivityEnter.ApprovalStatus_Refused.equals(approvalStatus)){
+		String actyTime = request.getParameter("actyTime");
+		String mobile = request.getParameter("userMobile");
+		if(StringUtils.isBlank(approvalStatus) || StringUtils.isBlank(actyTime)
+				|| StringUtils.isBlank(mobile)
+				|| (!ActivityEnter.ApprovalStatus_Approved.equals(approvalStatus)
+						&& !ActivityEnter.ApprovalStatus_Refused.equals(approvalStatus))){
 			ret.setRetCode("1001");
-			ret.setRetMsg("请求参数错误: opType.");
-			return ret;
-		}
-		if(approvalLimitCount == alreadyApprovedCount){
-			ret.setRetCode("1002");
-			ret.setRetMsg("当前审核人数已满，不能通过审核");
+			ret.setRetMsg("请求参数错误");
 			return ret;
 		}
 		int actyId = 1;
 		int oId = 0;
 		try {
+			int month = Integer.parseInt(actyTime.split("-")[1]);
+			int day = Integer.parseInt(actyTime.split("-")[2]);
 			actyId = Integer.parseInt(request.getParameter("actyId"));
 			oId = Integer.parseInt(request.getParameter("oId"));
 			int approvalRet = activityService.approvalTheActy(actyId,oId,approvalStatus);
 			if(approvalRet > 0){
 				//审核成功
 				if(ActivityEnter.ApprovalStatus_Approved.equals(approvalStatus)){
-					//通过审核，将缓存值+1
-					alreadyApprovedCount = alreadyApprovedCount + 1;
+					//发送审核成功短信
+					ManagerUtils.sendSMS(mobile,ManagerUtils.generateEnterApprovalMsg(true, month, day, mobile));
+				}else{
+					//发送审核失败短信
+					ManagerUtils.sendSMS(mobile,ManagerUtils.generateEnterApprovalMsg(false, month, day, mobile));
 				}
+
 				ret.setRetCode("0000");
 				ret.setRetFlag(true);
 				ret.setRetMsg("操作成功");
@@ -335,14 +355,72 @@ public class ActivityController {
 			}else if(approvalRet == 0){
 				ret.setRetCode("1004");
 				ret.setRetMsg("审核失败： 状态相同，无需重复操作");
+			}else if(approvalRet == -2){
+				ret.setRetCode("1002");
+				ret.setRetMsg("当前审核人数已满，不能通过审核");
 			}
 			return ret;
 		} catch (Exception e) {
 			log.warn("approvalTheEnter--- actyId:" + actyId);
+			ret.setRetCode("1005");
+			ret.setRetMsg("请求参数错误");
+			return ret;
+		}
+	}
+	
+	
+	/**
+	 * 保存当前活动配置参数
+	 * @author Ted-wuhuhu
+	 * @Time 2016年12月8日 下午6:45:53
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/saveCurrentEnterActyConf")
+	@ResponseBody
+	public JsonResultBean<String> saveCurrentEnterActyConf(HttpServletRequest request){
+		JsonResultBean<String> ret = new JsonResultBean<String>();
+		try {
+			int limitCount = Integer.parseInt(request.getParameter("limitCount"));
+			int week = Integer.parseInt(request.getParameter("week"));
+			int hour = Integer.parseInt(request.getParameter("hour"));
+			int minute = Integer.parseInt(request.getParameter("minute"));
+			int second = Integer.parseInt(request.getParameter("second"));
+			
+			if(limitCount < 0 || hour > 24 || hour < 0 || minute > 59 || minute < 0 
+					|| second > 59 || second < 0 || week > 5 || week < 0){
+				ret.setRetCode("1001");
+				ret.setRetMsg("请求参数错误");
+				return ret;
+			}
+			
+			Activity enterActy = activityService.getTheEnterActy();
+			Calendar cal = Calendar.getInstance();
+			cal.set(Calendar.DAY_OF_WEEK, week);
+			cal.set(Calendar.HOUR_OF_DAY, hour);//24小时制
+			cal.set(Calendar.MINUTE, minute);
+			cal.set(Calendar.SECOND, second);
+			enterActy.setEnterEndTime(cal.getTime());//设置报名截止时间；
+			enterActy.setLimitCount(limitCount);//设置审核上限
+			
+			int retData = activityService.changeEnterActyInfo(enterActy); 
+			if(retData > 0){
+				ret.setRetCode("0000");
+				ret.setRetFlag(true);
+				ret.setRetMsg("更改线下报名活动配置成功");
+				return ret;
+			}
+			ret.setRetCode("1009");
+			ret.setRetFlag(false);
+			ret.setRetMsg("更改线下报名活动配置失败，请联系工程师。");
+			return ret;
+			
+			//TODO 保存活动配置
+		} catch (Exception e) {
+			log.warn(request.getServletPath()+" 请求参数错误==" + new Date());
 			ret.setRetCode("1001");
 			ret.setRetMsg("请求参数错误");
 			return ret;
 		}
 	}
-
 }

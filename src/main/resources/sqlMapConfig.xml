@@ -33,5 +33,6 @@
 		<mapper resource="com/joosure/server/mvc/wechat/sql/noteMapper.xml" />
 		<mapper resource="com/joosure/server/mvc/wechat/sql/communityMapper.xml" />
 		<mapper resource="com/joosure/server/mvc/wechat/sql/activityMapper.xml" />
+		<mapper resource="com/joosure/server/mvc/wechat/sql/pvMapper.xml" />
 	</mappers>
 </configuration>

@@ -1,5 +1,6 @@
 package com.joosure.manager.mvc.wechat.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -12,7 +13,6 @@ import com.joosure.manager.mvc.wechat.dao.WxItemDao;
 import com.joosure.manager.mvc.wechat.dao.WxUserCptDao;
 import com.joosure.manager.mvc.wechat.dao.WxUserDao;
 import com.joosure.manager.mvc.wechat.service.WxUserService;
-import com.joosure.server.mvc.wechat.constant.CommonConstant;
 import com.joosure.server.mvc.wechat.entity.domain.MultiUserInfo;
 import com.joosure.server.mvc.wechat.entity.pojo.Item;
 import com.joosure.server.mvc.wechat.entity.pojo.ItemComment;
@@ -261,6 +261,11 @@ public class WxUserServiceImpl implements WxUserService {
 	@Override
 	public int getUnionItemsCount(User userCond) {
 		return wxItemDao.getUnionUserItemsCount(userCond);
+	}
+
+	@Override
+	public int getUserCountByDay(Date startTime, Date endTime) {
+		return wxUserDao.getUserCountByDay(startTime,endTime);
 	}
 	
 

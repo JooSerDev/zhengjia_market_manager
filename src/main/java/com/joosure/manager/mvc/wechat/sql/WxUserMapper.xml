@@ -144,4 +144,8 @@
 		FROM user_user a WHERE unionid = #{unionId} GROUP BY unionid ;
 	</select>
 	
+	<select id="getUserCountByDay" resultType="java.lang.Integer">
+		select count(distinct(unionid)) from user_user where createTime between #{startTime} and #{endTime} and mobile != '';
+	</select>
+	
 </mapper>

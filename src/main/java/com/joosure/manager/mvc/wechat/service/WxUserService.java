@@ -1,5 +1,6 @@
 package com.joosure.manager.mvc.wechat.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.joosure.manager.mvc.wechat.bean.dto.WxUserDetail;
@@ -91,4 +92,14 @@ public interface WxUserService {
 	 * @return
 	 */
 	int getUnionItemsCount(User userCond);
+
+	/**
+	 * 获取当天人数总量
+	 * @author Ted-wuhuhu
+	 * @Time 2016年12月6日 上午10:51:49
+	 * @param date
+	 * @param date2
+	 * @return
+	 */
+	int getUserCountByDay(Date date, Date date2);
 }

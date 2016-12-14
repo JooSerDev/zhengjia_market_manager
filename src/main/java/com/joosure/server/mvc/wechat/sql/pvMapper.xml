@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.joosure.server.mvc.wechat.dao.database.PvDao">
+
+	<!-- 插入pv记录 -->
+	<insert id="insertPv">
+		insert into zj_pv
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			pkId,flag,addTime,ip,remark,userId,unionId
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			#{pkId},#{flag},#{addTime},#{ip},#{remark},#{userId},#{unionId}
+		</trim>
+	</insert>
+
+	<!-- 获取某段时间内 pv记录 -->
+	<select id="getBiggestPvRecords" resultType="com.joosure.server.mvc.wechat.entity.pojo.PvSum">
+		SELECT SUM(1) sum, pkId FROM zj_pv WHERE flag = #{flag}
+		and addTime between #{startTime} and #{endTime}
+		GROUP BY pkId ORDER BY sum DESC, ADDTIME DESC
+		<if test="limit != null and limit > 0">
+			limit #{limit}
+		</if>
+	</select>
+	
+	<!-- 查询宝贝的pv，根据类型和时间 -->
+	<select id="getItemRateByTypeAndDate" resultType="com.joosure.server.mvc.wechat.entity.pojo.PvSum">
+		SELECT sum(1) sum, pkId FROM zj_pv a WHERE a.flag = "item"
+		and addTime between #{startTime} and #{endTime}
+		AND a.pkId IN(
+			SELECT itemId FROM item_item WHERE 1 = 1
+			<if test="itemType != null and itemType > 0">
+				and itemType = #{itemType}
+			</if>
+			<if test="exgStatus != null">
+				and lockStatus = #{exgStatus}
+			</if>
+			)
+		GROUP BY a.pkId ORDER BY sum DESC, a.ADDTIME DESC
+		<if test="limit != null and limit > 0">
+			limit #{limit};
+		</if>
+	</select>
+
+	<!-- 获取系统uv量 -->
+	<select id="getSysUvCountByDay" resultType="java.lang.Integer">
+		select count(distinct(unionid)) from sys_page_view_log where 
+		createTime between #{startTime} and #{endTime}
+		and uri = #{visitUri}
+	</select>
+	<!-- 获取系统pv量 -->
+	<select id="getSysPvCountByDay" resultType="java.lang.Integer">
+		select count(*) from sys_page_view_log where 
+		createTime between #{startTime} and #{endTime}
+		and uri = #{visitUri}
+	</select>
+	
+	<!-- 获取当天新增的用户总数 -->
+	<select id="getNewCount" resultType="java.lang.Integer">
+		select count(distinct(unionid)) from user_user where 
+		createTime between #{startTime} and #{endTime};
+	</select>
+	
+	<!-- 获取连续几天内有过登陆记录的用户数量 -->
+	<select id="getLoginCount" resultType="java.lang.Integer">
+		select COUNT(DISTINCT(unionid)) FROM sys_page_view_log a
+		where uri =  #{visitUri} and exists (
+			select distinct(unionid) from user_user b 
+			where a.unionid = b.unionid and b.createTime
+			between #{dayStartTime} and #{dayEndTime})
+		and createTime between #{startTime} and #{endTime};
+	</select>
+	
+</mapper>

@@ -1,5 +1,7 @@
 package com.joosure.server.mvc.wechat.service;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,8 +95,41 @@ public class ActivityService implements IActivityService{
 		if(approvalStatus.equals(enter.getApprovalStatus())){
 			return 0;//相同状态，不需审核
 		}
+		Activity enterActy = getTheEnterActy();
+		int approvalLimitCount = enterActy.getLimitCount();
+		int alreadyApprovedCount = enterActy.getAlreadyCount();
+		if(ActivityEnter.ApprovalStatus_Approved.equals(approvalStatus)){
+			if(approvalLimitCount < 1 || alreadyApprovedCount >= approvalLimitCount){
+				return -2;//审核人数已满
+			}
+		}
 		enter.setApprovalStatus(approvalStatus);
-		return activityDao.changeEnterInfo(enter);
+		enter.setApprovalTime(new Date());
+		if(activityDao.changeEnterInfo(enter) > 0){ //更新报名信息
+			if(ActivityEnter.ApprovalStatus_Approved.equals(approvalStatus)){
+				enterActy.setAlreadyCount(alreadyApprovedCount + 1);//审核通过同时在报名记录中+1;
+				return changeEnterActyInfo(enterActy);//更新活动报名记录
+			}
+			return 1;
+		}
+		return 0;
+	}
+
+	@Override
+	public int startCycle() {
+		Activity enterActy = getTheEnterActy();
+		enterActy.setStatus(Activity.STATUS_normal);
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(enterActy.getEnterEndTime());
+		cal.add(Calendar.WEEK_OF_YEAR, 1);
+		enterActy.setEnterEndTime(cal.getTime());//设置报名截止时间；
+		cal.add(Calendar.DAY_OF_WEEK, 1);//报名时间为截止时间当周的第一天，即周日
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		enterActy.setEnterStartTime(cal.getTime());//设置报名开始时间
+		enterActy.setAlreadyCount(0);//设置已经报名名额为0
+		return changeEnterActyInfo(enterActy);
 	}
 	
 }
